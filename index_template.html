@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Random Chat Team Chart Collection</title>
+<style>
+/* Base styles inspired by reference site */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #F9FAFB; /* light gray background */
+  margin: 0;
+  padding: 0;
+  color: #111827; /* dark gray text */
+}
+
+/* Header styles */
+.topbar {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background-color: white;
+  border-bottom: none; /* Remove border as tabs will be below */
+}
+
+.logo {
+  height: 32px;
+  margin-right: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+/* Tabs styling - updated to match image */
+.tabs-container {
+  background-color: white;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 0 2rem;
+}
+
+.tabs {
+  display: flex;
+  margin-left: 0; /* Align to left */
+}
+
+.tabs button {
+  height: 40px;
+  border: none;
+  background: transparent;
+  padding: 0 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #6B7280; /* gray-500 for inactive */
+  transition: color 0.2s, border-bottom 0.2s;
+  margin-right: 8px;
+  border-bottom: 2px solid transparent;
+}
+
+.tabs button.active {
+  color: #111827; /* Dark text for active tab */
+  border-bottom: 2px solid #111827; /* Dark underline */
+  font-weight: 600;
+}
+
+/* Main content layout */
+main {
+  display: flex;
+  height: calc(100vh - 65px); /* Full height minus header */
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 200px; /* Narrower sidebar (reduced from 240px) */
+  background-color: #F9FAFB;
+  overflow-y: auto;
+  padding: 1rem;
+  border-right: 1px solid #E5E7EB;
+}
+
+.cat {
+  margin-bottom: 0.5rem;
+}
+
+.cat-hdr {
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827; /* Darker category header */
+  margin-bottom: 0.125rem;
+  border-radius: 4px; /* Slightly rounded */
+}
+
+.cat-hdr:hover {
+  background-color: #F3F4F6; /* gray-100 hover */
+}
+
+.category-title-row {
+  display: flex;
+  align-items: center;
+}
+
+/* Chevron styled */
+.chevron {
+  display: inline-flex;
+  width: 14px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #374151; /* gray-700 */
+  transition: transform 0.2s;
+  font-family: sans-serif;
+}
+
+.chevron-expanded {
+  transform: rotate(90deg);
+}
+
+.cat-body {
+  padding-left: calc(1.5rem + 8px); /* Indent past chevron */
+  margin-bottom: 0.75rem;
+}
+
+.cat-body label {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0; /* Slightly tighter spacing */
+  margin-left: 0;
+  font-size: 0.875rem; /* Slightly smaller label font */
+  color: #374151; /* gray-700 */
+}
+
+.cat-body input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+  margin-left: 0;
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.select-all-label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+/* Make all checkboxes uniform size */
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+/* Chart grid area */
+.grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px; /* Further reduced padding (from 16px) */
+  background-color: #F9FAFB;
+}
+
+/* Chart card styling */
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden; /* Crucial for containing children */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+  display: flex;
+  flex-direction: column;
+  cursor: pointer; 
+}
+
+/* Card image container */
+.card-image {
+  width: 100%;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Specific styling for local images to ensure proper sizing */
+.card-image img[src^="panel-charts/"] {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Ensure img/iframe fill the container correctly */
+.card-image img, .card-image iframe {
+  display: block; 
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: none;
+  overflow: hidden;
+}
+
+/* Card labels styling */
+.card-labels {
+  padding: 0.5rem 1rem; /* Consistent padding */
+  border-top: 1px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 0.75rem;
+  flex-shrink: 0; /* Prevent labels from shrinking */
+  background-color: white; /* Ensure background */
+}
+
+/* Loading indicator */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  font-size: 1rem;
+  color: #6B7280;
+}
+
+/* Grid layout for charts - 2 columns */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px; /* Further reduced gap (from 20px) */
+  width: 100%;
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 48px); /* Account for padding */
+    width: 100%;
+    color: #6B7280;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Style for empty tabs */
+.empty-tab {
+  width: 100%;
+  height: calc(100vh - 110px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-tab .empty-state {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+/* Modal styles for zoom */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 95vw;
+  max-height: 95vh;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.modal-overlay.visible .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #6B7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.5rem;
+}
+.modal-close:hover {
+    color: #111827;
+}
+
+.modal-image-container {
+  width: 100%;
+  height: calc(85vh - 4rem); /* Increased from 75vh to 85vh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.modal-image-container img, .modal-image-container iframe {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.modal-labels {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+}
+</style>
+<script src="static_js/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <header>
+    <div class="topbar">
+      <img src="assets/logo.png" class="logo" alt="Random Chat Team Logo">
+      <h1 class="title">Random Chat Team Chart Collection</h1>
+    </div>
+    
+    <div class="tabs-container">
+      <nav class="tabs">
+        <button :class="{active: currentTab==='Charts'}" @click="currentTab='Charts'">Charts</button>
+        <button :class="{active: currentTab==='Query'}" @click="currentTab='Query'">Query</button>
+        <button :class="{active: currentTab==='DeepSeek Query'}" @click="currentTab='DeepSeek Query'">DeepSeek Query</button>
+        <button :class="{active: currentTab==='X Query'}" @click="currentTab='X Query'">X Query</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Loading indicator -->
+    <div v-if="loading" class="loading-container">
+      <p>Loading...</p>
+    </div>
+
+    <!-- CHARTS TAB - Only visible when Charts tab is selected -->
+    <section v-else-if="currentTab==='Charts'" style="display:flex;width:100%;">
+      <!-- SIDEBAR: categories -->
+      <aside class="sidebar">
+        <div v-for="cat in categories" :key="cat.name" class="cat">
+          <div class="cat-hdr" @click="toggleCat(cat.name)">
+            <div class="category-title-row">
+              <span class="chevron" :class="{'chevron-expanded': openCat===cat.name}">&gt;</span>
+              <span>{{ cat.name }}</span>
+            </div>
+          </div>
+
+          <!-- Always keep this in the DOM but hide/show via CSS -->
+          <div :style="{display: openCat===cat.name ? 'block' : 'none'}" class="cat-body">
+            <!-- Select All checkbox -->
+            <label class="select-all-label">
+              <input type="checkbox"
+                     :checked="isCatFull(cat)"
+                     :indeterminate.prop="isCatPartial(cat)"
+                     @change="handleSelectAllToggle(cat)">
+              <span>Select All</span>
+            </label>
+
+            <!-- Individual label checkboxes -->
+            <label v-for="lbl in cat.labels" :key="lbl">
+              <input type="checkbox"
+                     :checked="selectedLabels[cat.name] && selectedLabels[cat.name].indexOf(lbl) !== -1"
+                     @change="toggleLabel(cat.name, lbl)">
+              {{ lbl }}
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- GRID -->
+      <section class="grid">
+        <div v-if="filteredCharts.length === 0" class="empty-state">
+           No charts selected. Choose labels to display charts.
+        </div>
+        <div v-else class="charts-grid">
+          <div class="card" v-for="ch in filteredCharts" :key="ch.id" @click="openModal(ch)">
+            <div class="card-image">
+              <component 
+                :is="chartTag(ch)" 
+                :src="ch.src" 
+                loading="lazy"
+                v-bind="getChartSpecificAttributes(ch)"
+                @error="(e) => handleImageError(e, ch)">
+              </component>
+            </div>
+            <div class="card-labels">
+              Labels: {{ ch.labels.join(', ') }}
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- OTHER TABS - Only visible when respective tab is selected -->
+    <section v-else-if="currentTab==='Query'" class="empty-tab">
+      <div class="empty-state">Changes are coming soon!</div>
+    </section>
+    <section v-else-if="currentTab==='DeepSeek Query'" class="empty-tab">
+      <div class="empty-state">Changes are coming soon!</div>
+    </section>
+    <section v-else-if="currentTab==='X Query'" class="empty-tab">
+      <div class="empty-state">Changes are coming soon!</div>
+    </section>
+  </main>
+
+  <!-- ZOOM MODAL -->
+  <div class="modal-overlay" :class="{visible: isModalVisible}" @click.self="closeModal">
+      <div class="modal-content" v-if="zoomedChart">
+        <button class="modal-close" @click="closeModal">&times;</button>
+        <div class="modal-image-container">
+             <component 
+                :is="chartTag(zoomedChart)" 
+                :src="zoomedChart.src"
+                v-bind="getChartSpecificAttributes(zoomedChart)">
+            </component>
+        </div>
+        <div class="modal-labels">
+            Labels: {{ zoomedChart.labels.join(', ') }}
+        </div>
+      </div>
+  </div>
+
+</div>
+
+<script>
+/* injected by build.py */
+const charts     = [[ charts|safe ]];
+const categories = [[ cats|safe ]];
+
+/* Vue logic */
+new Vue({
+  el:'#app',
+  data:{
+    charts,
+    categories,
+    selectedLabels: {}, 
+    openCat: null,
+    tabs: ['Charts', 'Query', 'DeepSeek Query', 'X Query'],
+    currentTab: 'Charts',
+    loading: true,
+    _justToggledSelectAll: false, 
+    isModalVisible: false,      
+    zoomedChart: null           
+  },
+  mounted() {
+    this.categories.forEach(cat => {
+       this.$set(this.selectedLabels, cat.name, []);
+    });
+
+    // Start with all categories collapsed
+    this.openCat = null;
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 800);
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isModalVisible) {
+            this.closeModal();
+        }
+    });
+  },
+  computed:{
+    filteredCharts(){
+      const categoriesWithSelections = Object.keys(this.selectedLabels)
+        .filter(catName => this.selectedLabels[catName] && this.selectedLabels[catName].length > 0);
+
+      if (categoriesWithSelections.length === 0) return this.charts;
+
+      return this.charts.filter(chart => {
+        const chartLabels = chart.labels;
+        return categoriesWithSelections.every(catName => {
+          const selectedLabelsInCategory = this.selectedLabels[catName];
+          return selectedLabelsInCategory.some(label => chartLabels.includes(label));
+        });
+      });
+    }
+  },
+  methods:{
+    toggleCat(c){
+       if (this.openCat === c && !this._justToggledSelectAll) {
+         this.openCat = null;
+       } else {
+         this.openCat = c;
+       }
+       this._justToggledSelectAll = false;
+    },
+    toggleLabel(category, label){
+       const labels = this.selectedLabels[category];
+       const index = labels.indexOf(label);
+
+       if (index === -1) {
+         labels.push(label);
+       } else {
+         labels.splice(index, 1);
+       }
+       this.$set(this.selectedLabels, category, labels);
+    },
+    handleSelectAllToggle(cat) {
+      this.toggleSelectAll(cat);
+      this._justToggledSelectAll = true;
+      this.openCat = cat.name;
+    },
+    toggleSelectAll(cat){
+      const categoryLabels = cat.labels;
+      const allSelected = this.isCatFull(cat);
+
+      if (allSelected) {
+        this.$set(this.selectedLabels, cat.name, []);
+      } else {
+        this.$set(this.selectedLabels, cat.name, [...categoryLabels]);
+      }
+    },
+    isCatFull(cat){
+      const labels = this.selectedLabels[cat.name];
+      if (!labels) return false;
+      if (cat.labels.length === 0) return false;
+      return cat.labels.every(label => labels.includes(label)) && labels.length === cat.labels.length;
+    },
+    isCatPartial(cat){
+       const labels = this.selectedLabels[cat.name];
+       if (!labels || labels.length === 0) return false;
+       return !this.isCatFull(cat);
+    },
+    chartTag(ch) {
+      // Simply check the kind property provided by the backend
+      if (ch.kind === 'local_png' || ch.kind === 'remote_img') {
+        return 'img';
+      } else {
+        return 'iframe';
+      }
+    },
+    getChartSpecificAttributes(ch) {
+        if (this.chartTag(ch) === 'iframe') {
+            return {
+                frameborder: "0",
+                scrolling: "no" // CSS overflow:hidden on the iframe element is more reliable
+            };
+        }
+        return {};
+    },
+    openModal(chart) {
+        this.zoomedChart = chart;
+        this.isModalVisible = true;
+        document.body.style.overflow = 'hidden'; 
+    },
+    closeModal() {
+        this.isModalVisible = false;
+        this.zoomedChart = null;
+        document.body.style.overflow = ''; 
+    },
+    handleImageError(event, chart) {
+      console.error(`Failed to load image: ${chart.src}`);
+      event.target.alt = 'Image failed to load';
+    }
+  }
+});
+</script>
+</body>
+</html>
