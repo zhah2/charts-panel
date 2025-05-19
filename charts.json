@@ -1,0 +1,7183 @@
+[
+  {
+    "id": "11S6UHY4RO",
+    "title": "NAHB overview and breakdown",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gm0WdA",
+    "description": "NAHB overview and breakdown\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "129ILY2X1T",
+    "title": "Copper/Gold ratio vs US 10Y (scatter) lead 10s",
+    "labels": [
+      "Commodity",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cRQUho",
+    "description": "Copper/Gold ratio vs US 10Y (scatter) lead 10s\nLabels: Commodity, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1LLEWVOODA",
+    "title": "Housing Under Construction (3MMA)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dExPAg",
+    "description": "Housing Under Construction (3MMA)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "239V00FEC2",
+    "title": "Airline Ticket Price Index",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ec7g5g",
+    "description": "Airline Ticket Price Index\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "261YR3OGDX",
+    "title": "7 retail price inflation indicators",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3X5rYNe",
+    "description": "7 retail price inflation indicators\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2I1TPAPR3A",
+    "title": "US Rent Price Compares",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z4nLS9",
+    "description": "US Rent Price Compares\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2SLFECCION",
+    "title": "Monthly Mortgage Payment (Principle and Interest)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cP1aH1",
+    "description": "Monthly Mortgage Payment (Principle and Interest)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "35RPZYN9OZ",
+    "title": "Breakeven vs TIPS yield correlation",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ThCXSG",
+    "description": "Breakeven vs TIPS yield correlation\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "364TPFMJNZ",
+    "title": "US Nominal Residential Investment as % of GDP",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z19DsX",
+    "description": "US Nominal Residential Investment as % of GDP\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3696XBP2DZ",
+    "title": "brazil - Inflation and policy rate",
+    "labels": [
+      "Brazil",
+      "Inflation",
+      "Monetary Policy",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gqnFoX",
+    "description": "brazil - Inflation and policy rate\nLabels: Inflation, Monetary Policy, Brazil",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3CWVBPPMKM",
+    "title": "Industrial Production",
+    "labels": [
+      "Global",
+      "Growth",
+      "Industrial",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ecn0Fr",
+    "description": "US & G 7 Industrial Production YoY% Chg, 3MMA\nLabels: Growth, Industrial, Global, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3TR0E4GRMU",
+    "title": "Core PCE vs Core PCE with Health care services inflation",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dM9dFO",
+    "description": "Core PCE vs Core PCE with Health care services inflation\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4ELDEHYGS6",
+    "title": "Housing Start, Under Construction, Completed",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3yVXbKY",
+    "description": "Housing Start, Under Construction, Completed (3MMA)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4N9SVLXTE6",
+    "title": "Copper/Gold ratio vs US 10Y  (email) apri 2021",
+    "labels": [
+      "Commodity",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MAvMkZ",
+    "description": "Copper/Gold ratio vs US 10Y  (email) apri 2021\nLabels: Commodity, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4V7M0YRD9G",
+    "title": "Homes for Sales (Inventory) vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zegp9g",
+    "description": "Homes for Sales (Inventory) vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4ZHF6PHJZT",
+    "title": "alternative CPI inflation measures",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AJK7sv",
+    "description": "alternative CPI inflation measures\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "537MBWYEP2",
+    "title": "CPI projection with credit shock",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g541i6",
+    "description": "CPI projection with credit shock",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5K83H8K3MA",
+    "title": "HOUSING AFFORDABILITY INDEX - payment and qualifying income (Region details and 1st time buyer)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MqS2h5",
+    "description": "HOUSING AFFORDABILITY INDEX - payment and qualifying income (Region details and 1st time buyer)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5NW3QI9EW8",
+    "title": "NY FED Survey of Consumer Expectations on Home Prices in 1Y (Demographic breakdown)",
+    "labels": [
+      "Demographics",
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47cBv9Y",
+    "description": "NY FED Survey of Consumer Expectations on Home Prices in 1Y (Demographic breakdown)\nLabels: Housing Market, Demographics, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "67034JQRS5",
+    "title": "Housing Starts (3MMA)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cJLzso",
+    "description": "Housing Starts (3MMA)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "67MUYOVW62",
+    "title": "scatter US New House For Sales (Inventory) vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Za8pGs",
+    "description": "scatter US New House For Sales (Inventory) vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "6WLZA9X6SD",
+    "title": "Equity Markets: Cumulative Total Return",
+    "labels": [
+      "Canada",
+      "EM",
+      "Equity",
+      "Global",
+      "Performance",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eaLlvw",
+    "description": "Equity Markets: Cumulative Total Return\nLabels: Equity, Global, US, Canada, EM, Performance",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "70J4AA38B3",
+    "title": "Change in YoY % change of CPI rent of primary residences in past 4 recessions",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XbNDDC",
+    "description": "Change in YoY % change of CPI rent of primary residences in past 4 recessions\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "73S21DNT0N",
+    "title": "Zillow Rent vs CPI Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XbDrek",
+    "description": "Zillow Rent vs CPI Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "73WZHPJ56T",
+    "title": "Economic vs Systemic Stress Indicator (US PMI and Euro Sentiment)",
+    "labels": [
+      "Confidence",
+      "Europe",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47iOl6U",
+    "description": "Economic vs Systemic Stress Indicator (US PMI and Euro Sentiment)\nLabels: Confidence, US, Europe",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7HV2UF0P8Y",
+    "title": "CPI projection 2024",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cGFoW0",
+    "description": "CPI projection 2024",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7PIVWE2892",
+    "title": "COMMERCIAL BANK ASSETS - LOANS & LEASES IN BANK CREDIT : United States MoM and QoQ",
+    "labels": [
+      "Banking",
+      "Credit",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MzRXri",
+    "description": "COMMERCIAL BANK ASSETS - LOANS & LEASES IN BANK CREDIT : United States MoM and QoQ\nLabels: Banking, Credit, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8NN5EUXEI3",
+    "title": "Copper/Gold ratio vs US 10Y",
+    "labels": [
+      "Commodity",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g4ERQq",
+    "description": "Copper/Gold ratio vs US 10Y\nLabels: Commodity, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8ZWRA8JIBV",
+    "title": "NY FED Survey of Consumer Expectations on Rent Prices in 1Y (overall) v2",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z5Csis",
+    "description": "NY FED Survey of Consumer Expectations on Rent Prices in 1Y (overall) v2\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "93SU22SI8V",
+    "title": "US Home Prices (high freq) vs CPI",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cQPdjZ",
+    "description": "US Home Prices (high freq) vs CPI\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "957QXHE0K5",
+    "title": "monthly supply vs prices (Census months inventorydata)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g8f6Pf",
+    "description": "monthly supply vs prices (Census months inventory data)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9DUQ2BDYEB",
+    "title": "NY FED Survey of Consumer Expectations on Rent Prices in 1Y (overall)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MxeN2Y",
+    "description": "NY FED Survey of Consumer Expectations on Rent Prices in 1Y (overall)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9EMPRX5F70",
+    "title": "Mortgage App Total index and Size vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XgvSmL",
+    "description": "Mortgage App Total index and Size vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9HNACSVYWG",
+    "title": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with DD vs CPI Energy",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MoE67d",
+    "description": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with DD vs CPI Energy",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9HSLEH7R46",
+    "title": "Housing Permits Authorized (3MMA)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dYHiCe",
+    "description": "Housing Permits Authorized (3MMA)\nLabels: Housing Market,  US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9JMGRQ7KWZ",
+    "title": "CONSUMER CONFIDENCE CURRENTLY - series and differentials",
+    "labels": [
+      "Confidence",
+      "Labor",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dQQIQK",
+    "description": "CONSUMER CONFIDENCE CURRENTLY - series and differentials\nLabels: Confidence, Labor, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "A182Q0GHT7",
+    "title": "scatter US New House Sales vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gcdJip",
+    "description": "scatter US New House Sales vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ARQI2T7CTQ",
+    "title": "US Existing Home Sales vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XtHEeD",
+    "description": "US Existing Home Sales vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "B6IQQPTK15",
+    "title": "CPI projection 2024 YoY only",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/470Et1n",
+    "description": "CPI projection 2024 YoY only",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "BQ76BBIDZC",
+    "title": "LOANS & LEASES IN BANK CREDIT vs CPI Services ex Shelter",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dFIElv",
+    "description": "LOANS & LEASES IN BANK CREDIT vs CPI Services ex Shelter.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "CJZJO9KZHS",
+    "title": "LOANS & LEASES IN BANK CREDIT vs CPI Commodities less Food & Energy",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3X5bkNR",
+    "description": "LOANS & LEASES IN BANK CREDIT vs CPI Commodities less Food & Energy.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "CK68ZYWZWQ",
+    "title": "CPI All less Shelter and CPI Services less Rent of Shelter (bar chart format)",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XuE6sx",
+    "description": "CPI All less Shelter and CPI Services less Rent of Shelter (bar chart format)\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "CVH13XBMHF",
+    "title": "US New Home Prices (yoy) vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z6d2RR",
+    "description": "US New Home Prices (yoy) vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D033ZOTL90",
+    "title": "US NAHB vs Loan Delinquencies",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ebJSoO",
+    "description": "US NAHB vs Loan Delinquencies\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D0X8PH6JBC",
+    "title": "Home Improvement and Construction",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3X81ECo",
+    "description": "Nominal/Real Nominal Private Residential Improvements as a% of GDP.\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DFCY7IVA7E",
+    "title": "CLEVELAND FEDERAL RESERVE: INFLATION EXPECTATIONS 1, 5, 10, 30Y",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47uT4CB",
+    "description": "CLEVELAND FEDERAL RESERVE: INFLATION EXPECTATIONS 1, 5, 10, 30Y\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DH30ILNA14",
+    "title": "CPI shelter incl Consumption and Investment of housing (scatter) (1975 to now) (Rent OECD)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dEiW15",
+    "description": "CPI shelter incl Consumption and Investment of housing (scatter) (1975 to now) (Rent OECD)\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DKO64MA9YE",
+    "title": "Layoffs & Discharges, Other Separations, Total Separations",
+    "labels": [
+      "Housing Market",
+      "Labor",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g6vLms",
+    "description": "JOLTS Layoffs & Discharges, Other Separations, Total Separations for Real Estate & Rental & Leasing\nLabels: Housing Market, Labor, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DP5D2237GH",
+    "title": "Zillow Rent vs CPI Rent (V2)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z8H1Ol",
+    "description": "Zillow Rent vs CPI Rent (V2)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DQBORE80DE",
+    "title": "NFIB Survey Raised Wage vs Planning to Raise",
+    "labels": [
+      "Inflation",
+      "Labor",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/48qaqjD",
+    "description": "NFIB Survey Raised Wage vs Planning to Raise",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DS13KRGCLP",
+    "title": "Canada: Annual Inflation Rate Expectations Over Next 2 Years",
+    "labels": [
+      "Canada",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZemLFE",
+    "description": "Canada: Annual Inflation Rate Expectations Over Next 2 Years\nLabels: Inflation, Canada",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DS5QLFKAG6",
+    "title": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with drawdowns",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g0EPZX",
+    "description": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with drawdowns",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DT2SII19EE",
+    "title": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI shelter",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XlCKQN",
+    "description": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI shelter",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "E3CF8GT6UU",
+    "title": "US Home Price Compares",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dNJuNm",
+    "description": "US Home Price Compares\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "E5UB95OAZA",
+    "title": "HOME PRICE TO INCOME RATIO v1",
+    "labels": [
+      "Australia",
+      "Canada",
+      "France",
+      "Germany",
+      "Global",
+      "Housing Market",
+      "UK",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z12s3U",
+    "description": "HOME PRICE TO INCOME RATIO v1 (Australia, Canada, Germany, France, UK, US) \nLabels: Housing Market, Global, Australia, Canada, Germany, France, UK, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "E8SAW1NPRE",
+    "title": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with DD vs CPI core goods",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z2Pflx",
+    "description": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with DD vs CPI core goods",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EK2HY46JOH",
+    "title": "Quits and Challenger Job-Cut Announcements",
+    "labels": [
+      "Housing Market",
+      "Labor",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gedi7h",
+    "description": "Quits and Challenger Job-Cut Announcements (JOLTS)\nLabels: Housing Market, Labor, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ESJQ8HEOJS",
+    "title": "US Real RESIDENTIAL FIXED INVESTMENT",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cXzX50",
+    "description": "US Real RESIDENTIAL FIXED INVESTMENT\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ET01G2YLKH",
+    "title": "New Houses (Inventory, Sales, Pace of Sales, Ratio)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e5jqwT",
+    "description": "New Houses Data - Inventory, Sales, Pace of Sales, Ratio (US Census Bureau)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ETOPABOWX9",
+    "title": "CPI Health Insurance from Oct to Sep",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XwpQ2A",
+    "description": "CPI Health Insurance from Oct to Sep\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EYZQSS0EL7",
+    "title": "CPI shelter incl Consumption and Investment of housing (scatter) (1975 to now) (US Census Avg)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AKhqvA",
+    "description": "CPI shelter incl Consumption and Investment of housing (scatter) (1975 to now) (US Census Avg)\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "F59P0W5IAO",
+    "title": "Copper/Gold ratio vs US 10Y  (4 quad)",
+    "labels": [
+      "Commodity",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e1uUBA",
+    "description": "Copper/Gold ratio vs US 10Y  (4 quad)\nLabels: Commodity, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FAJXF2ADHP",
+    "title": "COMMERCIAL BANK ASSETS - LOANS & LEASES IN BANK CREDIT : United States Series and YoY",
+    "labels": [
+      "Banking",
+      "Credit",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ANl8Vs",
+    "description": "COMMERCIAL BANK ASSETS - LOANS & LEASES IN BANK CREDIT : United States Series and YoY\nLabels: Banking, Credit, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FFM0WVTUDL",
+    "title": "CPI Rent (scatter) (1975 to now) (US Census Avg)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g4A4hN",
+    "description": "CPI Rent (scatter) (1975 to now) (US Census Avg)\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FIEFA6P1UJ",
+    "title": "US Existing Home For Sales (Inventory) vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cUrvn7",
+    "description": "US Existing Home For Sales (Inventory) vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FLLZ6RT3O8",
+    "title": "Global Real GDP Growth By Region - YoY % Change",
+    "labels": [
+      "Canada",
+      "China",
+      "Europe",
+      "Global",
+      "Growth",
+      "Japan",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3yqYtgz",
+    "description": "Labels: Growth, US, Canada, Europe, Japan, China, Global;\nDescription: YoY GDP of US, Canada, Europe, Japan, China, Global",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GFWNP0XSZX",
+    "title": "Change in YoY % change of CPI rent of primary residences in past 4 recessions v2",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZfvV4L",
+    "description": "Change in YoY % change of CPI rent of primary residences in past 4 recessions v2\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GLK95S8C5L",
+    "title": "LOANS & LEASES IN BANK CREDIT vs CPI Goods Non Durables",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tavoxb",
+    "description": "LOANS & LEASES IN BANK CREDIT vs CPI Goods Non Durables.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GMHJJ4JLXI",
+    "title": "The Conference Board Consumer Confidence",
+    "labels": [
+      "Confidence",
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dTKjEw",
+    "description": "The Conference Board Consumer Confidence - Plans to buy a home in 6 month\nLabels: Housing Market, Confidence, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GSHW8CLNOQ",
+    "title": "CPI Rent (scatter) (1975 to now) (S&P)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Mmzte1",
+    "description": "CPI Rent (scatter) (1975 to now) (S&P)\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GSLCU63J12",
+    "title": "US New House For Sales (Inventory) vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e591RM",
+    "description": "US New House For Sales (Inventory) vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GWXPJ95Q6Z",
+    "title": "ERP US (NTM) waac",
+    "labels": [
+      "US",
+      "Valuations",
+      "Equity",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Yo1F7d",
+    "description": "Labels: US, Valuations, Equity, FI\nDescription: ERP Equity Risk Premium of US market S&P500",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "H4N4L0RVTY",
+    "title": "LOANS & LEASES IN BANK CREDIT vs CPI Shelter",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/478D0G7",
+    "description": "LOANS & LEASES IN BANK CREDIT vs CPI Shelter.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "H9YIS8L8QU",
+    "title": "JOLTS data",
+    "labels": [
+      "Housing Market",
+      "Labor",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/475FnJS",
+    "description": "JOLTS data: Hires - Real Estate & Rental & Leasing (US)\nLabels: Housing Market, Labor, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "HVETS0HPGG",
+    "title": "CPI Shelter vs OER",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g2pZlE",
+    "description": "CPI Shelter vs OER\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "HZR2SKHIDU",
+    "title": "US M2 minus Bank Credit (3M chg and Level)",
+    "labels": [
+      "Liquidity",
+      "Monetary Policy",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z8SNmz",
+    "description": "US M2 minus Bank Credit (3M chg and Level)\nLabels: Liquidity, Monetary Policy, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IEQNYWJU27",
+    "title": "US Home Prices",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MxbqsP",
+    "description": "US Home Prices\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ION44QYONQ",
+    "title": "US New House Monthly Inventory (level) vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47cBPWq",
+    "description": "US New House Monthly Inventory (level) vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IQR23M0TSQ",
+    "title": "NAHB components",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XtEJ5J",
+    "description": "National Association of Home Builders Housing Market Index (NAHB HMI components)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ITN0A2TCWP",
+    "title": "When CPI shelter included Consumption and Investment aspect of housing (scatter)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XeBo9u",
+    "description": "When CPI shelter included Consumption and Investment aspect of housing (scatter)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "J4X0EZULAP",
+    "title": "CoreLogic and Zillow Rent vs CPI Shelter",
+    "labels": [
+      "Inflation",
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3YocCFU",
+    "description": "Labels: US, Housing Market, Inflation\nDescription: US CPI Shelter component vs market rent indices from Corelogic, Zillow, and Apartment List",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JDWKHM8UDQ",
+    "title": "Money Velocity of US, EZ, JP",
+    "labels": [
+      "Europe",
+      "Japan",
+      "Liquidity",
+      "Monetary Policy",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XhzLId",
+    "description": "Money Velocity of US, EZ, JP\nLabels: Liquidity, Monetary Policy, US, Europe, Japan",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JH8MQLP5HP",
+    "title": "NAHB headline and Buyer traffic vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XwLFyU",
+    "description": "NAHB headline and Buyer traffic vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JI4PCO7KUM",
+    "title": "US 30Y Fixed Mortgage Rate",
+    "labels": [
+      "FI",
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tjlh9l",
+    "description": "US 30Y Fixed Mortgage Rate\nLabels: Housing Market, FI, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JUNFARDBFV",
+    "title": "Inflation in Canada (mortgage) vs Can 5y",
+    "labels": [
+      "Canada",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3A1cMsF",
+    "description": "Inflation in Canada (mortgage) vs Can 5y",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "K03IH9VNYV",
+    "title": "US Home Prices (high freq) vs CPI (4 panel)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z8PFfN",
+    "description": "US Home Prices (high freq) vs CPI (4 panel)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "K85XQM5WMB",
+    "title": "Airfare Inflation",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZcT2gd",
+    "description": "Airfare Inflation\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KDZY7IWW3M",
+    "title": "CPI shelter incl Consumption and Investment of housing (scatter) (1975 to now) (NAR)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AKgojc",
+    "description": "CPI shelter incl Consumption and Investment of housing (scatter) (1975 to now) (NAR)\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KGL3O1B382",
+    "title": "scatter US New House Monthly Inventory vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47cOSXI",
+    "description": "scatter US New House Monthly Inventory vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KMDK2GD26M",
+    "title": "Home Price part 2 vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zhK9HE",
+    "description": "Home Price part 2 vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KNQCMRRJ3D",
+    "title": "alternative CPI inflation measures (part 2)",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XaS01H",
+    "description": "alternative CPI inflation measures (part 2) - PCE\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KT7XO8NL6Z",
+    "title": "HOME PRICE TO INCOME RATIO",
+    "labels": [
+      "Australia",
+      "Canada",
+      "France",
+      "Germany",
+      "Global",
+      "Housing Market",
+      "UK",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dYx2dc",
+    "description": "HOME PRICE TO INCOME RATIO (Australia, Canada, Germany, France, UK, US) \nLabels: Housing Market, Global, Australia, Canada, Germany, France, UK, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "L57YN2MUVI",
+    "title": "US Home Inventory",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3X4u688",
+    "description": "US Home Inventory\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LAUPECLWGE",
+    "title": "US New House Sales vs CPI OER and Rent (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z4L74K",
+    "description": "US New House Sales vs CPI OER and Rent (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LISSK6YTY2",
+    "title": "US Home Sales",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xcr2qH",
+    "description": "US Home Sales\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MBHXDLQ2YA",
+    "title": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with DD vs CPI Services ex Shelter",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e5lXax",
+    "description": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with DD vs CPI Services ex Shelter",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MDOTG0JQPB",
+    "title": "CB Liquidity Index (CMA and MAV) v1.1 (YR End values)",
+    "labels": [
+      "Europe",
+      "Global",
+      "Liquidity",
+      "Monetary Policy",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MyLayd",
+    "description": "CB Liquidity Index (CMA and MAV) v1.1 (YR End values)\nLabels: Liquidity, Monetary Policy, Global, US, Europe",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MORBYBWUJD",
+    "title": "PMI vs z-score PMI (SERVICES): Countries v2 (3Mth MA) With Trailing Periods (WAAC edition)",
+    "labels": [
+      "EM",
+      "Europe",
+      "Global",
+      "PMI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dOJaxW",
+    "description": "PMI vs z-score PMI (SERVICES): Countries v2 (3Mth MA) With Trailing Periods (WAAC edition)\nLabels: PMI, Global, Europe, EM",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MTPPXYC9TJ",
+    "title": "Global Economic Surprise Indices",
+    "labels": [
+      "Canada",
+      "Confidence",
+      "EM",
+      "Europe",
+      "Global",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47hzo4N",
+    "description": "Global Economic Surprise Indices\nLabels: Confidence, Global, US, Europe, Canada, EM",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MVRYUIAG8H",
+    "title": "US Monthly Mortgage Payments on New Mortgages (level and YoY)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TjsmXt",
+    "description": "US Monthly Mortgage Payments on New Mortgages (level and YoY)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "N1UUAKX0FB",
+    "title": "When CPI shelter included Consumption and Investment aspect of housing",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z2T9R4",
+    "description": "When CPI shelter included Consumption and Investment aspect of housing\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "N1Y4KEVCTC",
+    "title": "US New House Monthly Inventory (level) vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e9WcWp",
+    "description": "US New House Monthly Inventory (level) vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "N6FR5W10FG",
+    "title": "Copper/Gold ratio vs US 10Y  (email)",
+    "labels": [
+      "Commodity",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cV9YeC",
+    "description": "Copper/Gold ratio vs US 10Y  (email)\nLabels: Commodity, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NDJ2OMNYPI",
+    "title": "LOANS & LEASES IN BANK CREDIT vs CPI Goods Durables",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3X8BvTQ",
+    "description": "LOANS & LEASES IN BANK CREDIT vs CPI Goods Durables.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NVKF0EBP1H",
+    "title": "BEA Personal Income",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Mz9dx8",
+    "description": "BEA Personal Income\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "OHJ4LQHJSI",
+    "title": "3M and 6M chg of YoY% PPI, CPI, PCE (headline and core)",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xgcbv8",
+    "description": "3M and 6M chg of YoY% PPI, CPI, PCE (headline and core)\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "OJTYRNBOZ3",
+    "title": "monthly supply vs prices (Jan 20 2022) (NAR prices vs Census months inventory) v2",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cLkmp6",
+    "description": "monthly supply vs prices (Jan 20 2022) (NAR prices vs Census months inventory) v2\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PPRHPQEPUH",
+    "title": "Housing Completed (3MMA)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z4wTRf",
+    "description": "Housing Completed (3MMA)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PWQ81XG9EQ",
+    "title": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI core goods",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3yKDdms",
+    "description": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI core goods",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PYVZMWZJQP",
+    "title": "CREDIT divide by CPI index (real terms) with DD vs CPI core goods (DD marked)",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ABVgeU",
+    "description": "CREDIT divide by CPI index (real terms) with DD vs CPI core goods (DD marked)",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Q1ID9C5OPX",
+    "title": "CPI OER 1 vs Home Prices",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XtacoO",
+    "description": "CPI OER 1 vs Home Prices\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Q5HS7ZOSRD",
+    "title": "NAHB overview and breakdown (TDAM AM)",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MQYhet",
+    "description": "NAHB overview and breakdown (TDAM AM)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QG6NK5MJLI",
+    "title": "US Rental Prices vs Zillow data",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e44Q9v",
+    "description": "US Rental Prices vs Zillow data\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QK7YNICO7S",
+    "title": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with drawdowns level",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MmehVk",
+    "description": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with drawdowns level.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QY09HL8I4R",
+    "title": "HH Debt leverage and mortgage",
+    "labels": [
+      "Household Debt",
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cFVgbe",
+    "description": "HH Debt leverage and mortgage: HH debt payment as a% of disposable personal Income (US).\nLabels: Household Debt, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "R1EA6MG4G3",
+    "title": "Homeowner vacancy rate vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XlZRLf",
+    "description": "Homeowner vacancy rate vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RHRKY38P42",
+    "title": "CPI OER 3 vs Mtg App, NAHB",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xg8B4a",
+    "description": "CPI OER 3 vs Mtg App, NAHB\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RLBFJM7VU4",
+    "title": "NY SCE: HHOLD FINANCIAL SITUATION, 1 YEAR AGO  and 1Y AHEAD",
+    "labels": [
+      "Confidence",
+      "Consumer",
+      "Household Debt",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tg4vYV",
+    "description": "NY SCE: HHOLD FINANCIAL SITUATION, 1 YEAR AGO  and 1Y AHEAD\nLabels: Consumer,Household Debt, Confidence, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RQ9HZP580J",
+    "title": "Commodity Markets: Cumulative Total Return",
+    "labels": [
+      "Commodity",
+      "Performance",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gaELa7",
+    "description": "Commodity Markets: Cumulative Total Return\nLabels: Commodity, Performance",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RVUVRBKWVY",
+    "title": "NAHB curr sale and n6m sale vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47aEhg1",
+    "description": "NAHB curr sale and n6m sale vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "S6T1P2WOK5",
+    "title": "HOUSING AFFORDABILITY INDEX - PAYMENT AS % OF INCOME : Qualifying Income",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g7sgvK",
+    "description": "HOUSING AFFORDABILITY INDEX - PAYMENT AS % OF INCOME; Mortgage Qualifying Income as a% of US Median Family Income\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SDAWIROCMG",
+    "title": "Copper/Gold ratio vs US 10Y (scatter)",
+    "labels": [
+      "Commodity",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dQs0zJ",
+    "description": "Copper/Gold ratio vs US 10Y (scatter)\nLabels: Commodity, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SHXGLE18E3",
+    "title": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI Services ex shelter",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3yMUMCl",
+    "description": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI Services ex shelter",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SJLHZZ4006",
+    "title": "Hires and Job Openings",
+    "labels": [
+      "Housing Market",
+      "Labor",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47axKlE",
+    "description": "Hires and Job Openings: JOLTS Hiring Rate for Real Estate & Rental & Leasing\nLabels: Housing Market, Labor, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SP8G5HFIQT",
+    "title": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with drawdowns vs CPI Shelter",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/474Ulji",
+    "description": "LOANS & LEASES IN BANK CREDIT divide by CPI index (real terms) with drawdowns vs CPI Shelter.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SRKX8G7KXR",
+    "title": "US New House Sales vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Ta62PR",
+    "description": "US New House Sales vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SZFSUQAG8J",
+    "title": "When CPI shelter included Consumption and Investment aspect of housing (scatter) (1975 to now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AILCHp",
+    "description": "When CPI shelter included Consumption and Investment aspect of housing (scatter) (1975 to now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TRYU5132QJ",
+    "title": "US Mortgage rates Fixed vs Adjustable",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XaXNnV",
+    "description": "US Mortgage rates Fixed vs Adjustable\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TSR9RQZ6U9",
+    "title": "LOANS & LEASES IN BANK CREDIT with drawdowns",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3tjgKKk",
+    "description": "LOANS & LEASES IN BANK CREDIT with drawdowns.\nLabels: Credit, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "U4K5W5CIFS",
+    "title": "3M and 6M chg of YoY% PPI, CPI, PCE (headline and core) (bar format)",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3X5wICI",
+    "description": "3M and 6M chg of YoY% PPI, CPI, PCE (headline and core) (bar format)\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UDIW5ZOXAW",
+    "title": "PMI vs z-score PMI (MFG): Countries v2 (region) (3Mth MA) With Trailing Periods MAIN (WAAC)",
+    "labels": [
+      "EM",
+      "Europe",
+      "Global",
+      "Manufacturing",
+      "PMI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z6VQkx",
+    "description": "PMI vs z-score PMI (MFG): Countries v2 (region) (3Mth MA) With Trailing Periods MAIN (WAAC)\nLabels: PMI, Manufacturing, Global, Europe, EM",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UHQ3XTIJ3P",
+    "title": "CPI OER 2 vs Sales, Supply, Inventory",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TfUr20",
+    "description": "CPI OER 2 vs Sales, Supply, Inventory\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UTS76BE6YT",
+    "title": "scatter US New House Monthly Inventory (level) vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z4QHJG",
+    "description": "scatter US New House Monthly Inventory (level) vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VCPSBE48UZ",
+    "title": "Homes Sales vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4edZE2t",
+    "description": "Homes Sales vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VFLAP7FNOI",
+    "title": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI Energy",
+    "labels": [
+      "Credit",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ATNPje",
+    "description": "LOANS & LEASES IN BANK CREDIT (nominal) with DD vs CPI Energy",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VK64UUBARL",
+    "title": "US Existing Home Monthly Inventory vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ecVpEh",
+    "description": "US Existing Home Monthly Inventory vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VVR1J3O0QR",
+    "title": "NY SCE: Credit Availability, 1 YEAR AGO  and 1Y AHEAD",
+    "labels": [
+      "Consumer",
+      "Credit",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dLHeGs",
+    "description": "NY SCE: Credit Availability, 1 YEAR AGO  and 1Y AHEAD\nLabels: Consumer, Credit, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VWR0XVY991",
+    "title": "US Homeownership Rates",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4g7Qbvd",
+    "description": "US Homeownership Rates\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VYHIYV0HTW",
+    "title": "China - Inflation and policy rate",
+    "labels": [
+      "China",
+      "Inflation",
+      "Monetary Policy",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z9kIbp",
+    "description": "China - Inflation and policy rate\nLabels: Inflation, Monetary Policy, China",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "W4V5TRW8SM",
+    "title": "Global Supply Chain Pressure Index",
+    "labels": [
+      "Supply Chain",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3LKuiEc",
+    "description": "Global Supply Chain Pressure Index",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "W569S8YFC3",
+    "title": "Home Building Costs",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3YZEPmX",
+    "description": "Home Building Costs: Lumber Price, Average Hourly Earnings (Construction), Residential Construction Expenditure, Employee Compensation Index of Construction (Private)\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "W5CS5BNQ2Z",
+    "title": "China - Inflation forecast %",
+    "labels": [
+      "China",
+      "Confidence",
+      "Consumer",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cYLsch",
+    "description": "China - Inflation forecast %\nLabels: Inflation, Consumer, Confidence, China",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "W9SOUQ0S6U",
+    "title": "Mortgage App Purchases Total and Size vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dJEUj4",
+    "description": "Mortgage App Purchases Total and Size vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WB9J04OCRV",
+    "title": "Core CPI vs Fed Rates and Fed Cycle",
+    "labels": [
+      "Inflation",
+      "Monetary Policy",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z8SaPg",
+    "description": "Core CPI vs Fed Rates and Fed Cycle\nLabels: Inflation, Monetary Policy, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WBYFPZ3T6G",
+    "title": "CPI Rent (scatter) (1975 to now) (NAR)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z0asgd",
+    "description": "CPI Rent (scatter) (1975 to now) (NAR)\nLabels: Inflation, Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WCNEAUQP4D",
+    "title": "NY FED Survey of Consumer Expectations on Home Prices in 1Y (overall)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AJkBUg",
+    "description": "NY FED Survey of Consumer Expectations on Home Prices in 1Y (overall)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WIHH2TH03G",
+    "title": "US Corporate Sector Net Balance (Net Saving - Net Investment)",
+    "labels": [
+      "US",
+      "Private Investments",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zh9KLx",
+    "description": "US Corporate Sector Net Balance (Net Saving - Net Investment)\nLabels: US, Private Investments",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WO46REETCF",
+    "title": "Mortgage Purchase Application Index",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZbrLeq",
+    "description": "Mortgage Purchase Application Index\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WP83PHGU2E",
+    "title": "1Y % change of Cass Freight Index - Shipments and Expenditures",
+    "labels": [
+      "Global",
+      "Trade",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4euQNcT",
+    "description": "1Y % change of Cass Freight Index - Shipments and Expenditures\nLabels: Trade, Global, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WXPRL6TA0H",
+    "title": "Home Price part 1 vs CPI OER and Rent and Shelter (1985-now)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cVuuM5",
+    "description": "Home Price part 1 vs CPI OER and Rent and Shelter (1985-now)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "X0IQT1V4MO",
+    "title": "Regime 2.0 v1 (WAAC)",
+    "labels": [
+      "Regime",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3A2fVsm",
+    "description": "Labels: US, Regime\nDescription: The regime indicator indicates the investment regime and potential return for the next 12-month. The lower the reading, the worse it is. Historically, when regime indicator drops below 30, the average next 12-month return is negative.",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "XMGNWLCMCJ",
+    "title": "Breakeven vs TIPS yield (scatter graph)",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AZQyHX",
+    "description": "Breakeven vs TIPS yield (scatter graph)\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "XRSPQSO25S",
+    "title": "Home Price vs CPI rent check",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z3cYlG",
+    "description": "Home Price vs CPI rent check: S&P/Case-Shiller National Home Price Index (US) vs CPI - Rent of Primary Residence (US).\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Y3LQ6KG2ZJ",
+    "title": "US CPI rent and shelter compare",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TeP03m",
+    "description": "US CPI rent, shelter and OER compare\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YHOITADH0C",
+    "title": "3M and 6M %chg of PPI, CPI, PCE (headline and core)",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z8zFdM",
+    "description": "3M and 6M %chg of PPI, CPI, PCE (headline and core)\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YMOOWD08RF",
+    "title": "Airline Ticket Price Index (TDAM AM)",
+    "labels": [
+      "Inflation",
+      "Model",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z5KMyK",
+    "description": "Airline Ticket Price Index (TDAM AM)\nLabels: Inflation, US, Model",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YNG319Y3HP",
+    "title": "Owner's Equity as a % of Household Real Estate",
+    "labels": [
+      "Housing Market",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47bfcBs",
+    "description": "Owner's Equity as a % of Household Real Estate\nLabels: Housing Market, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YY0G5BGWU8",
+    "title": "All-Items Canada Inflation for Senior and All",
+    "labels": [
+      "Canada",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AI0K87",
+    "description": "All-Items Canada Inflation for Senior and All",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZD2BH6FML8",
+    "title": "CPI All less Shelter and CPI Services less Rent of Shelter",
+    "labels": [
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47bms0p",
+    "description": "CPI All less Shelter and CPI Services less Rent of Shelter\nLabels: Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZI7FICM9R6",
+    "title": "US New House Monthly Inventory vs CPI OER and Rent",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z9LUkI",
+    "description": "US New House Monthly Inventory vs CPI OER and Rent\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZJEMH5754O",
+    "title": "US Home Prices (high freq) vs CPI (4 panel) (since2011)",
+    "labels": [
+      "Housing Market",
+      "Inflation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e6EKCc",
+    "description": "US Home Prices (high freq) vs CPI (4 panel) (since2011)\nLabels: Housing Market, Inflation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WU5DA0SJIM",
+    "title": "US GDP Output Gap",
+    "labels": [
+      "Growth",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dOWRgk",
+    "description": "US GDP Output Gap\nLabels: Growth, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "412A4L4QOW",
+    "title": "TDAM S&P 500 Potential Model (update) june 2021 v2",
+    "labels": [
+      "US",
+      "Equity",
+      "Valuation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gb7SKr",
+    "description": "TDAM S&P 500 Potential Model (update) june 2021 v2\nLabels: Equity, Valuation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "52HALDCCMC",
+    "title": "TDAM S&P 500 Potential Model (update) june 2021",
+    "labels": [
+      "US",
+      "Equity",
+      "Valuation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XveWdv",
+    "description": "TDAM S&P 500 Potential Model (update) june 2021\nLabels: Equity, Valuation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JMMLGCVTL1",
+    "title": "PCA incr/decr US (LN)",
+    "labels": [
+      "US",
+      "Equity",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XvRBbv",
+    "description": "PCA incr/decr US (LN)\nLabels: US, Equity",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QHZFA5T4TF",
+    "title": "PCA incr/decr EM (LN)",
+    "labels": [
+      "EM",
+      "Equity",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MFCUN4",
+    "description": "PCA incr/decr EM (LN)\nLabels: EM, Equity",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ATR3078M31",
+    "title": "PCA incr/decr Europe (LN)",
+    "labels": [
+      "Europe",
+      "Equity",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gfMkfH",
+    "description": "PCA incr/decr Europe (LN)\nLabels: Europe, Equity",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5N37M95XSK",
+    "title": "PCA incr/decr Global (LN)",
+    "labels": [
+      "Global",
+      "Equity",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47mGvZD",
+    "description": "PCA incr/decr Global (LN)\nLabels: Global, Equity",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8RMUR4L6VD",
+    "title": "ERP Canada (NTM) waac",
+    "labels": [
+      "Equity",
+      "Canada",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TnTncx",
+    "description": "ERP Canada (NTM) waac\nLabels: Equity, Canada, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GEAVFN38JG",
+    "title": "China Total Social Financing",
+    "labels": [
+      "Liquidity",
+      "Monetary Policy",
+      "Credit",
+      "Capital Flows",
+      "China",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Z90hWH",
+    "description": "China Total Social Financing\nLabels: Liquidity, Monetary Policy, Credit, Capital Flows, China",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Z7V2C04DAC",
+    "title": "ERP Japan (NTM) waac",
+    "labels": [
+      "Equity",
+      "Japan",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dWwoNE",
+    "description": "ERP Japan (NTM) waac\nLabels: Equity, Japan, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2HEG4VCXF2",
+    "title": "ERP Europe(NTM) waac",
+    "labels": [
+      "Equity",
+      "Europe",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ekTQEn",
+    "description": "ERP Europe(NTM) waac\nLabels: Equity, Europe, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "BDXHV5DYU7",
+    "title": "ERP Taiwan (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "Asia",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XjwNTp",
+    "description": "ERP Taiwan (NTM) waac\nLabels: Equity, EM, Asia, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "P8BTCFATIN",
+    "title": "ERP China (NTM) waac",
+    "labels": [
+      "Equity",
+      "China",
+      "EM",
+      "Asia",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MFAcaf",
+    "description": "ERP China (NTM) waac\nLabels: Equity, China, EM, Asia, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7LAPBLOTBA",
+    "title": "ERP South Korea (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "South Korea",
+      "Asia",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tn6Hhh",
+    "description": "ERP South Korea (NTM) waac\nLabels: Equity, EM, South Korea, Asia, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MV9108X0BI",
+    "title": "ERP India (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "India",
+      "Asia",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gcPalL",
+    "description": "ERP India (NTM) waac\nLabels: Equity, EM, India, Asia, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YT4KJE2U3V",
+    "title": "ERP South Africa (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AVZ1fs",
+    "description": "ERP South Africa (NTM) waac\nLabels: Equity, EM, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1289YLY2HC",
+    "title": "ERP Brazil (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "Latam",
+      "Brazil",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TnCAq2",
+    "description": "ERP Brazil (NTM) waac\nLabels: Equity, EM, Latam, Brazil, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "450MZ29QFP",
+    "title": "ERP Russia (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TivWkv",
+    "description": "ERP Russia (NTM) waac\nLabels: Equity, EM, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D9ZESOUXQR",
+    "title": "ERP Mexico (NTM) waac",
+    "labels": [
+      "Equity",
+      "EM",
+      "Latam",
+      "Mexico",
+      "Valuation",
+      "FI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z9yM4L",
+    "description": "ERP Mexico (NTM) waac\nLabels: Equity, EM, Latam, Mexico, Valuation, FI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "K9LT1077MS",
+    "title": "Revenue Beta",
+    "labels": [
+      "Equity",
+      "Regime",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cV5VyU",
+    "description": "Revenue Beta\nLabels: Equity, Regime, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "20N1H8KJF8",
+    "title": "Regime 2.0: Contribution chart",
+    "labels": [
+      "Regime",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XjrF1t",
+    "description": "Regime 2.0: Contribution chart\nLabels: Regime, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "B5H6XDJ6VL",
+    "title": "S&P 500 Forward and Trailing P/E",
+    "labels": [
+      "Equity",
+      "Valuation",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d4GZF4",
+    "description": "S&P 500 Forward and Trailing P/E\nLabels: Equity, Valuation, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MESSVB3LIJ",
+    "title": "S&P 500 Operating Earning (TDAM AM)",
+    "labels": [
+      "Equity",
+      "Earnings",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZiYAWF",
+    "description": "S&P 500 Operating Earning (TDAM AM)\nLabels: Equity, Earnings , US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "93R3GLRV1R",
+    "title": "S&P TSX Operating Earning",
+    "labels": [
+      "Equity",
+      "Earnings",
+      "Canada",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zdpR24",
+    "description": "S&P TSX Operating Earning\nLabels: Equity, Earnings , Canada",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5SAQMDXBWT",
+    "title": "BULLISH SIGNAL Investor Intelligence and AAII US",
+    "labels": [
+      "Equity",
+      "Confidence",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47nrS8x",
+    "description": "BULLISH SIGNAL Investor Intelligence and AAII US\nLabels: Equity, Confidence , US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "71127I2PNN",
+    "title": "Earnings Revision Ratio: S&P500 (EPS Up/EPS Down over total) plus YoY",
+    "labels": [
+      "Equity",
+      "Earnings",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47pTNEP",
+    "description": "Earnings Revision Ratio: S&P500 (EPS Up/EPS Down over total) plus YoY\nLabels: Equity, Earnings, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7HQBLX6KJC",
+    "title": "Earnings Revision Ratio: TSX  (EPS Up/EPS Down over total) plus YoY",
+    "labels": [
+      "Equity",
+      "Earnings",
+      "Canada",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AYUokS",
+    "description": "Earnings Revision Ratio: TSX  (EPS Up/EPS Down over total) plus YoY\nLabels: Equity, Earnings , Canada",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "L5TSC1P01G",
+    "title": "Treasury Speads to Fed Funds (daily)",
+    "labels": [
+      "FI",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eAJDUv",
+    "description": "Treasury Speads to Fed Funds (daily)\nLabels: FI, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7S3SNSMPYL",
+    "title": "Real Rates (adjusted for Core PCE)",
+    "labels": [
+      "Inflation",
+      "FI",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZCkhBp",
+    "description": "Real Rates (adjusted for Core PCE)\nLabels: Inflation, FI, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3MU1LE1UE6",
+    "title": "US TIPS Breakeven Curve",
+    "labels": [
+      "FI",
+      "Treasury",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xd185S",
+    "description": "US TIPS Breakeven Curve\nLabels: FI, Treasury, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3LTAH1JMHO",
+    "title": "T-Bond Sentiment Index",
+    "labels": [
+      "FI",
+      "Treasury",
+      "Confidence",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gkTD5J",
+    "description": "T-Bond Sentiment Index\nLabels: FI, Treasury, Confidence, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VZKFNU25R7",
+    "title": "Historical Yields & Credit Spreads",
+    "labels": [
+      "FI",
+      "IG",
+      "HY",
+      "Global",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XonVMe",
+    "description": "Historical Yields & Credit Spreads\nLabels: FI, IG, HY, Global",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YMCUDZUSUH",
+    "title": "European Stressed Sovereign 5-yr Spread to Bunds",
+    "labels": [
+      "Europe",
+      "FI",
+      "IG",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XkMRnR",
+    "description": "European Stressed Sovereign 5-yr Spread to Bunds\nLabels: Europe, FI, IG",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3Y7QGQVQRV",
+    "title": "Central Bank Assets v1 (WAAC)",
+    "labels": [
+      "Monetary Policy",
+      "Global",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZkBcbw",
+    "description": "Central Bank Assets v1 (WAAC)\nLabels: Monetary Policy, Global",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "A27XJOY727",
+    "title": "US r-star & Fed policy rate",
+    "labels": [
+      "US",
+      "Treasury",
+      "Market Signal",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZlXitY",
+    "description": "US r-star & Fed policy rate\nLabels: US, Treasury, Market Signal",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VDHZF5FXQN",
+    "title": "REER vs REER (10Y z-score) (DM vs EM)",
+    "labels": [
+      "FX",
+      "Global",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ggvA83",
+    "description": "REER vs REER (10Y z-score) (DM vs EM)\nLabels: FX, Global",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "X8TT7YKGSZ",
+    "title": "BIS Narrow NEER and REER (CAD, EUR, GBP, JPY to USD)",
+    "labels": [
+      "FX",
+      "Canada",
+      "US",
+      "UK",
+      "Japan",
+      "Global",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eAP2uL",
+    "description": "BIS Narrow NEER and REER (CAD, EUR, GBP, JPY to USD)\nLabels: FX, Canada, US, UK, Japan, Global",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "X4P9XFUUFP",
+    "title": "US Appendix 1 (Production)",
+    "labels": [
+      "PMI",
+      "Growth",
+      "US",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XEat8z",
+    "description": "ISM PMI, Industrial Production Growth, Capacity Utilization, Core Capital Goods Orders.\nLabels: PMI, Growth, US",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LN8JY19HI2",
+    "title": "US Appendix 2 (Households consumption)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Consumer",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ecNV4F",
+    "description": "US Appendix 2 (Households consumption)- Core retail sales, US auto sales, real PCE, consumer credit growth\nLabels: US, Inflation, Consumer",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JK1TW0HFVF",
+    "title": "US Appendix 3 (Households housing market)",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MDJYJR",
+    "description": "US Appendix 3 (Households housing market)\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9XQ3CZCKV2",
+    "title": "US Appendix 4 (labour market)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dRz4fA",
+    "description": "US Appendix 4 (labour market)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QF7DGSL3L8",
+    "title": "US Appendix 5 (labour market cont.)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gcjJrw",
+    "description": "US Appendix 5 (labour market cont.)\nLabel: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DYR6997S3H",
+    "title": "US Appendix 6 (Sentiment Survey)",
+    "labels": [
+      "US",
+      "Confidence",
+      "Consumer",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d6uU2e",
+    "description": "US Appendix 6 (Sentiment Survey)\nLabels: US, Confidence, Consumer",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FF5AIZOU3G",
+    "title": "US Appendix 7 (Inflation metrics)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dXtFnp",
+    "description": "US Appendix 7 (Inflation metrics)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NXVU1API8B",
+    "title": "US Appendix 8 (US trade balance)",
+    "labels": [
+      "US",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47jzrwU",
+    "description": "US Appendix 8 (US trade balance)\nUS, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IOUNTRQCUV",
+    "title": "Canada Appendix 1 (Production)",
+    "labels": [
+      "Canada",
+      "Growth",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zeC86s",
+    "description": "Canada Appendix 1 (Production)\nCanada, Growth",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "M8D6FRML47",
+    "title": "Canada Appendix 2 (Households)",
+    "labels": [
+      "Canada",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zp65Rf",
+    "description": "Canada Appendix 2 (Households)\nCanada, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "W2J6Z4EJFU",
+    "title": "Canada Appendix 3 (Employment)",
+    "labels": [
+      "Canada",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4glqrf2",
+    "description": "Canada Appendix 3 (Employment)\nCanada, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "T3TA7XP7QW",
+    "title": "Canada  Appendix 4 (Inflation Metrics)",
+    "labels": [
+      "Canada",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tphrf0",
+    "description": "Canada  Appendix 4 (Inflation Metrics)\nCanada, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "L9QG7906WU",
+    "title": "Canada  Appendix 4 (Other Econ Metrics)",
+    "labels": [
+      "Canada",
+      "Housing Market",
+      "Trade",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d0RJUQ",
+    "description": "Canada  Appendix 4 (Other Econ Metrics)\nCanada, Housing Market, Trade, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YCAWRC0LG4",
+    "title": "Europe Aggregates Appendix 1",
+    "labels": [
+      "Europe",
+      "PMI",
+      "Growth",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d6wMIi",
+    "description": "Europe Aggregates Appendix 1\nEurope, PMI, Growth, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1V4ZAMKX1B",
+    "title": "Europe Aggregates Appendix 2",
+    "labels": [
+      "Europe",
+      "Labor",
+      "Trade",
+      "Confidence",
+      "Monetary Policy",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XCxh8n",
+    "description": "Europe Aggregates Appendix 2\nEurope, Labor, Trade, Confidence, Monetary Policy",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7E6G7SP835",
+    "title": "Germany Appendix 1",
+    "labels": [
+      "Germany",
+      "PMI",
+      "Manufacturing",
+      "Growth",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d51QIm",
+    "description": "Germany Appendix 1\nGermany, PMI, Manufacturing, Growth, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "38XI1RAHVO",
+    "title": "UK Appendix 1",
+    "labels": [
+      "UK",
+      "PMI",
+      "Growth",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xom9Ld",
+    "description": "UK Appendix 1\nUK, PMI, Growth, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LV0R7XH2OT",
+    "title": "China Appendix 1",
+    "labels": [
+      "China",
+      "PMI",
+      "Growth",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gl8dtZ",
+    "description": "China Appendix 1\nChina, PMI, Growth",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "6PWZSULHLL",
+    "title": "China Appendix 2",
+    "labels": [
+      "China",
+      "Monetary Policy",
+      "Inflation",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zne6kj",
+    "description": "China Appendix 2\nChina, Monetary Policy, Inflation, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "G430Q1AMVP",
+    "title": "India Appendix 1",
+    "labels": [
+      "India",
+      "PMI",
+      "Growth",
+      "Monetary Policy",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XddACQ",
+    "description": "India Appendix 1\nIndia, PMI, Growth, Monetary Policy",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "26PF8039W8",
+    "title": "India Appendix 2",
+    "labels": [
+      "India",
+      "Inflation",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47kvTL4",
+    "description": "India Appendix 2\nIndia, Inflation, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EWBLO64PA3",
+    "title": "Brazil Appendix 1",
+    "labels": [
+      "Brazil",
+      "PMI",
+      "Growth",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zdLbEE",
+    "description": "Brazil Appendix 1\nBrazil, PMI, Growth, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GHJ2N9YMQS",
+    "title": "Brazil Appendix 2",
+    "labels": [
+      "Brazil",
+      "Monetary Policy",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47o0dEl",
+    "description": "Brazil Appendix 2\nBrazil, Monetary Policy, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TBJWFPX4LY",
+    "title": "Russia Appendix 1",
+    "labels": [
+      "EM",
+      "PMI",
+      "Growth",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZilOvY",
+    "description": "Russia Appendix 1\nEM, PMI, Growth, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WNVSMG8W0Q",
+    "title": "Russia Appendix 2",
+    "labels": [
+      "EM",
+      "Monetary Policy",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47qcrfN",
+    "description": "Russia Appendix 2\nEM, Monetary Policy, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SNFPTN69P5",
+    "title": "US CPI: Core and Headline (multiple time horizons)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d3ouRk",
+    "description": "US CPI: Core and Headline (multiple time horizons)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NNJ99C3GLX",
+    "title": "US PCE: Core and Headline (multiple time horizons)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ekOid4",
+    "description": "US PCE: Core and Headline (multiple time horizons)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "K31OVH1UVB",
+    "title": "US CPI: Core with Trends",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TpvbGC",
+    "description": "US CPI: Core with Trends\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3KFSNXXIMA",
+    "title": "PCE Inflation Distribution 12M (FRBSF)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47oXMli",
+    "description": "PCE Inflation Distribution 12M (FRBSF)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GEG7TNVP84",
+    "title": "PCE Inflation Dispersion 3Mma (FRBSF)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TpZNrl",
+    "description": "PCE Inflation Dispersion 3Mma (FRBSF)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IXIG1OQGBQ",
+    "title": "Inflation Diffusion Indices (final)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZqwFE6",
+    "description": "Inflation Diffusion Indices (final)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UIE2H62PDB",
+    "title": "Inflation Diffusion Indices (PPI FD vs ID levels) (final)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B0ZJrW",
+    "description": "Inflation Diffusion Indices (PPI FD vs ID levels) (final)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RALJD7EZVR",
+    "title": "PPI - ID stage 1 to 4 and FD (SA)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47CKxxv",
+    "description": "PPI - ID stage 1 to 4 and FD (SA)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "V91L40SIHH",
+    "title": "PPI - ID by Commodity Groupings (NSA)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gnsE9U",
+    "description": "PPI - ID by Commodity Groupings (NSA)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2CY94GMMI0",
+    "title": "PPI indicators YoY (US)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XdvSnu",
+    "description": "PPI indicators YoY (US)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "X265295J3J",
+    "title": "PCE Inflation Cyclical vs Acyclical (FRBSF)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MGPgnU",
+    "description": "PCE Inflation Cyclical vs Acyclical (FRBSF)\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NX56PLSM2A",
+    "title": "FRBSF: Covid-Insensitive Core PCE Inflation",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AWFzzc",
+    "description": "FRBSF: Covid-Insensitive Core PCE Inflation\nUS, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5LSWBY9UHL",
+    "title": "FRBSF: Covid-Insensitive Core PCE Inflation (sensitive breakdown)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dYtesL",
+    "description": "FRBSF: Covid-Insensitive Core PCE Inflation (sensitive breakdown)\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "J4TX2MP9BN",
+    "title": "CPI Weights (pie chart) v2",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dUboaD",
+    "description": "CPI Weights (pie chart) v2\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FYB9I43OHM",
+    "title": "US CPI -  Services vs Goods (Durable/non) volality",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XBCMEw",
+    "description": "US CPI -  Services vs Goods (Durable/non) volality\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "X8SM4P8JPL",
+    "title": "PCE Housing, Services and Goods",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eii167",
+    "description": "PCE Housing, Services and Goods\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "AR6VLNNABJ",
+    "title": "US CPI: Used Cars & Trucks",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zmxKlN",
+    "description": "US CPI: Used Cars & Trucks\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YYJ083ITC0",
+    "title": "Used Car Prices vs Inventories",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XCqJXj",
+    "description": "Used Car Prices vs Inventories\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SURIXOC678",
+    "title": "Used Vehicle Auction Value vs CPI Lead 2m",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zbvDBq",
+    "description": "Used Vehicle Auction Value vs CPI Lead 2m\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PA81P2KZSW",
+    "title": "MANHEIM USED VEHICLE VALUE INDEX vs Used Car CPI",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47qvzdB",
+    "description": "MANHEIM USED VEHICLE VALUE INDEX vs Used Car CPI\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YZ4BXR9JU8",
+    "title": "US CPI: Covid hard hit sectors",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3za7DP7",
+    "description": "US CPI: Covid hard hit sectors\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PYF9ZWEY9D",
+    "title": "US CPI: used auto inflation",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TnNzj6",
+    "description": "US CPI: used auto inflation\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LKBYQLWQJM",
+    "title": "US CPI: Covid hard hit sectors (Level)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TlfAb5",
+    "description": "US CPI: Covid hard hit sectors (Level)\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9ZNJGROXTO",
+    "title": "US CPI: motor vehicle insurance",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e42uHt",
+    "description": "US CPI: motor vehicle insurance\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "B4676SFBNF",
+    "title": "Health care services inflation",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xlbocv",
+    "description": "Health care services inflation\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "BKVREZC0CK",
+    "title": "Health Care PCE vs ECI",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XjrP9f",
+    "description": "Health Care PCE vs ECI\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VX3U6T4PRY",
+    "title": "US CPI: health insurance",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gijefH",
+    "description": "US CPI: health insurance\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NG1VQRPLVA",
+    "title": "US PCE: Food (multiple time horizons)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TqfE9t",
+    "description": "US PCE: Food (multiple time horizons)\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "339SI6WMTS",
+    "title": "US CPI: Food",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XEa6dV",
+    "description": "US CPI: Food\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "G0B12CN8U3",
+    "title": "US PCE: energy goods and services (multi time horizons)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zntm63",
+    "description": "US PCE: energy goods and services (multi time horizons)\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JYNZ6P2TPJ",
+    "title": "Main commodities inflation",
+    "labels": [
+      "US",
+      "Inflation",
+      "Commodity",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AYI2JD",
+    "description": "Main commodities inflation\nLabels: US, Inflation, Commodity",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EJ98V8I726",
+    "title": "Main commodities inflation (precious metal and green)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Commodity",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MGVlRf",
+    "description": "Main commodities inflation (precious metal and green)\nLabels: US, Inflation, Commodity",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "6RPV16BHH0",
+    "title": "US CPI: rents (YoY)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gi2UeT",
+    "description": "US CPI: rents (YoY)\nLabels: US, Inflation, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IQSMQBN1OL",
+    "title": "US CPI: rents (MoM)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zib8mD",
+    "description": "US CPI: rents (MoM)\nLabels: US, Inflation, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "L4SMZHUMPQ",
+    "title": "CPI rent vs unemployment rate",
+    "labels": [
+      "US",
+      "Inflation",
+      "Labor",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cZjJbz",
+    "description": "CPI rent vs unemployment rate\nLabels: US, Inflation, Labor, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JHQY0UWUAH",
+    "title": "Vacancy Rates: Rental & Homeowner",
+    "labels": [
+      "US",
+      "Inflation",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e4izNy",
+    "description": "Vacancy Rates: Rental & Homeowner\nLabels: US, Inflation, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GF5F0MSRCQ",
+    "title": "Zillow Rent vs CPI OER and Rent",
+    "labels": [
+      "US",
+      "Inflation",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XDvrnK",
+    "description": "Zillow Rent vs CPI OER and Rent\nLabels: US, Inflation, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "N4L7GFUPNW",
+    "title": "Zillow US Rent Indices (All, SFR, MFR)",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dajWJi",
+    "description": "Zillow Rent vs CPI OER and Rent\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GPCYHF6MJV",
+    "title": "US Home Prices (high freq)",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ehlTUV",
+    "description": "US Home Prices (high freq)\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "70PBNAOWEP",
+    "title": "MONTH SUPPLY OF NEW HOMES ON MARKET : United States (Jan 20 2022) single pane",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dTcvXU",
+    "description": "MONTH SUPPLY OF NEW HOMES ON MARKET : United States (Jan 20 2022) single pane\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "P8FXD1NI2C",
+    "title": "monthly supply vs prices (Jan 20 2022)",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XPosbL",
+    "description": "monthly supply vs prices (Jan 20 2022)\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WBC1ED7FRL",
+    "title": "MONTH SUPPLY OF NEW HOMES ON MARKET : United States (Jan 20 2022) single pane (US census bureau)",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XnEvff",
+    "description": "MONTH SUPPLY OF NEW HOMES ON MARKET : United States (Jan 20 2022) single pane (US census bureau)\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9CHP7ANUFA",
+    "title": "monthly supply vs prices (Jan 20 2022) (NAR prices vs Census months inventory)",
+    "labels": [
+      "US",
+      "Housing Market",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZrOLWi",
+    "description": "monthly supply vs prices (Jan 20 2022) (NAR prices vs Census months inventory)\nLabels: US, Housing Market",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MVRZE1WXIB",
+    "title": "Cleveland Fed inflation expectations",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MIEgqe",
+    "description": "Cleveland Fed inflation expectations\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "CBPSJ43TZI",
+    "title": "Fed index of common inflation expectations",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XF3jRq",
+    "description": "Fed index of common inflation expectations\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LA3GRDYWMJ",
+    "title": "US inflation expectation (Fed, NY Fed, Philly Fed, UofM)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47ljdU0",
+    "description": "Labels: US, Inflation\nDescription: New York Fed 3yr inflation expectation vs SPF median inflation over next 10yrs, UMich median expected inflation 5-10yr, 5Y5Y forward inflation. Showing different metrics of inflation expectation on one chart.",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TL7PJWA9GR",
+    "title": "US inflation expectation uncertainty(Fed, NY Fed, Philly Fed, UofM)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AXleJX",
+    "description": "US inflation expectation uncertainty(Fed, NY Fed, Philly Fed, UofM)\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8AUL54CUGV",
+    "title": "SPF Mean Average PCE Core Proba",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MHK0Az",
+    "description": "SPF Mean Average PCE Core Proba\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2Y0BK7NTVS",
+    "title": "SPF Mean Average PCE Core Probability",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XAYwjL",
+    "description": "SPF Mean Average PCE Core Probability\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TI83DLJHIM",
+    "title": "St Louis Fed Inflation Probs",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zg1GQz",
+    "description": "St Louis Fed Inflation Probs\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "F5X5F5A1E6",
+    "title": "UNDERLYING INFLATION GAUGE - FULL DATA SET MEASURE : United States vs PCE Core (single pane)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47oQ2Q7",
+    "description": "UNDERLYING INFLATION GAUGE - FULL DATA SET MEASURE : United States vs PCE Core (single pane)\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DV8FQ0ALVF",
+    "title": "ISM PMI vs Core CPI",
+    "labels": [
+      "US",
+      "PMI",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ghAyBn",
+    "description": "ISM PMI vs Core CPI\nLabels: US, PMI, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3VGPTZM4QR",
+    "title": "ISM non-mfg PMI price paid vs Core PCE",
+    "labels": [
+      "US",
+      "PMI",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dXm9sp",
+    "description": "ISM non-mfg PMI price paid vs Core PCE\nLabels: US, PMI, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FWXQ6RS86K",
+    "title": "Non-farm business sector unit labor cost vs Core CPI",
+    "labels": [
+      "US",
+      "Inflation",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZrZSyu",
+    "description": "Non-farm business sector unit labor cost vs Core CPI\nLabels: US, Inflation, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "E9159OWXVN",
+    "title": "Real GDP vs Core CPI",
+    "labels": [
+      "US",
+      "Growth",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47miHVU",
+    "description": "Real GDP vs Core CPI\nLabels: US, Growth, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZFN30ZCSF2",
+    "title": "NFIB survey net % of firms planning to increase prices vs core CPI",
+    "labels": [
+      "US",
+      "Inflation",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MIW9Fw",
+    "description": "NFIB survey net % of firms planning to increase prices vs core CPI\nLabels: US, Inflation",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VNJ9982O1E",
+    "title": "PMI - Markit:  Output price less input price",
+    "labels": [
+      "US",
+      "PMI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZlbWBB",
+    "description": "PMI - Markit:  Output price less input price\nLabels: US, PMI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EJYUUNFRXN",
+    "title": "PMI - Markit: new orders,  delivery times, backlog",
+    "labels": [
+      "US",
+      "PMI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47qmbGP",
+    "description": "PMI - Markit: new orders,  delivery times, backlog\nLabels: US, PMI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "CRA36XW9DI",
+    "title": "Import Price inflation (all imports vs nonpetro imports)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TtcXUK",
+    "description": "Import Price inflation (all imports vs nonpetro imports)\nLabels: US, Inflation, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RQKNKHXIBK",
+    "title": "Import Price inflation (Nominal FRB TWD vs nonpetro imports)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MIXZWW",
+    "description": "Import Price inflation (Nominal FRB TWD vs nonpetro imports)\nLabels: US, Inflation, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UZW3TFB70T",
+    "title": "Import Price inflation (Agr vs export prices)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Trade",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47nnlCZ",
+    "description": "Import Price inflation (Agr vs export prices)\nLabels: US, Inflation, Trade",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "XANPN00AEV",
+    "title": "US M2, Bank Credit and Inflation",
+    "labels": [
+      "US",
+      "Monetary Policy",
+      "Inflation",
+      "Credit",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cYqZEx",
+    "description": "US M2, Bank Credit and Inflation\nLabels: US, Monetary Policy, Inflation, Credit",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "E1RKZ6J5HC",
+    "title": "Wage Growth and BEA incomes",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dX55mE",
+    "description": "Wage Growth and BEA incomes\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WCJ0BNOA39",
+    "title": "Multi - Atlanta Fed Wage Tracker Measures Time Series",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B1TxQi",
+    "description": "Multi - Atlanta Fed Wage Tracker Measures Time Series\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "W1M39FR9KI",
+    "title": "UNION MEMBERSHIP Rate",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4daShIc",
+    "description": "UNION MEMBERSHIP Rate\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "M1GZZ7SY70",
+    "title": "US Labour Slack - Employment Cost Index",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zok9KM",
+    "description": "US Labour Slack - Employment Cost Index\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RR4A7FCSXX",
+    "title": "US Labour Force Participation Rate and Unemployed",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d0LwZb",
+    "description": "US Labour Force Participation Rate and Unemployed\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SSDCJESOKU",
+    "title": "US Productivity Capex story",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MJsIDi",
+    "description": "US Productivity Capex story\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1XBKBB0ZBR",
+    "title": "NFIB SURVEY - Employment",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47qlVrF",
+    "description": "NFIB SURVEY - Employment\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1GIKHS1K0D",
+    "title": "Inflation Regimes (CPI based v1)",
+    "labels": [
+      "US",
+      "Inflation",
+      "Regime",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zh9FNh",
+    "description": "Inflation Regimes (CPI based v1)\nLabels: US, Inflation, Regime",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TOJGYKP4E8",
+    "title": "Labor Market Table (US) v2",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ekwpeb",
+    "description": "Labor Market Table (US) v2\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YS2W7FMRH2",
+    "title": "PERR overview bars (with pad)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zicj5C",
+    "description": "PERR overview bars (with pad)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RKVA9DNY56",
+    "title": "Labour Market Overview and Category TS",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZFnyQr",
+    "description": "Labour Market Overview and Category TS\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3V5MAP6WMF",
+    "title": "Labor Mkt Conditions (Kansas City Fed)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d20nCQ",
+    "description": "Labor Mkt Conditions (Kansas City Fed)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EFGO1SFT93",
+    "title": "US unemployment Rate (U3 and U6)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TsdE0i",
+    "description": "US unemployment Rate (U3 and U6)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WBSSA4CWBT",
+    "title": "US unemployment Rate (Gender)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZnrlS7",
+    "description": "US unemployment Rate (Gender)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MM2O77OLNG",
+    "title": "Civilian Unemployment Rate by Age",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XluAqt",
+    "description": "Civilian Unemployment Rate by Age\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Y96MXKCELW",
+    "title": "Civilian Unemployment Rate by Race",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B3BeKI",
+    "description": "Civilian Unemployment Rate by Race\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Y2QG2TJ7WO",
+    "title": "Unemployment Rate by Education",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xg79Pe",
+    "description": "Unemployment Rate by Education\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "R1AC4SL54X",
+    "title": "Unemployment Rate by Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MFVDrR",
+    "description": "Unemployment Rate by Industry\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "A1NMJJZ7QP",
+    "title": "US Employment to PoP (overall)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ehUxy4",
+    "description": "US Employment to PoP (overall)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LSWHIRKG60",
+    "title": "US Employment to PoP (Gender)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zs4bKx",
+    "description": "US Employment to PoP (Gender)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "K6UQMZSR73",
+    "title": "Employment Population Ratio by Race",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZmblzB",
+    "description": "Employment Population Ratio by Race\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LN1APKIC0D",
+    "title": "US Labor Force participation Rate and Employ to P0P",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zjcP3c",
+    "description": "US Labor Force participation Rate and Employ to P0P\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WQMEZ6RGIJ",
+    "title": "Employment to Population Ratio (by gender)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d6pTqz",
+    "description": "Employment to Population Ratio (by gender)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VXQXW708RT",
+    "title": "Civilian Employment by Education",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZlwLgk",
+    "description": "Civilian Employment by Education\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WJNJPUV0XE",
+    "title": "Not in Labor Force (noncovid)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TqmewP",
+    "description": "Not in Labor Force (noncovid)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QWIWSIWO9M",
+    "title": "US LFPR (overall)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d34UVq",
+    "description": "US LFPR (overall)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "P1GEHGAPKM",
+    "title": "US LFPR (Gender)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MIT7AU",
+    "description": "US LFPR (Gender)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NCDBPGH08Z",
+    "title": "LFPR by Race",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4glEyks",
+    "description": "LFPR by Race\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FF65JEMBS9",
+    "title": "LFPR by Age",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zp8vtM",
+    "description": "LFPR by Age\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PYMJWZQLFH",
+    "title": "LFPR by Gender and Age",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MGWY1l",
+    "description": "LFPR by Gender and Age\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "N2VH21J1PK",
+    "title": "LFPR by Education",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eiS32u",
+    "description": "LFPR by Education\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WS1YAXDUVS",
+    "title": "Demographic composition of Labor Force",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZiTrhr",
+    "description": "Demographic composition of Labor Force\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RHBM91DMJ8",
+    "title": "Utilization: Marginally Attached workers (% of labor force)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d9IYrD",
+    "description": "Utilization: Marginally Attached workers (% of labor force)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KX0JQ7VVJH",
+    "title": "Utilization: Work part-time for economic reasons (% of labor force)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47risJ2",
+    "description": "Utilization: Work part-time for economic reasons (% of labor force)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VSOU7FNGRV",
+    "title": "Unable to Work Due to Covid: Employed",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ehaQeu",
+    "description": "Unable to Work Due to Covid: Employed\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4DG13NVL3W",
+    "title": "Household Survey vs Establishment Survey",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zjHwFn",
+    "description": "Household Survey vs Establishment Survey\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "F3X14YPGSL",
+    "title": "Adjusted Household Survey vs Establishment Survey",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47lCswR",
+    "description": "Adjusted Household Survey vs Establishment Survey\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "SURVX233H5",
+    "title": "MULTIPLE JOB HOLDERS- full time and part time",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dYM42V",
+    "description": "MULTIPLE JOB HOLDERS- full time and part time\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "AVVG575TEO",
+    "title": "MULTIPLE JOB HOLDERS all categories (MoM)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XGqPgM",
+    "description": "MULTIPLE JOB HOLDERS all categories (MoM)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GAP7YAQ22A",
+    "title": "Job Changes: March 2022 to Now  V2",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MP9xrn",
+    "description": "Job Changes: March 2022 to Now  V2\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GR7QNIBNG7",
+    "title": "US Employment Full Time and Part Time",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z4nZZG",
+    "description": "US Employment Full Time and Part Time\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8Q4VG3XG4U",
+    "title": "Non-agri self employed (level and MoM)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e0PEKb",
+    "description": "Non-agri self employed (level and MoM)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1G22MWG585",
+    "title": "All Employees: Leisure and Hospitality",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zgfjiN",
+    "description": "All Employees: Leisure and Hospitality\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "AZ392FDC0R",
+    "title": "All Employees: Transportation & Warehousing",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gmWX0c",
+    "description": "All Employees: Transportation & Warehousing\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LWG3JOE0P1",
+    "title": "All Employees: Education & Health Services",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47tdVGm",
+    "description": "All Employees: Education & Health Services\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UBV35C8XCR",
+    "title": "All Employees: Professional & Business Services",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ekf1X3",
+    "description": "All Employees: Professional & Business Services\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "1UPCGRHK62",
+    "title": "All Employees: Temporary Help",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZibkNl",
+    "description": "All Employees: Temporary Help\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "65XZECI3T1",
+    "title": "Job Losers",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XqSaSI",
+    "description": "Job Losers\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FQQLJ3P0EQ",
+    "title": "Job Losers (alt view)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zf18uq",
+    "description": "Job Losers (alt view)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "L666ODIV03",
+    "title": "Hiring Plans",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tp6PfW",
+    "description": "Hiring Plans\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JVDDTJKH2Q",
+    "title": "Confidence/Perception: Firms unable to fill job openings",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZjCfYX",
+    "description": "Confidence/Perception: Firms unable to fill job openings\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZQ4MW1XFH9",
+    "title": "CONSUMER CONFIDENCE FUTURE - series and differentials",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eEfXG3",
+    "description": "CONSUMER CONFIDENCE FUTURE - series and differentials\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IBGUYCKKVN",
+    "title": "Confidence/Perception: Private Quits Rate",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eijKsc",
+    "description": "Confidence/Perception: Private Quits Rate\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "XH9N18LRGX",
+    "title": "Job Quits Rate by Industry (SA)",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zkOqdx",
+    "description": "Job Quits Rate by Industry (SA)\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PLK3XQJX4M",
+    "title": "Employer Behavior: Announced Job Cuts (Challenger)",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZmzQwJ",
+    "description": "Employer Behavior: Announced Job Cuts (Challenger)\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FZLTEWE2ZG",
+    "title": "Workers Leaving Their Job as a % of Unemployment",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gquHtx",
+    "description": "Workers Leaving Their Job as a % of Unemployment\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JT4WSXO4H6",
+    "title": "US JOLTS Private Quit Rate by Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4elK58C",
+    "description": "US JOLTS Private Quit Rate by Industry\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZW0QSUUI2I",
+    "title": "Vacancy Yield",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zqu5y3",
+    "description": "Vacancy Yield\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "P3KJEF39T1",
+    "title": "Conference Board: Consumer Confidence in 6M Income",
+    "labels": [
+      "US",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MJK96A",
+    "description": "Conference Board: Consumer Confidence in 6M Income\nLabels: US, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JTR1UZUF2Q",
+    "title": "NY Fed: ConExpSurv: 1Y ahead earnings growth exp by AGE",
+    "labels": [
+      "US",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ziKk5O",
+    "description": "NY Fed: ConExpSurv: 1Y ahead earnings growth exp by AGE\nLabels: US, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PEF6ZJ3TV7",
+    "title": "NY Fed: ConExpSurv: 1Y ahead earnings growth exp by Education",
+    "labels": [
+      "US",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MJazoU",
+    "description": "NY Fed: ConExpSurv: 1Y ahead earnings growth exp by Education\nLabels: US, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5WVJ5N3L1I",
+    "title": "NY Fed: ConExpSurv: 1Y ahead earnings growth exp by Income",
+    "labels": [
+      "US",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e2nGxq",
+    "description": "NY Fed: ConExpSurv: 1Y ahead earnings growth exp by Income\nLabels: US, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IC54GS6O7A",
+    "title": "NY Fed: ConExpSurv: Losing Job 12M exp by age by education",
+    "labels": [
+      "US",
+      "Labor",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4egh524",
+    "description": "NY Fed: ConExpSurv: Losing Job 12M exp by age by education\nLabels: US, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8NWPT6IFMH",
+    "title": "NY Fed: ConExpSurv: Leaving Job 12M exp by age by education by income",
+    "labels": [
+      "US",
+      "Labor",
+      "Consumer",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eiUEcM",
+    "description": "NY Fed: ConExpSurv: Leaving Job 12M exp by age by education by income\nLabels: US, Labor, Consumer",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QYPUB2HBOS",
+    "title": "NY Fed: ConExpSurv: Finding Job in next 3M exp by age by education by income",
+    "labels": [
+      "US",
+      "Labor",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47rxQoM",
+    "description": "NY Fed: ConExpSurv: Finding Job in next 3M exp by age by education by income\nLabels: US, Labor, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RR36VMFLC7",
+    "title": "NY Fed: ConExpSurv: Unemployment 1Y exp by age by education by income",
+    "labels": [
+      "US",
+      "Labor",
+      "Consumer",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47tG287",
+    "description": "NY Fed: ConExpSurv: Unemployment 1Y exp by age by education by income\nLabels: US, Labor, Consumer, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4IWM0C3NZM",
+    "title": "Employer Behavior: Payroll Employment (CES) v2",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XnilK7",
+    "description": "Employer Behavior: Payroll Employment (CES) v2\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9SNXQH4SKM",
+    "title": "The Conference Board Employment Trend Index vs Total Nonfarm Employment",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TsqDPT",
+    "description": "The Conference Board Employment Trend Index vs Total Nonfarm Employment\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WMXHNZ9AMO",
+    "title": "Nonfarm by Industries (dynamic date)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gqybw7",
+    "description": "Nonfarm by Industries (dynamic date)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NYXD8N4F37",
+    "title": "US Nonfarm by Cyclical vs Non-Cyclical",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47sa1gY",
+    "description": "US Nonfarm by Cyclical vs Non-Cyclical\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZGIBGU8ST0",
+    "title": "Employer Behavior: Private Job Opening Rate (JOLTS)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zjHUno",
+    "description": "Employer Behavior: Private Job Opening Rate (JOLTS)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DO1H4EHVLM",
+    "title": "Employer Behavior: Private Hires Rate",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZjJVdJ",
+    "description": "Employer Behavior: Private Hires Rate\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FIZ4O4A37K",
+    "title": "NFIB Survey Single Most Important Problem",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dZ20SN",
+    "description": "NFIB Survey Single Most Important Problem\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5VJYFLD8RW",
+    "title": "Philly Fed: MBOS: Number of employees and Future",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Manufacturing",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XrUTeG",
+    "description": "Philly Fed: MBOS: Number of employees and Future\nLabels: US, Labor, Confidence, Manufacturing",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D3JV0KCYQK",
+    "title": "Dallas Fed Manufacturing Outlook Survey",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Manufacturing",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eo1oX0",
+    "description": "Dallas Fed Manufacturing Outlook Survey\nLabels: US, Labor, Confidence, Manufacturing",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "6TWC6BJTX1",
+    "title": "Dallas Fed Service Outlook Survey",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zhKyKf",
+    "description": "Dallas Fed Service Outlook Survey\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DDYJTBFBTV",
+    "title": "NY Fed Business Leaders Survey: Employment",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XvPlA6",
+    "description": "NY Fed Business Leaders Survey: Employment\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "PKWSU78DUN",
+    "title": "Flows: Initial Claim (% of labour force) (UI)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gr6Ry3",
+    "description": "Flows: Initial Claim (% of labour force) (UI)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QF3HHY6HR8",
+    "title": "Initial Jobless Claims - US",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZhwDyx",
+    "description": "Initial Jobless Claims - US\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZWVTVXRZ3O",
+    "title": "US 4wma of Initial Jobless Claims sliced at 10Y-2Y inversion start dates",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TrIyG5",
+    "description": "US 4wma of Initial Jobless Claims sliced at 10Y-2Y inversion start dates\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IC39ULSKE5",
+    "title": "4wma of Initial Jobless Claims as a % of Labor Force slice at 10Y-2Y inversion start dates",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zkXHST",
+    "description": "4wma of Initial Jobless Claims as a % of Labor Force slice at 10Y-2Y inversion start dates\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "F02UJ479A4",
+    "title": "US WARN Factor",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4cYZmLK",
+    "description": "US WARN Factor\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7D29LXW2OQ",
+    "title": "Flows: Job Finding Rate (CPS)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TrJLgB",
+    "description": "Flows: Job Finding Rate (CPS)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3O598DYFKL",
+    "title": "Monthly Change in Total Nonfarm Employment (in millions)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MHvKaP",
+    "description": "Monthly Change in Total Nonfarm Employment (in millions)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "V2DF0SSJC5",
+    "title": "Job Gains Since February 2020",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zpA4sf",
+    "description": "Job Gains Since February 2020\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "5WATIJJFBG",
+    "title": "Month over Month Jobs Created or Lost by Wages Level (000's) since Feb 2020",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4epiN1v",
+    "description": "Month over Month Jobs Created or Lost by Wages Level (000's) since Feb 2020\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MHF7YNID39",
+    "title": "Ratio of Job Openings to Unemployed",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zhdYbq",
+    "description": "Ratio of Job Openings to Unemployed\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "UFG68JN1A6",
+    "title": "Overview of JOLTS: Total Nonfarm (SA)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gq0dI2",
+    "description": "Overview of JOLTS: Total Nonfarm (SA)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DZJAN754UH",
+    "title": "Job Openings: JOLTs, Indeed, UBS",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zkhbXR",
+    "description": "Job Openings: JOLTs, Indeed, UBS\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2CO8DF1P6J",
+    "title": "Excess Unemployed Over Job Openings",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tr3HQM",
+    "description": "Excess Unemployed Over Job Openings\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MUHUYQ4B2T",
+    "title": "Unemployment and Vacancies by Industry (MoM)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gqdFM8",
+    "description": "Unemployment and Vacancies by Industry (MoM)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "B8Q3LPXMA0",
+    "title": "Job Openings by Industry (SA)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZoCOAS",
+    "description": "Job Openings by Industry (SA)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DUKIZBT9LS",
+    "title": "Job Openings by Industry (SA) bar chart v2",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z4INAg",
+    "description": "Job Openings by Industry (SA) bar chart v2\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IPA9MIL75X",
+    "title": "Ratio Job Opening to Hires by Industry (SA)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B5Qiri",
+    "description": "Ratio Job Opening to Hires by Industry (SA)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "AUKUEJP9VP",
+    "title": "JOLTS Job Openings (total private): by total private employee size v2",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZmFZJq",
+    "description": "JOLTS Job Openings (total private): by total private employee size v2\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "YRULJBJQXT",
+    "title": "Jobs and Workers: US Overall Ratio",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3N3P6aF",
+    "description": "Jobs and Workers: US Overall Ratio\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QYAS0R3GV2",
+    "title": "Beveridge Curve",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47nenpi",
+    "description": "Beveridge Curve\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "VMOJW6AMFE",
+    "title": "US Real AHE (1982-1984) YoY SA",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B5RL0M",
+    "description": "US Real AHE (1982-1984) YoY SA\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WEOJQOPRUL",
+    "title": "Wages/Compensation: Average Hourly Earnings growth",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AZlubv",
+    "description": "Wages/Compensation: Average Hourly Earnings growth\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LLTP79N4BR",
+    "title": "Wages/Compensation: Average Hourly Earnings growth  (Goods vs Services)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zix9ML",
+    "description": "Wages/Compensation: Average Hourly Earnings growth  (Goods vs Services)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9ZCCZ4G0SL",
+    "title": "Monthly % Change of Average Hourly Earnings",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XCQzdT",
+    "description": "Monthly % Change of Average Hourly Earnings\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "81BCK2TALX",
+    "title": "Average Hours Worked Per Week",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d6YzZb",
+    "description": "Average Hours Worked Per Week\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KE9X6R1NR8",
+    "title": "Overtime Hours Per Week",
+    "labels": [
+      "US",
+      "Labor",
+      "Manufacturing",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d34WN8",
+    "description": "Overtime Hours Per Week\nLabels: US, Labor, Manufacturing",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MX0HXTCS0T",
+    "title": "People Missing Work due to Bad Weather (in millions)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4goYvHa",
+    "description": "People Missing Work due to Bad Weather (in millions)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QS3U4F1FG5",
+    "title": "Average hourly earnings of employees in private industries: MoM% & YoY%",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zk7wjX",
+    "description": "Average hourly earnings of employees in private industries: MoM% & YoY%\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KFMDVNSCZ0",
+    "title": "US Average Weekly Hours of Production and Nonsupervisory Employees",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xnskz5",
+    "description": "US Average Weekly Hours of Production and Nonsupervisory Employees\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "K64P2SF2O7",
+    "title": "US Average Weekly Hours of Production and Nonsupervisory Employees by Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e1dzcr",
+    "description": "US Average Weekly Hours of Production and Nonsupervisory Employees by Industry\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "BGW95H8IU7",
+    "title": "Wage growth measures",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZolOee",
+    "description": "Wage growth measures\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3HPFX3DPLG",
+    "title": "Atlanta Fed Wage Tracker Measures",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AZnfFD",
+    "description": "Atlanta Fed Wage Tracker Measures\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "83FTP0RPEM",
+    "title": "ATLANTA FED WAGE GROWTH TRACKER - skill, age, hourly, switcher",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e6ny0c",
+    "description": "ATLANTA FED WAGE GROWTH TRACKER - skill, age, hourly, switcher\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "WE49UKWMM6",
+    "title": "ATLANTA FED WAGE GROWTH TRACKER - skill, inudsty",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xrgu7f",
+    "description": "ATLANTA FED WAGE GROWTH TRACKER - skill, inudsty\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZRA1LUTCXF",
+    "title": "Employment Cost Index",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AZnHDP",
+    "description": "Employment Cost Index\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4FGBRQ2YLI",
+    "title": "ECI - Private Industries - Total Compensation",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Zn7X7C",
+    "description": "ECI - Private Industries - Total Compensation\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "HCD3K51D6I",
+    "title": "ECI - Private Industries - Wages and Salaries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XDSdMl",
+    "description": "ECI - Private Industries - Wages and Salaries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9QWZ24HKLN",
+    "title": "Labour Market: Categories to see which ones lead",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MOdzAg",
+    "description": "Labour Market: Categories to see which ones lead\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "65L2B6DGF4",
+    "title": "Labour Market Overview and Category TS (Utilization)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XhOpPm",
+    "description": "Labour Market Overview and Category TS (Utilization)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KLOF185BUN",
+    "title": "Labour Market Overview and Category TS (Employer Behaviour)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TqpVCo",
+    "description": "Labour Market Overview and Category TS (Employer Behaviour)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "45TGCQ7QDV",
+    "title": "Labour Market Overview and Category TS (Confidence/Perceptions)",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MQBMpD",
+    "description": "Labour Market Overview and Category TS (Confidence/Perceptions)\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D178Z0HHFF",
+    "title": "Labour Market Overview and Category TS (Flows and Wages/Compensation)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47uDR4q",
+    "description": "Labour Market Overview and Category TS (Flows and Wages/Compensation)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4DYHAU4WX7",
+    "title": "Kansas City Fed Labor Market Condition Index vs Overall Labor Market Percentile Score",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47pzCqA",
+    "description": "Kansas City Fed Labor Market Condition Index vs Overall Labor Market Percentile Score\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "AQV9H0UN97",
+    "title": "Confidence/Perception: Private Quits Rate vs Wages",
+    "labels": [
+      "US",
+      "Labor",
+      "Confidence",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dYzJMv",
+    "description": "Confidence/Perception: Private Quits Rate vs Wages\nLabels: US, Labor, Confidence",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "4F21TUW5YE",
+    "title": "Not in labor force (retirees)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MOgXes",
+    "description": "Not in labor force (retirees)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D088BJ9IGC",
+    "title": "Household Survey vs Establishment Survey vs Southwest border crossing",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47pcQ2e",
+    "description": "Household Survey vs Establishment Survey vs Southwest border crossing\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KY4RUTUQOX",
+    "title": "SAHM rule",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tx4cZF",
+    "description": "SAHM rule\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D419BZKBC0",
+    "title": "NFIB: Openings For Skilled Workers vs Unskilled Workers",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Xk0dRk",
+    "description": "NFIB: Openings For Skilled Workers vs Unskilled Workers\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "Q1HP9CTNVF",
+    "title": "US Nonfarm Payroll by Industry as a % of total NFP  (Level 4 plus Govt)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XJGeg8",
+    "description": "US Nonfarm Payroll by Industry as a % of total NFP  (Level 4 plus Govt)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "68CXNX5ZYS",
+    "title": "US NFP employed detail: trade,trans,utilities + Edu,HealthCSocial + Govt + Pro&Bus Services (lv5/6)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B7kDpq",
+    "description": "US NFP employed detail: trade,trans,utilities + Edu,HealthCSocial + Govt + Pro&Bus Services (lv5/6)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "LNSWI23EAH",
+    "title": "US NFP employed detail: LeiHospitality, Mfg Dur/non, Financial activities (lv5/6)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e7NfNW",
+    "description": "US NFP employed detail: LeiHospitality, Mfg Dur/non, Financial activities (lv5/6)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ML1UMHW75C",
+    "title": "US NFP employed detail: Construction, Other Services, Info, Natural Resources&Mining (lv5/6)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ehV2J7",
+    "description": "US NFP employed detail: Construction, Other Services, Info, Natural Resources&Mining (lv5/6)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FWUJLE3VB8",
+    "title": "US GDP by Industry as % of All Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4eoxDFe",
+    "description": "US GDP by Industry as % of All Industry\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "93BVKASO9G",
+    "title": "US Unemployed by Industries Top contributing to GDP",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gm3wAf",
+    "description": "US Unemployed by Industries Top contributing to GDP\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9CL1AC6PRH",
+    "title": "US nonfarm payrolls top GDP contributing industries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MHeYJb",
+    "description": "US nonfarm payrolls top GDP contributing industries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9EX0XKGG22",
+    "title": "US Wages by Top Contributing GDP Industries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4enIhfG",
+    "description": "US Wages by Top Contributing GDP Industries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "KN63L5NAN9",
+    "title": "US Wages by Top Contributing GDP Industries MoM 4 panel",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gqt9jq",
+    "description": "US Wages by Top Contributing GDP Industries MoM 4 panel\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RF50UCYCK3",
+    "title": "US Wages by Top Contributing GDP Industries MoM 4 panel (part 2)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zgS7B4",
+    "description": "US Wages by Top Contributing GDP Industries MoM 4 panel (part 2)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "JAJLQK7DFU",
+    "title": "US nonfarm payrolls top GDP contributing industries 3mma MoM",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dbAGj8",
+    "description": "US nonfarm payrolls top GDP contributing industries 3mma MoM\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8Z20WY6MCX",
+    "title": "US nonfarm payrolls top GDP contributing industries 3mma MoM (Recent view)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gqhYHf",
+    "description": "US nonfarm payrolls top GDP contributing industries 3mma MoM (Recent view)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7ZG4A3BJZT",
+    "title": "US Average Weekly Hours by Top Contributing GDP Industries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TuUDKH",
+    "description": "US Average Weekly Hours by Top Contributing GDP Industries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EG2L8W90AW",
+    "title": "US Average Weekly Hours by Top Contributing GDP Industries (4pane)",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MJbTbh",
+    "description": "US Average Weekly Hours by Top Contributing GDP Industries (4pane)\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QW12Y6147Q",
+    "title": "US JOLTS Job Openings by Top Contributing GDP Industries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4dYZAnp",
+    "description": "US JOLTS Job Openings by Top Contributing GDP Industries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TCI1L9SDXM",
+    "title": "US JOLTS Job Hires by Top Contributing GDP Industries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZiENGW",
+    "description": "US JOLTS Job Hires by Top Contributing GDP Industries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "7FLUUKFQ8Q",
+    "title": "US JOLTS Job Quits by Top Contributing GDP Industries",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4e7Rh92",
+    "description": "US JOLTS Job Quits by Top Contributing GDP Industries\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "XMR6IWHKOR",
+    "title": "US GDP by States as % of Total",
+    "labels": [
+      "US",
+      "Growth",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zeXmBh",
+    "description": "US GDP by States as % of Total\nLabels: US, Growth",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "3KDS4CJ3GV",
+    "title": "US nonfarm payrolls top GDP contributing industries California",
+    "labels": [
+      "US",
+      "Growth",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3Tt1c0C",
+    "description": "US nonfarm payrolls top GDP contributing industries California\nLabels: US, Growth",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QJ5GGMGBJ1",
+    "title": "US California BLS Employed by Top GDP Contributing Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4grz4V8",
+    "description": "US California BLS Employed by Top GDP Contributing Industry\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "T3PW5GFFTX",
+    "title": "US California BLS Employed by Top GDP Contributing Industry MoM Change",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B4bj5A",
+    "description": "US California BLS Employed by Top GDP Contributing Industry MoM Change\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "RW4N8Z6YRQ",
+    "title": "US California BLS Employed by Top GDP Contributing Industry Wages AHE MoM panels",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4ek3F5i",
+    "description": "US California BLS Employed by Top GDP Contributing Industry Wages AHE MoM panels\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "H47JQCGTG3",
+    "title": "US California BLS Employed by Top GDP Contributing Industry Wages AHE MoM YoY",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4enKNlT",
+    "description": "US California BLS Employed by Top GDP Contributing Industry Wages AHE MoM YoY\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "A33VTGX7R8",
+    "title": "US California BLS Employed by Top GDP Contributing Industry Average Weekly Hours",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B6QhTR",
+    "description": "US California BLS Employed by Top GDP Contributing Industry Average Weekly Hours\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "MNGYZEK4BV",
+    "title": "US nonfarm payrolls top GDP contributing industries Texas",
+    "labels": [
+      "US",
+      "Growth",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d5cNK0",
+    "description": "US nonfarm payrolls top GDP contributing industries Texas\nLabels: US, Growth",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2SJYB6KJKG",
+    "title": "c) US Texas BLS Employed by Top GDP Contributing Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TpJ47C",
+    "description": "c) US Texas BLS Employed by Top GDP Contributing Industry\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9TETEMBICF",
+    "title": "c) US Texas BLS Employed by Top GDP Contributing Industry 3mma MoM",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47tRYXK",
+    "description": "c) US Texas BLS Employed by Top GDP Contributing Industry 3mma MoM\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "76EKS8PFUR",
+    "title": "c) US Texas BLS Employed by Top GDP Contributing Industry Wages AHE MoM panel",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XSZR5T",
+    "description": "c) US Texas BLS Employed by Top GDP Contributing Industry Wages AHE MoM panel\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FCRBZ0RKTU",
+    "title": "c) US Texas BLS Employed by Top GDP Contributing Industry Wages AHE MoM YoY",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3ZoiAY7",
+    "description": "c) US Texas BLS Employed by Top GDP Contributing Industry Wages AHE MoM YoY\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "8552BIXXI6",
+    "title": "c) US Texas BLS Employed by Top GDP Contributing Industry Average Weekly Hours",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gkSKtT",
+    "description": "c) US Texas BLS Employed by Top GDP Contributing Industry Average Weekly Hours\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "FHKF4NI1JJ",
+    "title": "US nonfarm payrolls top GDP contributing industries New York",
+    "labels": [
+      "US",
+      "Growth",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gsec03",
+    "description": "US nonfarm payrolls top GDP contributing industries New York\nLabels: US, Growth",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "I48AC3CJTH",
+    "title": "d) US New York BLS Employed by Top GDP Contributing Industry",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B2tzfL",
+    "description": "d) US New York BLS Employed by Top GDP Contributing Industry\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "IC0ABNKRNW",
+    "title": "c) US New York BLS Employed by Top GDP Contributing Industry Wages AHE MoM panel",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TuKwFX",
+    "description": "c) US New York BLS Employed by Top GDP Contributing Industry Wages AHE MoM panel\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "N48B5RTTVK",
+    "title": "c) US New York BLS Employed by Top GDP Contributing Industry Wages AHE MoM YoY",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/47qqphH",
+    "description": "c) US New York BLS Employed by Top GDP Contributing Industry Wages AHE MoM YoY\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "NIQADBHNTX",
+    "title": "c) US New York BLS Employed by Top GDP Contributing Industry Average Weekly Hours",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3B2xdWJ",
+    "description": "c) US New York BLS Employed by Top GDP Contributing Industry Average Weekly Hours\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "TXTTBQPWWO",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Health Care And Social Assistance",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4d5rMnd",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Health Care And Social Assistance\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "GQXQZVGS3U",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Finance And Insurance",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3XI2MOr",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Finance And Insurance\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "D739937QT4",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Leisure & Hospitality",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3MIeRwG",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Leisure & Hospitality\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "EVUYKO2BZT",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Professional and Technical Services",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3z7QOV7",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Professional and Technical Services\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "2PAZNFS66M",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Transportation, Warehousing, & Utilities",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zUAFlD",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Transportation, Warehousing, & Utilities\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "DDXZC12P2N",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Utilities",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3AWDZgD",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Utilities\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "ZA6UWNWYYX",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Real Estate & Rental & Leasing",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/4gAeuSS",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Real Estate & Rental & Leasing\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QURC0LDVR7",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Retail Trade",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3A6t3MY",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Retail Trade\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "9VUP4E2UZU",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Manufacturing",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3zmD7l5",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Manufacturing\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "86IYTZVU4H",
+    "title": "f) Nonfarm Payroll by Recession for Industry: Construction",
+    "labels": [
+      "US",
+      "Labor",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3TRhTmD",
+    "description": "f) Nonfarm Payroll by Recession for Industry: Construction\nLabels: US, Labor",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "CKSDG1IUBW",
+    "title": "Global Manufacturing Tracker",
+    "labels": [
+      "Global",
+      "PMI",
+      "Workspace",
+      "Production"
+    ],
+    "kind": "remote_img",
+    "src": "https://refini.tv/3YYS85x",
+    "description": "Global Manufacturing Tracker\nLabels: Global, PMI",
+    "status": "Production",
+    "source": "Workspace"
+  },
+  {
+    "id": "QX6LRNL2WL",
+    "title": "EM Debt Flow",
+    "labels": [
+      "FI",
+      "EM",
+      "Capital Flows",
+      "TDAM",
+      "Test"
+    ],
+    "kind": "local_png",
+    "src": "panel-charts/page_9_exhibit_6.png",
+    "description": "EM debt flow in portfolio investment",
+    "status": "Test",
+    "source": "TDAM"
+  },
+  {
+    "id": "JTGKY2LVLV",
+    "title": "EM Equity Flow",
+    "labels": [
+      "Equity",
+      "EM",
+      "Capital Flows",
+      "TDAM",
+      "Test"
+    ],
+    "kind": "local_png",
+    "src": "panel-charts/page_9_exhibit_5.png",
+    "description": "EM equity flow in portfolio investment",
+    "status": "Test",
+    "source": "TDAM"
+  },
+  {
+    "id": "YTTO3JEOG1",
+    "title": "Major economies GDP forecast",
+    "labels": [
+      "Growth",
+      "Global",
+      "GS",
+      "Test"
+    ],
+    "kind": "local_png",
+    "src": "panel-charts/page_5_exhibit_1.png",
+    "description": "Major economies GDP forecast",
+    "status": "Test",
+    "source": "GS"
+  },
+  {
+    "id": "TRPJZ172IL",
+    "title": "EM assets total return decomposition",
+    "labels": [
+      "Performance",
+      "EM",
+      "GS",
+      "Test"
+    ],
+    "kind": "local_png",
+    "src": "panel-charts/page_7_exhibit_3.png",
+    "description": "EM assets total return decomposition",
+    "status": "Test",
+    "source": "GS"
+  },
+  {
+    "id": "609EGH02GF",
+    "title": "EM assets valuation metrics",
+    "labels": [
+      "Valuations",
+      "EM",
+      "GS",
+      "Test"
+    ],
+    "kind": "local_png",
+    "src": "panel-charts/page_7_exhibit_4.png",
+    "description": "EM assets valuation metrics",
+    "status": "Test",
+    "source": "GS"
+  }
+]

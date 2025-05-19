@@ -1,0 +1,113 @@
+[
+  {
+    "name": "Assets",
+    "labels": [
+      "Alts",
+      "Commodity",
+      "Consumer Discretionary",
+      "Consumer Staples",
+      "Cyclical",
+      "Defensive",
+      "Energy",
+      "Equity",
+      "FI",
+      "Financial",
+      "FX",
+      "Health Care",
+      "HY",
+      "IG",
+      "Industrial",
+      "Large Cap",
+      "Materials",
+      "Mid/Small Cap",
+      "Real Estate",
+      "Tech",
+      "Telecom",
+      "Treasury",
+      "Utilities"
+    ]
+  },
+  {
+    "name": "Country",
+    "labels": [
+      "Australia",
+      "Brazil",
+      "Canada",
+      "China",
+      "France",
+      "Germany",
+      "India",
+      "Indonesia",
+      "Italy",
+      "Japan",
+      "Mexico",
+      "South Korea",
+      "Spain",
+      "UK",
+      "US"
+    ]
+  },
+  {
+    "name": "Region",
+    "labels": [
+      "Asia",
+      "EM",
+      "Europe",
+      "Global",
+      "Latam"
+    ]
+  },
+  {
+    "name": "Topics",
+    "labels": [
+      "Banking",
+      "Capital Flows",
+      "Confidence",
+      "Consumer",
+      "Corporate Debt",
+      "Credit",
+      "Demographics",
+      "Earnings",
+      "Fiscal Policy",
+      "Fund Flows",
+      "Government Debt",
+      "Growth",
+      "Household Debt",
+      "Housing Market",
+      "Inflation",
+      "Labor",
+      "Liquidity",
+      "Manufacturing",
+      "Market Signal",
+      "Model",
+      "Monetary Policy",
+      "Performance",
+      "PMI",
+      "Politics",
+      "Positioning",
+      "Private Investments",
+      "Regime",
+      "Risk",
+      "Savings",
+      "Supply Chain",
+      "Technical",
+      "Trade",
+      "Valuations"
+    ]
+  },
+  {
+    "name": "Source",
+    "labels": [
+      "GS",
+      "TDAM",
+      "Workspace"
+    ]
+  },
+  {
+    "name": "Status",
+    "labels": [
+      "Production",
+      "Test"
+    ]
+  }
+]

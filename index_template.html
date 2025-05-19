@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Research & Strategy Team Dashboard</title>
+<style>
+/* Base styles inspired by reference site */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #F9FAFB; /* light gray background */
+  margin: 0;
+  padding: 0;
+  color: #111827; /* dark gray text */
+}
+
+/* Header styling - move buttons to topbar level */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background-color: white;
+  border-bottom: none;
+}
+
+.logo {
+  height: 32px;
+  margin-right: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Tabs container with action buttons */
+.tabs-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 0 2rem;
+  height: 40px; /* Same height as tabs */
+}
+
+/* Tabs styling - updated to match image */
+.tabs {
+  display: flex;
+  margin-left: 0; /* Align to left */
+}
+
+.tabs button {
+  height: 40px;
+  border: none;
+  background: transparent;
+  padding: 0 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #6B7280; /* gray-500 for inactive */
+  transition: color 0.2s, border-bottom 0.2s;
+  margin-right: 8px;
+  border-bottom: 2px solid transparent;
+}
+
+.tabs button.active {
+  color: #111827; /* Dark text for active tab */
+  border-bottom: 2px solid #111827; /* Dark underline */
+  font-weight: 600;
+}
+
+/* Main content layout */
+main {
+  display: flex;
+  height: calc(100vh - 65px); /* Full height minus header */
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 200px; /* Narrower sidebar (reduced from 240px) */
+  background-color: #F9FAFB;
+  overflow-y: auto;
+  padding: 1rem;
+  border-right: 1px solid #E5E7EB;
+}
+
+.cat {
+  margin-bottom: 0.5rem;
+}
+
+.cat-hdr {
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827; /* Darker category header */
+  margin-bottom: 0.125rem;
+  border-radius: 4px; /* Slightly rounded */
+}
+
+.cat-hdr:hover {
+  background-color: #F3F4F6; /* gray-100 hover */
+}
+
+.category-title-row {
+  display: flex;
+  align-items: center;
+}
+
+/* Chevron styled */
+.chevron {
+  display: inline-flex;
+  width: 14px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #374151; /* gray-700 */
+  transition: transform 0.2s;
+  font-family: sans-serif;
+}
+
+.chevron-expanded {
+  transform: rotate(90deg);
+}
+
+.cat-body {
+  padding-left: calc(1.5rem + 8px); /* Indent past chevron */
+  margin-bottom: 0.75rem;
+}
+
+.cat-body label {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.2rem 0;
+  margin-left: 0;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.cat-body label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+  margin-left: 0;
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.select-all-label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+/* Improved checkbox and label styling for consistency */
+input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  flex-shrink: 0 !important;
+  margin: 0 8px 0 0 !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  vertical-align: top !important;
+  box-sizing: border-box !important;
+  appearance: checkbox !important;
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+}
+
+/* Consistent label styling */
+.cat-body label,
+.select-all-label,
+.label-with-count {
+  display: flex !important;
+  align-items: flex-start !important; 
+  padding: 4px 0 !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.2 !important;
+  font-size: 0.875rem !important;
+  color: #374151 !important;
+}
+
+/* Handle wrapping for long label text */
+.label-text {
+  display: inline-block !important;
+  line-height: 1.2 !important;
+  padding-top: 1px !important;
+}
+
+/* Container for label and checkbox */
+.label-with-count > div {
+  display: flex !important;
+  align-items: flex-start !important;
+  flex: 1 !important;
+}
+
+/* Label count styling */
+.label-count {
+  color: #6B7280 !important;
+  font-size: 0.875rem !important;
+  margin-left: 8px !important;
+  flex-shrink: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Chart grid area */
+.grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px; /* Further reduced padding (from 16px) */
+  background-color: #F9FAFB;
+}
+
+/* Chart card styling */
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden; /* Crucial for containing children */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+  display: flex;
+  flex-direction: column;
+  cursor: pointer; 
+  position: relative; /* For absolute positioning of checkbox */
+}
+
+/* Card image container */
+.card-image {
+  width: 100%;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Specific styling for local images to ensure proper sizing */
+.card-image img[src^="panel-charts/"] {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Ensure img/iframe fill the container correctly */
+.card-image img, .card-image iframe {
+  display: block; 
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: none;
+  overflow: hidden;
+}
+
+/* Card labels styling */
+.card-labels {
+  padding: 0.5rem 1rem; /* Consistent padding */
+  border-top: 1px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 0.75rem;
+  flex-shrink: 0; /* Prevent labels from shrinking */
+  background-color: white; /* Ensure background */
+}
+
+/* Loading indicator */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  font-size: 1rem;
+  color: #6B7280;
+}
+
+/* Grid layout for charts - 2 columns */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px; /* Further reduced gap (from 20px) */
+  width: 100%;
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 48px); /* Account for padding */
+    width: 100%;
+    color: #6B7280;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Style for empty tabs */
+.empty-tab {
+  width: 100%;
+  height: calc(100vh - 110px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-tab .empty-state {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+/* Modal styles for zoom */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 95vw;
+  max-height: 95vh;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.modal-overlay.visible .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #6B7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.5rem;
+}
+.modal-close:hover {
+    color: #111827;
+}
+
+.modal-image-container {
+  width: 100%;
+  height: calc(85vh - 4rem); /* Increased from 75vh to 85vh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.modal-image-container img, .modal-image-container iframe {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.modal-labels {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+/* Chart selection checkbox */
+.card {
+  position: relative; /* For absolute positioning of checkbox */
+}
+
+/* Move chart checkbox to top-left */
+.chart-checkbox-container {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.card:hover .chart-checkbox-container {
+  opacity: 1;
+}
+
+.chart-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Selected chart indicator */
+.card.selected {
+  box-shadow: 0 0 0 2px #4F46E5, 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Improve label count styling */
+.label-with-count {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.label-count {
+  color: #6B7280;
+  font-size: 0.875rem;
+  margin-left: 8px;
+  font-weight: normal;
+}
+
+/* Action buttons styling - move higher and fix icon */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: -10px; /* Move buttons 10px higher */
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem; /* rounded-md */
+  font-size: 0.75rem; /* Smaller font size */
+  font-weight: 500;
+  height: 30px; /* Smaller height */
+  padding: 0 0.75rem; /* Smaller padding */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  color: #374151;
+  transition: box-shadow 0.2s, background-color 0.2s;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: #F3F4F6;
+}
+
+.action-button svg {
+  margin-right: 0.25rem;
+  height: 14px; /* Fixed size for icons */
+  width: 14px;
+  display: inline-block; /* Ensure proper display */
+  vertical-align: middle; /* Better alignment */
+}
+
+/* Target tab styles */
+.target-tab {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background-color: #F9FAFB;
+}
+
+.target-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.allocation-tabs {
+  display: flex;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.allocation-tabs button {
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  color: #6B7280;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+.allocation-tabs button.active {
+  color: #111827;
+  border-bottom-color: #111827;
+  font-weight: 500;
+}
+
+.allocation-section, .time-series-section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.date-selector {
+  margin-bottom: 1.5rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.date-selector h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.date-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+select {
+  padding: 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.no-data-message {
+  text-align: center;
+  color: #6B7280;
+  margin: 2rem 0;
+  font-style: italic;
+}
+
+.allocation-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.line-container {
+  flex: 1;
+  position: relative;
+}
+
+.asset-label {
+  width: 120px;
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.9rem;
+}
+
+.asset-value {
+  width: 40px;
+  text-align: left;
+  padding-left: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.scale-markers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  color: #6B7280;
+}
+
+.line {
+  height: 3px;
+  background-color: #E5E7EB;
+  position: relative;
+  border-radius: 1.5px;
+}
+
+.marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border: 2px solid #111827;
+  border-radius: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chart-container {
+  height: 400px;
+  position: relative;
+}
+
+/* Add these styles for the date range picker */
+.date-range-picker {
+  margin-bottom: 1.5rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.date-range-picker h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.range-slider-container {
+  position: relative;
+  height: 30px;
+  padding: 0 10px;
+  margin-bottom: 1rem;
+}
+
+.range-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  background-color: #E5E7EB;
+  border-radius: 2px;
+}
+
+.range-selected {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  background-color: #3B82F6;
+  border-radius: 2px;
+}
+
+.range-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border: 2px solid #3B82F6;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.date-picker-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.date-picker {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-picker label {
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin-bottom: 0.25rem;
+}
+
+.date-input-group {
+  display: flex;
+}
+
+.date-input {
+  width: 50px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 3px;
+  text-align: center;
+  margin-right: 0.25rem;
+}
+
+.date-input-group select {
+  padding: 0.25rem 0.5rem;
+}
+
+.date-ticks {
+  position: relative;
+  height: 20px;
+  margin-top: 5px;
+}
+
+.date-tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: #6B7280;
+}
+
+/* Improve sub-asset styles for better alignment */
+.sub-asset-label {
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.85rem;
+  width: 120px; /* Same width as other asset labels */
+  padding-left: 0;
+  text-indent: 0;
+}
+
+.sub-asset-container {
+  position: relative;
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Position the sub-asset line to ensure center alignment */
+.sub-asset-line {
+  height: 3px;
+  background-color: #E5E7EB;
+  position: relative;
+  border-radius: 1.5px;
+  width: 100%;
+}
+
+/* Improved dropdown series selector */
+.series-dropdown {
+  position: relative;
+  width: 180px;
+  margin-top: 1rem;
+}
+
+.series-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.series-dropdown-toggle:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.series-dropdown-toggle span {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.series-dropdown-toggle span.active {
+  transform: rotate(180deg);
+}
+
+.series-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  width: 250px;
+  max-height: 300px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  display: none;
+}
+
+.series-dropdown-content.active {
+  display: block;
+}
+
+.series-options {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px; /* Add some padding to account for scrollbar */
+}
+
+.series-option {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.series-option:hover {
+  background-color: #F9FAFB;
+}
+
+.series-option input {
+  margin-right: 0.5rem;
+}
+
+.series-color-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+}
+
+.series-search {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.series-select-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.series-select-action {
+  font-size: 0.85rem;
+  color: #4F46E5;
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.series-select-action:hover {
+  background-color: #F3F4F6;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Date range section with series dropdown */
+.date-range-section {
+  margin-bottom: 1.5rem;
+}
+
+/* Move series dropdown into date selector */
+.date-selector {
+  margin-bottom: 1rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+/* Improved series dropdown */
+.series-dropdown {
+  margin-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+  padding-top: 1rem;
+}
+
+.series-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  width: 100%;
+}
+
+/* Consistent sub-asset line styling */
+.sub-asset-label {
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.85rem;
+  width: 120px; /* Same width as other asset labels */
+}
+
+/* Sub-asset line container to ensure alignment */
+.sub-asset-container {
+  position: relative;
+  width: calc(100% - 40px); /* 20px less on each side */
+  margin-left: 20px; /* Start 20px to the right */
+}
+
+/* Ensure scale markers are shown consistently */
+.sub-asset-scale-markers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  color: #6B7280;
+  position: relative;
+  padding: 0;
+  width: 100%;
+}
+
+/* Improved alignment for dropdown headers */
+.date-selector h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+/**
+ * Series Dropdown Component
+ * ------------------------
+ * Unified styling for the series selection dropdown 
+ * used in the Historical Allocation Targets section
+ */
+.series-dropdown {
+  position: relative;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.series-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  width: 100%;
+}
+
+.series-dropdown-toggle::after {
+  content: none; /* Remove default dropdown arrow */
+}
+
+.series-dropdown-toggle:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.series-dropdown-toggle span {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.series-dropdown-toggle span.active {
+  transform: rotate(180deg);
+}
+
+.series-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  width: 250px;
+  max-height: 300px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  display: none;
+}
+
+.series-dropdown-content.active {
+  display: block;
+}
+
+.series-options {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px; /* Add some padding to account for scrollbar */
+}
+
+.series-option {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.series-option:hover {
+  background-color: #F9FAFB;
+}
+
+.series-option input {
+  margin-right: 0.5rem;
+}
+
+.series-color-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+}
+
+.series-select-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.series-select-action {
+  font-size: 0.85rem;
+  color: #4F46E5;
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.series-select-action:hover {
+  background-color: #F3F4F6;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/**
+ * Date Selectors & Containers
+ * --------------------------
+ * Styling for date selection components
+ */
+.date-selector-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.date-inputs-row {
+  display: flex;
+  gap: 0.5rem; /* Reduce gap between start/end date */
+  margin-bottom: 0.5rem;
+}
+
+.date-input-column {
+  flex: 1;
+  max-width: 180px; /* Limit width to create a more compact layout */
+}
+</style>
+<script src="static_js/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <header>
+    <div class="topbar">
+      <div class="title-container">
+        <img src="assets/logo.png" class="logo" alt="Logo">
+        <h1 class="title">Research & Strategy Team Dashboard</h1>
+      </div>
+    </div>
+    
+    <div class="tabs-container">
+  <nav class="tabs">
+        <button :class="{active: currentTab==='Charts'}" @click="currentTab='Charts'">Charts</button>
+        <button :class="{active: currentTab==='Target'}" @click="currentTab='Target'">Target</button>
+        <button :class="{active: currentTab==='Backtest'}" @click="currentTab='Backtest'">Backtest</button>
+        <button :class="{active: currentTab==='X Query'}" @click="currentTab='X Query'">X Query</button>
+  </nav>
+      
+      <div class="action-buttons">
+        <button class="action-button" @click="resetSelection">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+          </svg>
+          Reset Selection<span v-if="selectedChartCount > 0"> ({{ selectedChartCount }})</span>
+        </button>
+        <button class="action-button" @click="downloadSelectedCharts">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" x2="12" y1="15" y2="3"></line>
+          </svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+</header>
+
+  <main>
+    <!-- Loading indicator -->
+    <div v-if="loading" class="loading-container">
+      <p>Loading...</p>
+    </div>
+
+    <!-- CHARTS TAB - Only visible when Charts tab is selected -->
+    <section v-else-if="currentTab==='Charts'" style="display:flex;width:100%;">
+    <!-- SIDEBAR: categories -->
+    <aside class="sidebar">
+      <div v-for="cat in categories" :key="cat.name" class="cat">
+        <div class="cat-hdr" @click="toggleCat(cat.name)">
+            <div class="category-title-row">
+              <span class="chevron" :class="{'chevron-expanded': openCat===cat.name}">&gt;</span>
+              <span>{{ cat.name }}</span>
+            </div>
+          </div>
+
+          <!-- Always keep this in the DOM but hide/show via CSS -->
+          <div :style="{display: openCat===cat.name ? 'block' : 'none'}" class="cat-body">
+            <!-- Select All checkbox -->
+            <label class="select-all-label">
+          <input type="checkbox"
+                 :checked="isCatFull(cat)"
+                 :indeterminate.prop="isCatPartial(cat)"
+                     @change="handleSelectAllToggle(cat)">
+              <span>Select All</span>
+            </label>
+
+            <!-- Individual label checkboxes -->
+            <label v-for="lbl in cat.labels" :key="lbl" class="label-with-count">
+              <div style="display: flex; align-items: flex-start;">
+            <input type="checkbox"
+                       :checked="selectedLabels[cat.name] && selectedLabels[cat.name].indexOf(lbl) !== -1"
+                       @change="toggleLabel(cat.name, lbl)">
+                <span class="label-text">{{ lbl }}</span>
+              </div>
+              <span class="label-count" v-if="getLabelSelectedCount(lbl) > 0">({{ getLabelSelectedCount(lbl) }})</span>
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- GRID -->
+    <section class="grid">
+        <div v-if="filteredCharts.length === 0" class="empty-state">
+           No charts selected. Choose labels to display charts.
+        </div>
+        <div v-else class="charts-grid">
+          <div class="card" 
+               v-for="ch in filteredCharts" 
+               :key="ch.id" 
+               :data-chart-id="ch.id"
+               :class="{selected: selectedCharts.includes(ch.id)}">
+            <div class="chart-checkbox-container" @click.stop>
+              <input type="checkbox" class="chart-checkbox" 
+                     :checked="selectedCharts.includes(ch.id)" 
+                     @change="toggleChartSelection(ch.id)">
+            </div>
+            <div class="card-image" @click="openModal(ch)">
+              <component 
+                :is="chartTag(ch)" 
+                :src="ch.src" 
+                loading="lazy"
+                v-bind="getChartSpecificAttributes(ch)"
+                @error="(e) => handleImageError(e, ch)">
+              </component>
+            </div>
+            <div class="card-labels">
+              Labels: {{ ch.labels.join(', ') }}
+            </div>
+          </div>
+      </div>
+    </section>
+  </section>
+
+    <!-- OTHER TABS - Only visible when respective tab is selected -->
+    <section v-else-if="currentTab==='Target'" class="target-tab">
+      <div class="target-container">
+        <!-- Tabs for different allocation areas -->
+        <div class="allocation-tabs">
+          <button 
+            v-for="tab in allocationTabs" 
+            :key="tab.id"
+            :class="{'active': currentAllocationTab === tab.id}"
+            @click="currentAllocationTab = tab.id">
+            {{ tab.name }}
+          </button>
+        </div>
+
+        <!-- Line Format View -->
+        <div class="allocation-section">
+          <h3>Current Allocation Targets</h3>
+          <div class="date-selector">
+            <h4>Select Date</h4>
+            <div class="date-input-group">
+              <select v-model="selectedMonth" @change="updateSelectedDate">
+                <option v-for="month in months" :key="month.value" :value="month.value">
+                  {{ month.label }}
+                </option>
+              </select>
+              <select v-model="selectedYear" @change="updateSelectedDate">
+                <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="allocation-lines">
+            <!-- All tabs including Equities-Region use the same format now -->
+            <div v-for="asset in currentAssets" :key="asset.name" class="allocation-line">
+              <div class="asset-label">{{ formatAssetName(asset.name) }}</div>
+              <div class="line-container">
+                <div class="scale-markers">
+                  <span>-10</span>
+                  <span>-5</span>
+                  <span>0</span>
+                  <span>+5</span>
+                  <span>+10</span>
+                </div>
+                <div class="line">
+                  <div class="marker" :style="{ left: calculateMarkerPosition(asset.value) + '%' }"></div>
+                </div>
+              </div>
+              <div class="asset-value">{{ Number(asset.value).toFixed(1) }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Time Series Chart -->
+        <div class="time-series-section">
+          <h3>Historical Allocation Targets</h3>
+          <div class="date-selector-container">
+            <!-- Create proper UI layout following UX best practices -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; max-width: 70%;">
+              <!-- Left column: Date Range -->
+              <div>
+                <h4 style="margin: 0 0 0.75rem 0; font-size: 0.9rem; color: #6B7280; font-weight: 600;">Select Date Range</h4>
+                <div style="display: flex; gap: 0.75rem;">
+                  <!-- Start Date -->
+                  <div style="flex: 1;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-size: 0.8rem; color: #6B7280;">Start Date</label>
+                    <div class="date-input-group" style="display: flex; gap: 0.25rem;">
+                      <select v-model="startMonth" @change="updateStartDate" style="flex: 1.2;">
+                        <option v-for="month in months" :key="month.value" :value="month.value">
+                          {{ month.label }}
+                        </option>
+                      </select>
+                      <select v-model="startYear" @change="updateStartDate" style="flex: 1;">
+                        <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <!-- End Date -->
+                  <div style="flex: 1;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-size: 0.8rem; color: #6B7280;">End Date</label>
+                    <div class="date-input-group" style="display: flex; gap: 0.25rem;">
+                      <select v-model="endMonth" @change="updateEndDate" style="flex: 1.2;">
+                        <option v-for="month in months" :key="month.value" :value="month.value">
+                          {{ month.label }}
+                        </option>
+                      </select>
+                      <select v-model="endYear" @change="updateEndDate" style="flex: 1;">
+                        <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Right column: Series Selection -->
+              <div>
+                <h4 style="margin: 0 0 0.75rem 0; font-size: 0.9rem; color: #6B7280; font-weight: 600;">Select Series</h4>
+                <div class="series-dropdown" style="width: 85%;">
+                  <div class="series-dropdown-toggle" @click="toggleSeriesDropdown" style="width: 100%;">
+                    <span>Series ({{ selectedSeries.length }}/{{ availableDatasets.length }})</span>
+                    <span :class="{'active': seriesDropdownOpen}" style="font-size: 0.8rem;">▼</span>
+                  </div>
+                  <div class="series-dropdown-content" :class="{'active': seriesDropdownOpen}" style="width: 200px;">
+                    <div class="series-select-actions">
+                      <button class="series-select-action" @click="selectAllSeries">Select All</button>
+                      <button class="series-select-action" @click="deselectAllSeries">Deselect All</button>
+                    </div>
+                    <div class="series-options">
+                      <div v-for="(dataset, index) in availableDatasets" :key="dataset.label" class="series-option">
+                        <input type="checkbox" 
+                               :id="'series-' + index" 
+                               v-model="selectedSeries"
+                               :value="dataset.label">
+                        <span class="series-color-indicator" :style="{ backgroundColor: dataset.borderColor }"></span>
+                        <label :for="'series-' + index">{{ dataset.label }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <canvas ref="timeSeriesChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section v-else-if="currentTab==='Backtest'" class="empty-tab">
+      <div class="empty-state">Changes are coming soon!</div>
+    </section>
+    <section v-else-if="currentTab==='X Query'" class="empty-tab">
+      <div class="empty-state">Changes are coming soon!</div>
+    </section>
+</main>
+
+  <!-- ZOOM MODAL -->
+  <div class="modal-overlay" :class="{visible: isModalVisible}" @click.self="closeModal">
+      <div class="modal-content" v-if="zoomedChart">
+        <button class="modal-close" @click="closeModal">&times;</button>
+        <div class="modal-image-container">
+             <component 
+                :is="chartTag(zoomedChart)" 
+                :src="zoomedChart.src"
+                v-bind="getChartSpecificAttributes(zoomedChart)">
+            </component>
+        </div>
+        <div class="modal-labels">
+            Labels: {{ zoomedChart.labels.join(', ') }}
+        </div>
+      </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+/* injected by build.py */
+const charts = [[ charts|safe ]];
+const categories = [[ cats|safe ]];
+const allocationData = [[ allocation|safe ]];
+
+/* Vue logic */
+new Vue({
+  el:'#app',
+  data:{
+    charts,
+    categories,
+    selectedLabels: {}, 
+    openCat: null,
+    tabs: ['Charts', 'Target', 'Backtest', 'X Query'],
+    currentTab: 'Charts',
+    loading: true,
+    _justToggledSelectAll: false, 
+    isModalVisible: false,      
+    zoomedChart: null,
+    selectedCharts: [],
+    
+    // Target tab data
+    allocationTabs: [
+      { id: 'Cross Assets', name: 'Cross Assets' },
+      { id: 'Equities-Region', name: 'Equity - Region' },
+      { id: 'Equities-Sector', name: 'Equity - Sector' },
+      { id: 'Bonds-Region', name: 'Bond - Region' },
+      { id: 'Bonds-Sector', name: 'Bond - Sector' },
+      { id: 'FX', name: 'FX' },
+      { id: 'Commodities', name: 'Commodities' }
+    ],
+    currentAllocationTab: 'Cross Assets',
+    allocationDates: [],
+    selectedAllocationDate: '',
+    timeSeriesStartDate: '',
+    timeSeriesEndDate: '',
+    currentAssets: [],
+    timeSeriesChart: null,
+    
+    // Add these properties for the date range picker
+    months: [
+      { label: 'Jan', value: '01' },
+      { label: 'Feb', value: '02' },
+      { label: 'Mar', value: '03' },
+      { label: 'Apr', value: '04' },
+      { label: 'May', value: '05' },
+      { label: 'Jun', value: '06' },
+      { label: 'Jul', value: '07' },
+      { label: 'Aug', value: '08' },
+      { label: 'Sep', value: '09' },
+      { label: 'Oct', value: '10' },
+      { label: 'Nov', value: '11' },
+      { label: 'Dec', value: '12' }
+    ],
+    years: [],
+    selectedMonth: '01',
+    selectedYear: 2024,
+    startMonth: '01',
+    startYear: 2024,
+    endMonth: '12',
+    endYear: 2024,
+    dragging: null,
+    dateTicks: [],
+    availableDatasets: [],
+    selectedSeries: [],
+    allSeriesSelected: true,
+    seriesDropdownOpen: false
+  },
+  mounted() {
+    this.categories.forEach(cat => {
+       this.$set(this.selectedLabels, cat.name, []);
+    });
+
+    // Start with all categories collapsed
+    this.openCat = null;
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 800);
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isModalVisible) {
+            this.closeModal();
+        }
+    });
+
+    // Initialize allocation data
+    this.initializeAllocationData();
+  },
+  computed:{
+    filteredCharts(){
+      const categoriesWithSelections = Object.keys(this.selectedLabels)
+        .filter(catName => this.selectedLabels[catName] && this.selectedLabels[catName].length > 0);
+
+      // If no labels selected, show all charts
+      if (categoriesWithSelections.length === 0) return this.charts;
+
+      // Filter charts where ALL selected category has AT LEAST ONE matching label
+      return this.charts.filter(chart => {
+        return categoriesWithSelections.every(catName => {
+          const selectedLabelsInCategory = this.selectedLabels[catName];
+          // At least one label from this category matches
+          return selectedLabelsInCategory.some(label => {
+            return chart.labels.includes(label);
+          });
+        });
+      });
+    },
+    selectedChartCount() {
+      return this.selectedCharts.length;
+    }
+  },
+  methods:{
+    /**
+     * Toggle category expansion in the sidebar
+     * @param {string} c - The category name to toggle
+     */
+    toggleCat(c){
+       if (this.openCat === c && !this._justToggledSelectAll) {
+         this.openCat = null;
+       } else {
+         this.openCat = c;
+       }
+       this._justToggledSelectAll = false;
+    },
+    
+    /**
+     * Toggle selection of a specific label within a category
+     * @param {string} category - The category name
+     * @param {string} label - The label to toggle
+     */
+    toggleLabel(category, label){
+       const labels = this.selectedLabels[category];
+       const index = labels.indexOf(label);
+
+       if (index === -1) {
+         labels.push(label);
+       } else {
+         labels.splice(index, 1);
+       }
+       this.$set(this.selectedLabels, category, labels);
+    },
+    
+    /**
+     * Handle the "Select All" checkbox toggle
+     * @param {Object} cat - The category object
+     */
+    handleSelectAllToggle(cat) {
+      this.toggleSelectAll(cat);
+      this._justToggledSelectAll = true;
+      this.openCat = cat.name;
+    },
+    
+    /**
+     * Toggle selection state of all labels in a category
+     * @param {Object} cat - The category object
+     */
+    toggleSelectAll(cat){
+      const categoryLabels = cat.labels;
+      const allSelected = this.isCatFull(cat);
+
+      if (allSelected) {
+        this.$set(this.selectedLabels, cat.name, []);
+      } else {
+        this.$set(this.selectedLabels, cat.name, [...categoryLabels]);
+      }
+    },
+    
+    /**
+     * Check if all labels in a category are selected
+     * @param {Object} cat - The category object
+     * @returns {boolean} - True if all labels are selected
+     */
+    isCatFull(cat){
+      const labels = this.selectedLabels[cat.name];
+      if (!labels) return false;
+      if (cat.labels.length === 0) return false;
+      return cat.labels.every(label => labels.includes(label)) && labels.length === cat.labels.length;
+    },
+    
+    /**
+     * Check if some but not all labels in a category are selected
+     * @param {Object} cat - The category object
+     * @returns {boolean} - True if some but not all labels are selected
+     */
+    isCatPartial(cat){
+       const labels = this.selectedLabels[cat.name];
+       if (!labels || labels.length === 0) return false;
+       return !this.isCatFull(cat);
+    },
+    
+    /**
+     * Determine the appropriate HTML tag for a chart based on its type
+     * @param {Object} ch - The chart object
+     * @returns {string} - Either 'img' or 'iframe'
+     */
+    chartTag(ch) {
+      if (ch.kind === 'local_png' || ch.kind === 'remote_img') {
+        return 'img';
+      } else {
+        return 'iframe';
+      }
+    },
+    
+    /**
+     * Get additional attributes for chart elements based on their type
+     * @param {Object} ch - The chart object
+     * @returns {Object} - Attributes to add to the element
+     */
+    getChartSpecificAttributes(ch) {
+        if (this.chartTag(ch) === 'iframe') {
+            return {
+                frameborder: "0",
+                scrolling: "no" // CSS overflow:hidden on the iframe element is more reliable
+            };
+        }
+        return {};
+    },
+    
+    /**
+     * Open the modal to show a zoomed version of a chart
+     * @param {Object} chart - The chart to display
+     */
+    openModal(chart) {
+        this.zoomedChart = chart;
+        this.isModalVisible = true;
+        document.body.style.overflow = 'hidden'; 
+    },
+    
+    /**
+     * Close the chart zoom modal
+     */
+    closeModal() {
+        this.isModalVisible = false;
+        this.zoomedChart = null;
+        document.body.style.overflow = ''; 
+    },
+    
+    /**
+     * Handle image loading errors
+     * @param {Event} event - The error event
+     * @param {Object} chart - The chart that failed to load
+     */
+    handleImageError(event, chart) {
+      console.error(`Failed to load image: ${chart.src}`);
+      event.target.alt = 'Image failed to load';
+    },
+    
+    /**
+     * Get count of selected charts with a specific label
+     * @param {string} label - The label to count
+     * @returns {number} - Count of selected charts with this label
+     */
+    getLabelSelectedCount(label) {
+      return this.charts.filter(chart => 
+        chart.labels.includes(label) && this.selectedCharts.includes(chart.id)
+      ).length;
+    },
+    
+    /**
+     * Toggle selection of a chart
+     * @param {string} chartId - The ID of the chart to toggle
+     */
+    toggleChartSelection(chartId) {
+      const index = this.selectedCharts.indexOf(chartId);
+      if (index === -1) {
+        this.selectedCharts.push(chartId);
+      } else {
+        this.selectedCharts.splice(index, 1);
+      }
+    },
+    
+    /**
+     * Reset all chart selections
+     */
+    resetSelection() {
+      this.selectedCharts = [];
+    },
+    
+    /**
+     * Generate and download a PDF of selected charts
+     */
+    async downloadSelectedCharts() {
+      if (this.selectedCharts.length === 0) {
+        alert("Pick at least one chart first 🙂");
+        return;
+      }
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        
+        // Title page
+        pdf.setFontSize(16);
+        pdf.text("Selected Charts", 20, 30);
+        pdf.setFontSize(12);
+        pdf.text(`Total charts: ${this.selectedCharts.length}`, 20, 40);
+        pdf.text(`Generated: ${new Date().toLocaleString()}`, 20, 50);
+        
+        // Get selected chart data
+        const selectedChartData = this.charts.filter(chart => 
+          this.selectedCharts.includes(chart.id)
+        );
+        
+        // Process each selected chart
+        for (let i = 0; i < selectedChartData.length; i++) {
+          const chart = selectedChartData[i];
+          pdf.addPage();
+          
+          // For image charts (both local and remote)
+          if (chart.kind === 'local_png' || chart.kind === 'remote_img') {
+            try {
+              // Create a new Image object
+              const img = new Image();
+              img.crossOrigin = "Anonymous";  // Handle CORS for remote images
+              
+              // Create a promise to wait for image to load
+              await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = (e) => {
+                  console.error(`Failed to load image: ${chart.src}`, e);
+                  reject(new Error(`Failed to load image: ${chart.src}`));
+                };
+                img.src = chart.src;
+              });
+              
+              // Calculate dimensions to fit on page
+              const ratio = Math.min(pageW / img.width, (pageH - 40) / img.height);
+              const imgW = img.width * ratio;
+              const imgH = img.height * ratio;
+              const offsetX = (pageW - imgW) / 2;
+              const offsetY = 10;
+              
+              // Add image to PDF
+              pdf.addImage(img, 'PNG', offsetX, offsetY, imgW, imgH);
+              
+              // Add chart info
+              const bottomY = offsetY + imgH + 10;
+              pdf.setFontSize(10);
+              pdf.text(`Title: ${chart.title || "Untitled"}`, 10, bottomY);
+              pdf.text(`Labels: ${chart.labels.join(", ")}`, 10, bottomY + 5);
+              
+            } catch (error) {
+              console.error(`Error processing chart ${chart.title}:`, error);
+              pdf.setFontSize(12);
+              pdf.text(`[Failed to load chart: ${chart.title}]`, 20, 100);
+            }
+          } 
+          // For iframe charts
+          else if (chart.kind === 'remote_iframe') {
+            pdf.setFontSize(12);
+            pdf.text(`[Interactive chart: ${chart.title}]`, 20, 100);
+            pdf.text(`URL: ${chart.src}`, 20, 110);
+          }
+        }
+        
+        // Save the PDF
+        pdf.save("Selected-Charts.pdf");
+        
+      } catch (error) {
+        console.error("Failed to generate PDF:", error);
+        alert("Error generating PDF. Please try again.");
+      }
+    },
+    
+    // Allocation data methods
+    initializeAllocationData() {
+      // Check if we have allocation data
+      if (!allocationData || Object.keys(allocationData).length === 0) {
+        console.warn('No allocation data available');
+        // Set some placeholder dates from 2020-2024
+        const dates = [];
+        for (let year = 2020; year <= 2024; year++) {
+          for (let month = 1; month <= 12; month++) {
+            const monthStr = month < 10 ? `0${month}` : `${month}`;
+            dates.push(`${year}-${monthStr}-01`);
+          }
+        }
+        
+        this.allocationDates = dates;
+        this.currentAssets = [
+          { name: 'Equities', value: 5 },
+          { name: 'Bonds', value: -2 },
+          { name: 'Cash', value: 3 }
+        ];
+        
+        // Initialize years for the picker
+        this.initializeDatePicker();
+        return;
+      }
+      
+      // Extract all unique dates across all tabs
+      const allDates = new Set();
+      for (const tab in allocationData) {
+        if (allocationData[tab] && allocationData[tab].data) {
+          allocationData[tab].data.forEach(item => {
+            allDates.add(item.date);
+          });
+        }
+      }
+      
+      // Sort dates
+      this.allocationDates = Array.from(allDates).sort();
+      
+      // Initialize the date picker
+      this.initializeDatePicker();
+      
+      // Create available datasets first
+      this.updateAvailableDatasets();
+      
+      // Update views
+      this.updateAllocationView();
+      this.initTimeSeriesChart();
+    },
+    
+    /**
+     * Initialize the date picker based on available allocation dates
+     * Sets up years, initial date values and date ticks for the UI
+     */
+    initializeDatePicker() {
+      // Extract years from allocation dates
+      if (this.allocationDates.length > 0) {
+        const minDate = this.allocationDates[0];
+        const maxDate = this.allocationDates[this.allocationDates.length - 1];
+        
+        const minYear = parseInt(minDate.substring(0, 4));
+        const maxYear = parseInt(maxDate.substring(0, 4));
+        
+        this.years = [];
+        for (let year = minYear; year <= maxYear; year++) {
+          this.years.push(year);
+        }
+        
+        // Set initial values
+        this.selectedYear = maxYear;
+        this.selectedMonth = maxDate.substring(5, 7);
+        this.selectedAllocationDate = maxDate;
+        
+        this.startYear = minYear;
+        this.startMonth = minDate.substring(5, 7);
+        this.timeSeriesStartDate = minDate;
+        
+        this.endYear = maxYear;
+        this.endMonth = maxDate.substring(5, 7);
+        this.timeSeriesEndDate = maxDate;
+        
+        // Create date ticks (for years)
+        this.generateDateTicks();
+      }
+    },
+    
+    /**
+     * Generate year markers for date visualization
+     */
+    generateDateTicks() {
+      // Generate ticks for the date range slider
+      this.dateTicks = [];
+      
+      if (this.allocationDates.length === 0) return;
+      
+      const firstDate = this.allocationDates[0];
+      const lastDate = this.allocationDates[this.allocationDates.length - 1];
+      
+      const firstYear = parseInt(firstDate.substring(0, 4));
+      const lastYear = parseInt(lastDate.substring(0, 4));
+      
+      // Add a tick for January of each year
+      for (let year = firstYear; year <= lastYear; year++) {
+        const date = `${year}-01-01`;
+        
+        // Only add if it's within our date range
+        if (date >= firstDate && date <= lastDate) {
+          this.dateTicks.push({
+            date: date,
+            label: year.toString()
+          });
+        }
+      }
+    },
+    
+    /**
+     * Update the selected date for allocation view
+     * Combines the selected year and month into a date string
+     */
+    updateSelectedDate() {
+      // Combine selected year and month
+      this.selectedAllocationDate = `${this.selectedYear}-${this.selectedMonth}-01`;
+      this.updateAllocationView();
+    },
+    
+    /**
+     * Update the allocation view based on current tab and date
+     * Loads asset values for the selected date from the data
+     */
+    updateAllocationView() {
+      // Get data for the current tab
+      if (!allocationData || !allocationData[this.currentAllocationTab]) {
+        this.currentAssets = [];
+        return;
+      }
+      
+      // Find data for the selected date
+      const tabData = allocationData[this.currentAllocationTab].data;
+      const dateData = tabData.find(d => d.date === this.selectedAllocationDate);
+      
+      if (dateData) {
+        this.currentAssets = dateData.assets;
+      } else {
+        // No data for this specific date
+        this.currentAssets = [];
+      }
+    },
+    
+    /**
+     * Initialize the time series chart for historical allocation display
+     * Creates a Chart.js line chart on the canvas element
+     */
+    initTimeSeriesChart() {
+      this.$nextTick(() => {
+        // If Chart.js is available, create time series chart
+        if (window.Chart && this.$refs.timeSeriesChart) {
+          if (this.timeSeriesChart) {
+            this.timeSeriesChart.destroy();
+          }
+          
+          // Ensure all series are selected by default
+          if (this.selectedSeries.length === 0 && this.availableDatasets && this.availableDatasets.length > 0) {
+            this.selectedSeries = this.availableDatasets.map(d => d.label);
+          }
+          
+          const ctx = this.$refs.timeSeriesChart.getContext('2d');
+          this.createTimeSeriesChart(ctx);
+        } else {
+          console.warn('Chart.js not available or canvas element not found');
+        }
+      });
+    },
+    
+    createTimeSeriesChart(ctx) {
+      // Early exit if no series selected
+      if (this.selectedSeries.length === 0) {
+        // Clear chart if it exists
+        if (this.timeSeriesChart) {
+          this.timeSeriesChart.destroy();
+          this.timeSeriesChart = null;
+        }
+        
+        // Clear the canvas completely
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#6B7280';
+        ctx.fillText('No series selected', ctx.canvas.width/2, ctx.canvas.height/2);
+        return;
+      }
+      
+      // Filter data between selected dates
+      const filteredDates = this.allocationDates.filter(date => {
+        const dateStr = date.substring(0, 7); // Get YYYY-MM part
+        const startStr = this.timeSeriesStartDate.substring(0, 7);
+        const endStr = this.timeSeriesEndDate.substring(0, 7);
+        
+        // Ensure both start and end months are included (inclusive comparison)
+        return dateStr >= startStr && dateStr <= endStr;
+      });
+      
+      if (filteredDates.length === 0) return;
+      
+      // Filter datasets based on selection
+      const datasets = this.availableDatasets.filter(d => 
+        this.selectedSeries.includes(d.label)
+      );
+      
+      // Create chart with improved styling
+      this.timeSeriesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: filteredDates.map(date => this.formatDate(date)),
+          datasets: datasets.map(dataset => {
+            return {
+              ...dataset,
+              pointBackgroundColor: dataset.borderColor, // Ensure points are filled
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              fill: false,
+              tension: 0.1,
+              data: filteredDates.map(date => {
+                const dateData = allocationData[this.currentAllocationTab].data.find(d => d.date === date);
+                if (dateData) {
+                  const assetData = dateData.assets.find(a => a.name === dataset.label);
+                  return assetData ? assetData.value : null;
+                }
+                return null;
+              })
+            };
+          })
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              min: -10,
+              max: 10,
+              ticks: {
+                stepSize: 5
+              },
+              title: {
+                display: true,
+                text: 'Allocation Target'
+              }
+            },
+            x: {
+              ticks: {
+                maxRotation: 45, // Angle labels for better readability
+                autoSkip: true,
+                autoSkipPadding: 10
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              backgroundColor: 'rgba(255, 255, 255, 0.9)', // White with transparency
+              titleColor: '#111827', // Dark text for title
+              bodyColor: '#374151', // Dark text for body
+              borderColor: '#E5E7EB',
+              borderWidth: 1,
+              padding: 10,
+              boxPadding: 5,
+              usePointStyle: true, // Use point style for legend markers
+              boxWidth: 10, // Width of color box
+              callbacks: {
+                label: function(context) {
+                  if (context.raw === null) {
+                    return context.dataset.label + ': No data';
+                  }
+                  return context.dataset.label + ': ' + Number(context.raw).toFixed(1);
+                }
+              }
+            }
+          }
+        }
+      });
+    },
+    
+    updateTimeSeriesChart() {
+      this.$nextTick(() => {
+        if (this.$refs.timeSeriesChart) {
+          const ctx = this.$refs.timeSeriesChart.getContext('2d');
+          
+          // Completely destroy existing chart
+          if (this.timeSeriesChart) {
+            this.timeSeriesChart.destroy();
+            this.timeSeriesChart = null;
+          }
+          
+          // Create new chart (which handles empty series properly)
+          this.createTimeSeriesChart(ctx);
+        }
+      });
+    },
+    
+    calculateMarkerPosition(value) {
+      // All lines use the same scale calculation
+      return ((value + 10) / 20) * 100;
+    },
+    
+    formatDate(dateString) {
+      // Parse the date manually to avoid timezone issues
+      const year = dateString.substring(0, 4);
+      const month = parseInt(dateString.substring(5, 7)) - 1; // Convert to 0-based month index
+      
+      // Use a fixed array of month names to ensure correct display
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${monthNames[month]} ${year}`;
+    },
+    
+    startDragging(event, handle) {
+      this.dragging = handle;
+      window.addEventListener('mousemove', this.handleDrag);
+      window.addEventListener('mouseup', this.stopDragging);
+    },
+    
+    handleDrag(event) {
+      if (!this.dragging) return;
+      
+      // Get container dimensions
+      const container = event.target.closest('.range-slider-container');
+      if (!container) return;
+      
+      const rect = container.getBoundingClientRect();
+      const containerWidth = rect.width;
+      const offsetX = event.clientX - rect.left;
+      
+      // Calculate percent within the container (0-100)
+      let percent = Math.max(0, Math.min(100, (offsetX / containerWidth) * 100));
+      
+      // Find the closest date to this percentage
+      const targetDate = this.findClosestDate(percent);
+      if (!targetDate) return;
+      
+      // Update the appropriate date
+      if (this.dragging === 'start') {
+        // Don't allow start to go past end
+        if (targetDate > this.timeSeriesEndDate) return;
+        
+        this.timeSeriesStartDate = targetDate;
+        this.startYear = parseInt(targetDate.substring(0, 4));
+        this.startMonth = targetDate.substring(5, 7);
+        this.updateTimeSeriesChart();
+      } 
+      else if (this.dragging === 'end') {
+        // Don't allow end to go before start
+        if (targetDate < this.timeSeriesStartDate) return;
+        
+        this.timeSeriesEndDate = targetDate;
+        this.endYear = parseInt(targetDate.substring(0, 4));
+        this.endMonth = targetDate.substring(5, 7);
+        this.updateTimeSeriesChart();
+      }
+      else if (this.dragging === 'current') {
+        this.selectedAllocationDate = targetDate;
+        this.selectedYear = parseInt(targetDate.substring(0, 4));
+        this.selectedMonth = targetDate.substring(5, 7);
+        this.updateAllocationView();
+      }
+    },
+    
+    stopDragging() {
+      this.dragging = null;
+      window.removeEventListener('mousemove', this.handleDrag);
+      window.removeEventListener('mouseup', this.stopDragging);
+    },
+    
+    findClosestDate(percent) {
+      if (this.allocationDates.length === 0) return null;
+      
+      // Convert percentage to a target date
+      const firstDate = this.allocationDates[0];
+      const lastDate = this.allocationDates[this.allocationDates.length - 1];
+      
+      const startMs = new Date(firstDate).getTime();
+      const endMs = new Date(lastDate).getTime();
+      const range = endMs - startMs;
+      
+      const targetMs = startMs + (range * percent / 100);
+      
+      // Find the closest date in our allocation dates
+      let closestDate = null;
+      let minDiff = Infinity;
+      
+      for (const date of this.allocationDates) {
+        const dateMs = new Date(date).getTime();
+        const diff = Math.abs(dateMs - targetMs);
+        
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestDate = date;
+        }
+      }
+      
+      return closestDate;
+    },
+    
+    updateStartDate() {
+      this.timeSeriesStartDate = `${this.startYear}-${this.startMonth}-01`;
+      
+      // Ensure start date is not after end date
+      if (this.timeSeriesStartDate > this.timeSeriesEndDate) {
+        this.timeSeriesStartDate = this.timeSeriesEndDate;
+        this.startYear = this.endYear;
+        this.startMonth = this.endMonth;
+      }
+      
+      this.updateTimeSeriesChart();
+    },
+    
+    updateEndDate() {
+      this.timeSeriesEndDate = `${this.endYear}-${this.endMonth}-01`;
+      
+      // Ensure end date is not before start date
+      if (this.timeSeriesEndDate < this.timeSeriesStartDate) {
+        this.timeSeriesEndDate = this.timeSeriesStartDate;
+        this.endYear = this.startYear;
+        this.endMonth = this.startMonth;
+      }
+      
+      this.updateTimeSeriesChart();
+    },
+    
+    datePositionPercent(date) {
+      // Calculate the position percentage for a date within the date range
+      if (!date || this.allocationDates.length === 0) return 0;
+      
+      const firstDate = this.allocationDates[0];
+      const lastDate = this.allocationDates[this.allocationDates.length - 1];
+      
+      // Convert to milliseconds since epoch
+      const startMs = new Date(firstDate).getTime();
+      const endMs = new Date(lastDate).getTime();
+      const dateMs = new Date(date).getTime();
+      
+      // Calculate position as percentage
+      const range = endMs - startMs;
+      if (range === 0) return 0;
+      
+      return ((dateMs - startMs) / range) * 100;
+    },
+
+    // Add this new method to handle indentation for hierarchical assets
+    isSubAsset(assetName) {
+      // Check if this is a European country or EM country
+      if (this.currentAllocationTab === 'Equities-Region') {
+        // Check for specific "Other" categories
+        if (assetName.includes('Other EU') || assetName.includes('Other EM')) {
+          return true;
+        }
+        
+        // European sub-regions
+        if (assetName.includes(' - ') && 
+            (assetName.startsWith('Europe') || assetName.startsWith('EM'))) {
+          return true;
+        }
+        
+        // Alternative naming patterns
+        const europeanCountries = ['Germany', 'France', 'Italy', 'Spain', 'UK', 
+                                  'Switzerland', 'Netherlands', 'Belgium', 'Sweden', 
+                                  'Denmark', 'Norway', 'Finland', 'Austria', 'Ireland', 
+                                  'Portugal', 'Greece'];
+                                  
+        const emCountries = ['China', 'India', 'Brazil', 'Russia', 'South Africa', 
+                            'Mexico', 'Indonesia', 'Turkey', 'Thailand', 'Malaysia', 
+                            'Philippines', 'Chile', 'Colombia', 'Peru', 'Egypt',
+                            'Korea', 'South Korea', 'Taiwan']; // Added Korea and Taiwan
+        
+        if (europeanCountries.some(country => assetName.includes(country)) || 
+            emCountries.some(country => assetName.includes(country))) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    // Enhanced asset name formatting to better handle "Other EU" and "Other EM"
+    formatAssetName(assetName) {
+      if (this.isSubAsset(assetName)) {
+        // Special handling for "Other" categories
+        if (assetName.includes('Other EU') || assetName.includes('Other EM')) {
+          return assetName;
+        }
+        
+        // For sub-assets, extract just the country name if possible
+        const nameParts = assetName.split(' - ');
+        if (nameParts.length > 1) {
+          return nameParts[1]; // Return just the country part
+        }
+        
+        // For country names without the parent - country format
+        const europeanParents = ['Europe', 'EU'];
+        const emParents = ['EM', 'Emerging'];
+        
+        for (const parent of europeanParents) {
+          if (assetName.startsWith(parent)) {
+            return assetName.replace(parent, '').trim();
+          }
+        }
+        
+        for (const parent of emParents) {
+          if (assetName.startsWith(parent)) {
+            return assetName.replace(parent, '').trim();
+          }
+        }
+        
+        return assetName;
+      }
+      return assetName;
+    },
+
+    // Add toggle method for series selection
+    toggleSeriesDropdown() {
+      this.seriesDropdownOpen = !this.seriesDropdownOpen;
+      
+      // If opening dropdown, add document click listener to detect outside clicks
+      if (this.seriesDropdownOpen) {
+        this.$nextTick(() => {
+          document.addEventListener('click', this.handleOutsideClick);
+        });
+      }
+    },
+
+    handleOutsideClick(event) {
+      // Get references to dropdown elements
+      const dropdown = this.$el.querySelector('.series-dropdown-content');
+      const toggle = this.$el.querySelector('.series-dropdown-toggle');
+      
+      // Check if click is outside both the dropdown and toggle button
+      if (dropdown && toggle && 
+          !dropdown.contains(event.target) && 
+          !toggle.contains(event.target)) {
+        this.seriesDropdownOpen = false;
+        document.removeEventListener('click', this.handleOutsideClick);
+      }
+    },
+
+    // Clean up event listener when component is destroyed
+    beforeDestroy() {
+      document.removeEventListener('click', this.handleOutsideClick);
+    },
+
+    // Add a new method to update available datasets
+    updateAvailableDatasets() {
+      if (!allocationData || !allocationData[this.currentAllocationTab]) {
+        this.availableDatasets = [];
+        return;
+      }
+      
+      const tabData = allocationData[this.currentAllocationTab];
+      const assets = tabData.assets || [];
+      
+      // Professional color palette
+      const colorPalette = [
+        '#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', 
+        '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC',
+        '#1F77B4', '#D62728', '#9467BD', '#8C564B', '#E377C2'
+      ];
+      
+      this.availableDatasets = assets.map((asset, index) => {
+        const color = colorPalette[index % colorPalette.length];
+        return {
+          label: asset,
+          borderColor: color,
+          backgroundColor: 'white'
+        };
+      });
+      
+      // Initialize selectedSeries to all datasets by default
+      if (this.selectedSeries.length === 0) {
+        this.selectedSeries = this.availableDatasets.map(d => d.label);
+      }
+    },
+
+    // Add this new method to handle series selection
+    selectAllSeries() {
+      // Select all available series for the current tab
+      this.selectedSeries = [...this.availableDatasets.map(d => d.label)];
+      this.updateTimeSeriesChart();
+    },
+
+    // Add this new method to handle series deselection
+    deselectAllSeries() {
+      // Deselect all series
+      this.selectedSeries = [];
+      this.updateTimeSeriesChart();
+    },
+  },
+  watch: {
+    selectedSeries: {
+      handler(newValue) {
+        // Just update the boolean status
+        this.allSeriesSelected = newValue.length === this.availableDatasets.length;
+        
+        // Always update the chart, even when no series are selected
+        this.updateTimeSeriesChart();
+      },
+      deep: true
+    },
+    currentAllocationTab: {
+      handler(newTab) {
+        // Update the available datasets for the new tab
+        this.updateAvailableDatasets();
+        
+        // Reset series selection to all available for this tab
+        this.selectedSeries = [...this.availableDatasets.map(d => d.label)];
+        
+        // Update the chart and allocation view
+        this.updateAllocationView();
+        this.updateTimeSeriesChart();
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
