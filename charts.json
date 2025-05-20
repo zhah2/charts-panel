@@ -7179,5 +7179,65 @@
     "description": "EM assets valuation metrics",
     "status": "Test",
     "source": "GS"
+  },
+  {
+    "id": "78NO2X2H06",
+    "title": "US Deficit Tracker",
+    "labels": [
+      "US",
+      "Fiscal Policy",
+      "External",
+      "Production"
+    ],
+    "kind": "remote_iframe",
+    "src": "https://infogram.com/deficit-trackerfinal-1h0n25yrjl1xl6p",
+    "description": "US Deficit Tracker by Year",
+    "status": "Production",
+    "source": "External"
+  },
+  {
+    "id": "UCRBJ15GP1",
+    "title": "Fred Unemployment",
+    "labels": [
+      "US",
+      "Labor Market",
+      "FRED",
+      "Test"
+    ],
+    "kind": "remote_img",
+    "src": "https://fred.stlouisfed.org/graph/fredgraph.png?g=1JagK&height=490",
+    "description": "Fred Unemployment",
+    "status": "Test",
+    "source": "FRED"
+  },
+  {
+    "id": "H684D7SAYD",
+    "title": "Cloud Software Quarterly Net New ARR Added",
+    "labels": [
+      "Equity",
+      "Tech",
+      "External",
+      "Test"
+    ],
+    "kind": "remote_img",
+    "src": "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fac93731f-ac9b-4f05-9ad9-f75fab35a545_913x543.png",
+    "description": "Cloud Software Quarterly Net New ARR Added",
+    "status": "Test",
+    "source": "External"
+  },
+  {
+    "id": "BHARIM88KM",
+    "title": "Atlanta Fed GDP Now",
+    "labels": [
+      "US",
+      "Growth",
+      "External",
+      "Test"
+    ],
+    "kind": "remote_img",
+    "src": "https://www.atlantafed.org/-/media/Images/cqer/research/gdpnow/gdpnow-forecast-evolution.gif",
+    "description": "Atlanta Fed GDP Now",
+    "status": "Test",
+    "source": "External"
   }
 ]
