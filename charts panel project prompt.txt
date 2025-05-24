@@ -1,0 +1,71 @@
+I am doing a new project. Here is my goal for this project:
+I want to build a serverless web page where it can dynamically display charts based on the labels user select on the web page. This page can sit in a network drive folder where all members of my team can access. It would be best that each user can simply click open a html and use the dynamic chart display right away without installing anything and all users can see and use the same version. 
+
+Let me elaborate the background of the project and where the need comes from. I am working for a big asset management firm within the financial industry. Our team is a team of analysts responsible for researching macroeconomics across different countries and regions to help top down asset allocation. During research, we have generated hundreds of financial and economic charts that we use on a daily basis. We want to better organize them using labels and have a central web page where we can display them. As we are a big firm, we have strict firewall and using outside web hosting service might violate data confidentiality, so we want to build internally. But building a web page hosted somewhere internally by some server also takes lengthy approval process. So ideally we need a serverless web page that can do the job. All members of the team have access to internal network drive folders. We are thinking about placing the web page and the charts it contains somewhere on the network drive. Ideally, the users do not need to install anything. They can just click into the webpage and use it right away. In the meantime, the web page need to have dynamic behavior, i.e. based on what labels users select on the page, it can display the sets of charts that meet the label condition. Lastly, we mainly conduct our work in python, so hopefully this requirement can be fulfilled using python. But if there is any other framework that can meet our needs, we are also open. 
+
+Based on this requirement, please suggest the most suitable way of implementation.
+
+One thing I want to add is: we prefer to save the labels and the mapping between the charts and labels in a database. The web page can filter and display the charts based on the mapping. Given this information, how would the existing solution you recommended change?
+
+
+Ok, looks like that's the solution I am looking for. I created a project folder for it. And within the project folder, I created the following subfolders: "assets" folder: this is the folder that is used to store the web page logo and other images (these images are not the chart contents); "panel-charts" folder: this is the folder that is used to store all the local charts we want to display. There is also a xlsx file in the project folder. This is the file that includes all the labels and chart mapping to the labels. There are two tabs in the xlsx file: the "labels" tab includes the labels name and its category type; the "charts" tab include the chart ID, chart name, chart labels, chart source, chart location, chart description and chart status. the chart labels is essentially the chart label mapping, it is delimited by comma ',', e.g. chart with ID 11S6UHY4RO is labeled as "Housing Market, US", the location is either a http link (e.g. https://refini.tv/4gm0WdA) or a local folder directory (e.g. /panel-charts/page_9_exhibit_6.png). For web page layout, please mimic the following web page: https://randomchat2025.vercel.app/. Based on these information, please help me implement the whole project and output each file that I need. 
+
+
+-----------------------------------
+
+I want to implement a download button as shown in the attached
+image. It should be in the same row as tab names but to the very right hand side (please use best ui/ux design). The purpose of this download button is downloading the selected charts to local download folder in pdf format. How to select charts: each chart will have a small checkbox when mouse hovering on the chart. user can select the chart by checking the box. but when user click on other areas of the chart, it simply shows the zoom-in pop-up window as implemented before. user can filter on different labels to display different set of charts, but the chart selected before will preserve the selected status even when it is not shown. When multiple charts are selected, to the right of each label, it will show the number of charts within that label that got selected (e.g. to the right of label "Labor", it will show "Labor (2)" is there are two charts selected under the label "Labor". In order to reset selection, create a "Reset Selection" button to the left to "Download" button. When user click the "Reset Selection" button, all charts selection will be reset to unselected status. After all relevant charts have been selected, user can click on the "Download" button to download as pdf.
+
+
+
+-----------------------------------
+on one of the tab "target", I want to show the allocation targets for different asset classes. there will be 5 subareas or topics that I need to show: cross assets allocation, equity allocation, bond allocation, FX allocation and commodities allocation. For each subarea, I need to show it in in both a line format and a time series chart format. In line format (each asset's line is as shown in the image attached), the target of each asset will be shown as a non-solid dot mark on a line with scale of -10 to +10 for each. On top of the lines is the dropdown box, where user can select a time (e.g. Apr 2025) to show the allocation for that particular month. In the time series chart, it shows the time series of the targets for all assets. User can choose a starting and ending time on top of the time series chart. These allocation targets information are contained in the file targets.xlsx. Cross asset allocation is covered in "Cross Assets" tab. Equity allocation is covered in "Equities-Region" tab and "Equities-Sector" tabs. Bond allocation is covered in "Bonds-Region" and "Bonds-Sector" tabs. FX allocation is in "FX" tab and Commodities allocation is in "Commodities" tab. On each tab, the first column is Date, the rest of the columns are each asset's target.
+
+
+-------------------
+
+Now, I would like to work on another tab ("Backtest") of this serverless web page . On this tab, I want to do some backtest and portfolio construction work and demonstrate the results to the users. I have a list of available assets on the page as building blocks of the portfolio. Here is the list:
+- Cash
+- Canadian Bond
+- High Yield
+- US Bond
+- US Long Bond
+- Canadian Equity
+- US Equity
+- European Equity
+- Japanese Equity
+- EM Equity
+- Real Estate
+- Infrastructure
+- Commodities
+
+Here is how I design the layout and workflow. The overall idea of the portfolio optimization on this page is to do it incrementally and iteratively like a gradient descent approach, i.e. perturb the portfolio weights by small amounts and find out the incrementally better version based on the defined objective. User can do it multiple times to get to a better state. In terms of layout, First, the page need to have an area that user can input weights of original portfolio. To the right is a similar style area that shows the weights of optimized portfolio. The optimized portfolio weight initially is empty. Please refer to the input box design as shown on the "Play" tab of this page: @https://www.wealthdashboard.app/. Below the portfolio input area, user can choose the objective function used in portfolio optimization through a dropdown menu. The objective can be: 1) Maximize Sharpe Ratio 2) Minimize risk 3) Equal risk contribution 4) Minimize CVaR. Users can also input a step size (e.g 1%, 2%, 3%). The step size in this context means all of the weights increases add up to that step size. For example, if in the portfolio, there are 5 assets A, B, C, D, E. If A +0.3% in weight, B +0.7% in weight, C -0.3%, D -0.4%, E -0.3%, the step size in this case is 1% (the absolute value of the sum of all increses or all decreases). All weights changes should add up to zero, as all incremental investment need to funded from another asset.  
+
+
+To the right of optimized portfolio area, it will be an area showing the time series chart. In the chart, it will show cumulative return of "All Cash" portfolio, "Inflation" portfolio, "All Bonds (DEX Univ)", "All Stocks (MSCI World)", "Original Portfolio" and "Optimized Portfolio" (starting from 0% cumulative return). On top of the chart, user can choose the Start Year, Ending Year, and can also choose series shown using multiselect dropdown menu. Below the chart, there will be a table showing the comparative stats of original portfolio and optimized portfolio: 1) Return (CAGR) 2) Volatility 3) Sharpe Ratio 4) Max Drawdown 5) Skew 6) Avg. Drawdown 7) Avg. Drawdown Days. All of these stats can be calculated using quantstats python library once user pass in the time series of the portfolio.  
+
+As the construction and design of portfolio relies on the asset return time series data. The data need to be stored somewhere. Given the serverless nature of the page, please suggest the most suitable way of storing the data for ease of maintenance and ease of interaction with the web page.
+
+
+-----------------------------
+
+I like the style of the tab, but what is being built on the "backtest" page is not the workflow that I meant to do. Let's start all over again. 
+
+On this tab, I want to do some backtest and portfolio construction work and demonstrate the results to the users. Here is an overview of what we aim to achieve on this page:
+
+1. show original and optimized portfolio's historical cumulative performance in time series chart
+2. how do we derive optimized portfolio: based on a chosen objective function, perturb the original portfolio within the constraints of step size limit and weights summing up to 1, find a nearby optimized portfolio through gradient descent. user can repeat the exercise iteratively based on previous round result by repeatedly clicking the optimize button. 
+3. show the original and optimized portfolio's Return (CAGR), Volatility, Sharpe Ratio, Sortino Ratio, CVaR, Max Drawdown in a table over specified time horizon.
+(points 4-6 are regime specific exercises) 
+4. show where we are in the regime quadrant (x-axis growth, y-axis inflation) The regime reading of each month is from a regime.xlsx file. In the file, there will be 4 columns: date, growth score, inflation score and label. There are 4 types of labels: "Higher Growth Higher Inflation", "Higher Growth Lower Inflation", "Lower Growth Higher Inflation" and "Lower Growth Lower Inflation", depending on the growth and inflation score.
+5. show the forward looking annualized 3 month return of the original and optimized portfolios by regimes in histogram. x-axis is regime category label.
+6. show by regimes the original and optimized portfolio's Return (CAGR), Volatility, Sharpe Ratio, Sortino Ratio, CVaR, Max Drawdown in a table.
+
+On the time series data:
+There will be a list of available assets on the page as building blocks of the portfolio. The available asset names are in the file "asset_return_history.xlsx". In that file, the "assets" tab's first header row are the full list of available asset names. The second row is the detailed description of the header. Real data starts from row 3. the first column is the date column. Beyond available asset names on the "assets" tab, there is a second tab in the sheet "reference_series". This tab includes some of the reference benchmark series which will be used in the time series charts. The format of the "reference_series" tab is the same as "assets" tab. Similar to the data on other tabs, the data in the "asset_return_history.xlsx" file need to be loaded and saved in json format to be used on the page. 
+
+Now, let's design the layout and work flow of the page.
+First, the page need to have a table that user can input weights of original portfolio  and also show the weights of the optimized portfolio for each available assets. Each portfolio's weights will occupy one column of the table. The optimized portfolio weight initially is empty. Also show a line in the table for sum of weights, so that user can check if it sums to 100%. below the table is the field of Start time (choose month and year) and End time (month and year). Once weights are put in and time period chosen, there is a chart area to the right showing the cumulative returns for "All Stocks", "All Bonds", "Inflation", "Original Portfolio", "Optimized Portfolio". "All Stocks" can use benchmark "World Equity" series in the reference return series, "All Bonds" can use "Canadian Bonds" return series, "Inflation" can use "Inflation" in the reference return series. For "Original Portfolio" and "Optimized Portfolio", the page need to calculate portfolio level return series first, which is a weighted sum of return series of each asset. Given it is a simple calculation, it can be done by Java Script on the page. All shown series in the chart need be turned into cumulative return series by linking each period return before shown. 
+
+Below the portfolio input area, user can choose the objective function used in portfolio optimization in a dropdown menu. The objective can be: 1) Maximize Sharpe Ratio 2) Minimize risk 3) Maximize Sortino Ratio 4) Minimize CVaR. Another input s the step size (e.g 1%, 2%, 3%). The step size in this context means all of the weights increases add up to that step size. For example, if in the portfolio, there are 5 assets A, B, C, D, E. If A +0.3% in weight, B +0.7% in weight, C -0.3%, D -0.4%, E -0.3%, the step size in this case is 1% (the absolute value of the sum of all increses or all decreases). All weights changes should add up to zero, as all incremental investment need to funded from another asset. Once user put in all portfolio information and make necessary selections, he can click on optimize button to generate results back to the optimized portfolio weights column in the table. Behind the scene, the page will take all user weights input and parameter selections and calculate the following:
+1) use python quantstats library function to calculate 

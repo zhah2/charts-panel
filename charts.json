@@ -7239,5 +7239,21 @@
     "description": "Atlanta Fed GDP Now",
     "status": "Test",
     "source": "External"
+  },
+  {
+    "id": "OBQK75KTFF",
+    "title": "Emini vs 2yr yield",
+    "labels": [
+      "US",
+      "FI",
+      "Equity",
+      "GS",
+      "Test"
+    ],
+    "kind": "remote_iframe",
+    "src": "https://marquee.gs.com/s/marketview/widget/MWR3UHILTHVJQEJ1Q0",
+    "description": "Emini vs 2yr yield",
+    "status": "Test",
+    "source": "GS"
   }
 ]

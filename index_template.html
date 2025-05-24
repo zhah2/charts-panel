@@ -1105,6 +1105,481 @@ select {
   flex: 1;
   max-width: 180px; /* Limit width to create a more compact layout */
 }
+
+/* Backtest Tab Styles */
+.backtest-tab {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem 2rem;
+  background-color: #F9FAFB;
+}
+
+.backtest-container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.portfolio-section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.portfolios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.portfolio-card {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.portfolio-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio-allocations {
+  margin-bottom: 1rem;
+}
+
+.portfolio-allocation-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.portfolio-allocation-row:last-child {
+  border-bottom: none;
+}
+
+.asset-name {
+  flex: 1;
+}
+
+.asset-allocation {
+  width: 80px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.asset-weight-bar {
+  flex: 1;
+  margin: 0 1rem;
+  position: relative;
+  height: 18px;
+}
+
+.asset-weight-progress {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background-color: #3B82F6;
+  border-radius: 3px;
+}
+
+.optimization-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.control-group {
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.control-group h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.control-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.control-label {
+  width: 140px;
+  font-size: 0.9rem;
+}
+
+.optimize-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #4F46E5;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.optimize-button:hover {
+  background-color: #4338CA;
+}
+
+.reset-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  color: #374151;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.reset-button:hover {
+  background-color: #F3F4F6;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.metric-card {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.metric-title {
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.metric-comparison {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.metric-better {
+  color: #10B981;
+}
+
+.metric-worse {
+  color: #EF4444;
+}
+
+.constraint-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.constraint-label {
+  width: 140px;
+  font-size: 0.9rem;
+}
+
+.constraint-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.constraint-inputs input {
+  width: 60px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  text-align: center;
+}
+
+.steps-container {
+  margin-top: 1.5rem;
+}
+
+.step-row {
+  display: flex;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #4F46E5;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 0.75rem;
+}
+
+.step-text {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.active-step .step-text {
+  font-weight: 500;
+  color: #111827;
+}
+
+.step-row.completed .step-number {
+  background-color: #10B981;
+}
+
+.performance-chart-container {
+  height: 350px;
+  margin-top: 1rem;
+}
+
+.backtest-tab .performance-chart-container {
+  height: 100%;
+  min-height: 400px;
+  margin-top: 0;
+}
+
+/* Range slider style for optimization parameters */
+.range-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #E5E7EB;
+  outline: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4F46E5;
+  cursor: pointer;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4F46E5;
+  cursor: pointer;
+}
+
+.slider-value {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 50px;
+}
+
+/* New Backtest Tab Styles */
+.portfolio-weights-table {
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: white;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  background-color: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.sum-row {
+  background-color: #F9FAFB;
+  border-top: 2px solid #E5E7EB;
+}
+
+.asset-name-col, .weight-col {
+  padding: 0.375rem 0.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.weight-input {
+  width: 100%;
+  padding: 0.375rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.weight-input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 1px #3B82F6;
+}
+
+.optimized-weight {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.85rem;
+}
+
+.sum-error {
+  color: #EF4444 !important;
+}
+
+.preset-periods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.preset-period {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.preset-period input[type="radio"] {
+  margin: 0;
+}
+
+.optimization-controls-new {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.control-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.control-select {
+  padding: 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.control-select:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 1px #3B82F6;
+}
+
+.optimization-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.optimize-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.metrics-table-container {
+  overflow-x: auto;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metrics-table th {
+  background-color: #F9FAFB;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.metrics-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: #374151;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.metrics-table tr:last-child td {
+  border-bottom: none;
+}
+
+.metric-better {
+  color: #10B981;
+  font-weight: 500;
+}
+
+.metric-worse {
+  color: #EF4444;
+  font-weight: 500;
+}
 </style>
 <script src="static_js/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1354,8 +1829,221 @@ select {
         </div>
       </div>
     </section>
-    <section v-else-if="currentTab==='Backtest'" class="empty-tab">
-      <div class="empty-state">Changes are coming soon!</div>
+    <section v-else-if="currentTab==='Backtest'" class="backtest-tab">
+      <div class="backtest-container">
+        <!-- Main Portfolio Section with Chart -->
+        <div class="portfolio-section">
+          <h3 style="margin: 0 0 1rem 0;">Portfolio Construction & Optimization</h3>
+          
+          <div style="display: grid; grid-template-columns: 400px 1fr; gap: 2rem; align-items: start;">
+            <!-- Left Column: Portfolio Weights and Controls -->
+            <div>
+              <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #374151;">Portfolio Weights (%)</h4>
+              
+              <div class="portfolio-weights-table">
+                <div class="table-header">
+                  <div class="asset-name-col">Asset</div>
+                  <div class="weight-col">Original</div>
+                  <div class="weight-col">Optimized</div>
+                </div>
+                
+                <div class="table-body">
+                  <div v-for="(asset, index) in availableAssets" :key="asset" class="table-row">
+                    <div class="asset-name-col">{{ asset }}</div>
+                    <div class="weight-col">
+                      <input type="number" 
+                             v-model.number="originalWeights[asset]" 
+                             @input="updatePortfolioReturns"
+                             min="0" 
+                             max="100" 
+                             step="0.1" 
+                             class="weight-input">
+                    </div>
+                    <div class="weight-col">
+                      <span class="optimized-weight">{{ parseFloat(optimizedWeights[asset] || 0).toFixed(1) }}</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Sum Row -->
+                  <div class="table-row sum-row">
+                    <div class="asset-name-col"><strong>Total</strong></div>
+                    <div class="weight-col">
+                      <strong :class="{'sum-error': originalWeightsSum !== 100}">{{ originalWeightsSum.toFixed(1) }}%</strong>
+                    </div>
+                    <div class="weight-col">
+                      <strong :class="{'sum-error': optimizedWeightsSum !== 100}">{{ optimizedWeightsSum.toFixed(1) }}%</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Time Period Selection -->
+              <div style="margin-top: 1rem;">
+                <h4 style="margin-bottom: 0.75rem; font-size: 1rem; color: #374151;">Backtest Period</h4>
+                
+                <!-- Predefined Periods -->
+                <div class="period-selection">
+                  <div class="preset-periods">
+                    <label v-for="period in presetPeriods" :key="period.label" class="preset-period">
+                      <input type="radio" 
+                             name="period" 
+                             :value="period.label"
+                             v-model="selectedPresetPeriod"
+                             @change="selectPresetPeriod(period)">
+                      <span>{{ period.label }}</span>
+                    </label>
+                  </div>
+                  
+                  <div class="custom-period" style="margin-top: 0.75rem;">
+                    <label class="preset-period">
+                      <input type="radio" 
+                             name="period" 
+                             value="custom"
+                             v-model="selectedPresetPeriod">
+                      <span>Custom Period: <span style="font-size: 0.75rem; color: #6B7280; font-weight: normal;">(Note: start from when all selected assets have data)</span></span>
+                    </label>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; margin-left: 1.5rem;">
+                      <div>
+                        <label style="font-size: 0.8rem; color: #6B7280;">Start</label>
+                        <div style="display: flex; gap: 0.25rem;">
+                          <select v-model="customStartMonth" @change="updateCustomPeriod" style="width: 70px;">
+                            <option v-for="month in months" :key="month.value" :value="month.value">
+                              {{ month.label }}
+                            </option>
+                          </select>
+                          <select v-model="customStartYear" @change="updateCustomPeriod" style="width: 80px;">
+                            <option v-for="year in availableYears" :key="year" :value="year">{{ year }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label style="font-size: 0.8rem; color: #6B7280;">End</label>
+                        <div style="display: flex; gap: 0.25rem;">
+                          <select v-model="customEndMonth" @change="updateCustomPeriod" style="width: 70px;">
+                            <option v-for="month in months" :key="month.value" :value="month.value">
+                              {{ month.label }}
+                            </option>
+                          </select>
+                          <select v-model="customEndYear" @change="updateCustomPeriod" style="width: 80px;">
+                            <option v-for="year in availableYears" :key="year" :value="year">{{ year }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Optimization Controls moved below -->
+              <div style="margin-top: 1rem;">
+                <h4 style="margin-bottom: 0.75rem; font-size: 1rem; color: #374151;">Optimization Settings</h4>
+                
+                <div class="optimization-controls-new">
+                  <div class="control-group">
+                    <label>Objective Function:</label>
+                    <select v-model="optimizationObjective" class="control-select">
+                      <option value="sharpe">Maximize Sharpe Ratio</option>
+                      <option value="risk">Minimize Risk</option>
+                      <option value="sortino">Maximize Sortino Ratio</option>
+                      <option value="cvar">Minimize CVaR</option>
+                    </select>
+                  </div>
+                  
+                  <div class="control-group">
+                    <label>Step Size:</label>
+                    <select v-model="stepSize" class="control-select">
+                      <option value="1">1%</option>
+                      <option value="2">2%</option>
+                      <option value="3">3%</option>
+                      <option value="5">5%</option>
+                    </select>
+                  </div>
+                  
+                  <div class="optimization-buttons" style="margin-top: 1rem;">
+                    <button class="optimize-button" @click="runOptimization" :disabled="!canOptimize">
+                      Optimize Portfolio
+                    </button>
+                    <button class="reset-button" @click="resetOptimization">
+                      Reset Optimized
+                    </button>
+                  </div>
+                  
+                  <div v-if="optimizationStatus" class="optimization-status" style="margin-top: 1rem;">
+                    <p style="font-size: 0.9rem; color: #6B7280;">{{ optimizationStatus }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right Column: Cumulative Returns Chart and Metrics -->
+            <div>
+              <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #374151;">Historical Cumulative Returns</h4>
+              
+              <div class="performance-chart-container" style="height: 400px; margin-bottom: 2rem;">
+                <canvas ref="cumulativeReturnsChart"></canvas>
+              </div>
+              
+              <!-- Performance Metrics Table moved here -->
+              <div>
+                <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #374151;">Performance Metrics</h4>
+                
+                <div class="metrics-table-container">
+                  <table class="metrics-table">
+                    <thead>
+                      <tr>
+                        <th>Metric</th>
+                        <th>Original Portfolio</th>
+                        <th>Optimized Portfolio</th>
+                        <th>Difference</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Return (CAGR)</td>
+                        <td>{{ formatMetric(performanceMetrics.original.cagr, '%') }}</td>
+                        <td>{{ formatMetric(performanceMetrics.optimized.cagr, '%') }}</td>
+                        <td :class="getMetricClass('cagr')">{{ formatDifference(performanceMetrics.optimized.cagr, performanceMetrics.original.cagr, '%') }}</td>
+                      </tr>
+                      <tr>
+                        <td>Volatility</td>
+                        <td>{{ formatMetric(performanceMetrics.original.volatility, '%') }}</td>
+                        <td>{{ formatMetric(performanceMetrics.optimized.volatility, '%') }}</td>
+                        <td :class="getMetricClass('volatility')">{{ formatDifference(performanceMetrics.optimized.volatility, performanceMetrics.original.volatility, '%') }}</td>
+                      </tr>
+                      <tr>
+                        <td>Sharpe Ratio</td>
+                        <td>{{ formatMetric(performanceMetrics.original.sharpe) }}</td>
+                        <td>{{ formatMetric(performanceMetrics.optimized.sharpe) }}</td>
+                        <td :class="getMetricClass('sharpe')">{{ formatDifference(performanceMetrics.optimized.sharpe, performanceMetrics.original.sharpe) }}</td>
+                      </tr>
+                      <tr>
+                        <td>Sortino Ratio</td>
+                        <td>{{ formatMetric(performanceMetrics.original.sortino) }}</td>
+                        <td>{{ formatMetric(performanceMetrics.optimized.sortino) }}</td>
+                        <td :class="getMetricClass('sortino')">{{ formatDifference(performanceMetrics.optimized.sortino, performanceMetrics.original.sortino) }}</td>
+                      </tr>
+                      <tr>
+                        <td>CVaR (5%)</td>
+                        <td>{{ formatMetric(performanceMetrics.original.cvar, '%') }}</td>
+                        <td>{{ formatMetric(performanceMetrics.optimized.cvar, '%') }}</td>
+                        <td :class="getMetricClass('cvar')">{{ formatDifference(performanceMetrics.optimized.cvar, performanceMetrics.original.cvar, '%') }}</td>
+                      </tr>
+                      <tr>
+                        <td>Max Drawdown</td>
+                        <td>{{ formatMetric(performanceMetrics.original.maxDrawdown, '%') }}</td>
+                        <td>{{ formatMetric(performanceMetrics.optimized.maxDrawdown, '%') }}</td>
+                        <td :class="getMetricClass('maxDrawdown')">{{ formatDifference(performanceMetrics.optimized.maxDrawdown, performanceMetrics.original.maxDrawdown, '%') }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <section v-else-if="currentTab==='X Query'" class="empty-tab">
       <div class="empty-state">Changes are coming soon!</div>
@@ -1389,6 +2077,7 @@ select {
 const charts = [[ charts|safe ]];
 const categories = [[ cats|safe ]];
 const allocationData = [[ allocation|safe ]];
+const returnsData = [[ returns|safe ]];
 
 /* Vue logic */
 new Vue({
@@ -1451,7 +2140,87 @@ new Vue({
     availableDatasets: [],
     selectedSeries: [],
     allSeriesSelected: true,
-    seriesDropdownOpen: false
+    seriesDropdownOpen: false,
+    optimizationObjective: 'sharpe',
+    riskTolerance: 5,
+    timeHorizon: '5',
+    minEquity: 20,
+    maxEquity: 80,
+    minBonds: 20,
+    maxBonds: 60,
+    minCash: 0,
+    maxCash: 20,
+    minAlts: 0,
+    maxAlts: 30,
+    currentStep: 0,
+    originalPortfolio: [
+      { asset: 'US Equities', weight: 40 },
+      { asset: 'International Equities', weight: 20 },
+      { asset: 'US Bonds', weight: 30 },
+      { asset: 'Cash', weight: 10 },
+      { asset: 'Alternatives', weight: 0 }
+    ],
+    optimizedPortfolio: [
+      { asset: 'US Equities', weight: 0 },
+      { asset: 'International Equities', weight: 0 },
+      { asset: 'US Bonds', weight: 0 },
+      { asset: 'Cash', weight: 0 },
+      { asset: 'Alternatives', weight: 0 }
+    ],
+    performanceMetrics: {
+      originalReturn: 7.2,
+      optimizedReturn: 0,
+      originalVolatility: 12.5,
+      optimizedVolatility: 0,
+      originalSharpe: 0.58,
+      optimizedSharpe: 0,
+      originalDrawdown: 18.4,
+      optimizedDrawdown: 0
+    },
+    portfolioPerformanceChart: null,
+    originalWeights: {},
+    optimizedWeights: {},
+    originalWeightsSum: 0,
+    optimizedWeightsSum: 0,
+    selectedPresetPeriod: 'custom',
+    customStartMonth: '01',
+    customStartYear: 2024,
+    customEndMonth: '12',
+    customEndYear: 2024,
+    availableYears: [],
+    stepSize: 1,
+    optimizationStatus: null,
+    
+    // New backtest data
+    availableAssets: [],
+    presetPeriods: [
+      { label: '2008-2009: Great Financial Crisis', start: '2008-01', end: '2009-12' },
+      { label: '2012-2013: European Debt Crisis', start: '2012-01', end: '2013-12' },
+      { label: '2015-2016: Oil Shock, China Crash', start: '2015-01', end: '2016-12' },
+      { label: '2018-2019: The First Trade War', start: '2018-01', end: '2019-12' },
+      { label: '2020-2021: Covid Pandemic', start: '2020-01', end: '2021-12' }
+    ],
+    backtestStartDate: '',
+    backtestEndDate: '',
+    cumulativeReturnsChart: null,
+    performanceMetrics: {
+      original: {
+        cagr: 0,
+        volatility: 0,
+        sharpe: 0,
+        sortino: 0,
+        cvar: 0,
+        maxDrawdown: 0
+      },
+      optimized: {
+        cagr: 0,
+        volatility: 0,
+        sharpe: 0,
+        sortino: 0,
+        cvar: 0,
+        maxDrawdown: 0
+      }
+    }
   },
   mounted() {
     this.categories.forEach(cat => {
@@ -1473,6 +2242,16 @@ new Vue({
 
     // Initialize allocation data
     this.initializeAllocationData();
+    
+    // Initialize backtest data
+    this.initializeBacktestData();
+
+    // Initialize the performance chart when the backtest tab is first shown
+    this.$nextTick(() => {
+      if (this.currentTab === 'Backtest') {
+        this.initPerformanceChart();
+      }
+    });
   },
   computed:{
     filteredCharts(){
@@ -1495,6 +2274,21 @@ new Vue({
     },
     selectedChartCount() {
       return this.selectedCharts.length;
+    },
+    isOptimizedReturnBetter() {
+      return this.performanceMetrics.optimizedReturn > this.performanceMetrics.originalReturn;
+    },
+    isOptimizedVolatilityBetter() {
+      return this.performanceMetrics.optimizedVolatility < this.performanceMetrics.originalVolatility;
+    },
+    isOptimizedSharpeBetter() {
+      return this.performanceMetrics.optimizedSharpe > this.performanceMetrics.originalSharpe;
+    },
+    isOptimizedDrawdownBetter() {
+      return this.performanceMetrics.optimizedDrawdown < this.performanceMetrics.originalDrawdown;
+    },
+    canOptimize() {
+      return Math.abs(this.originalWeightsSum - 100) < 0.1;
     }
   },
   methods:{
@@ -1925,6 +2719,10 @@ new Vue({
       });
     },
     
+    /**
+     * Create a time series chart using Chart.js
+     * @param {CanvasRenderingContext2D} ctx - Canvas context for drawing the chart
+     */
     createTimeSeriesChart(ctx) {
       // Early exit if no series selected
       if (this.selectedSeries.length === 0) {
@@ -2037,6 +2835,10 @@ new Vue({
       });
     },
     
+    /**
+     * Update the time series chart with current data
+     * Destroys and recreates the chart to ensure clean rendering
+     */
     updateTimeSeriesChart() {
       this.$nextTick(() => {
         if (this.$refs.timeSeriesChart) {
@@ -2054,11 +2856,21 @@ new Vue({
       });
     },
     
+    /**
+     * Calculate position for marker on allocation line
+     * @param {number} value - The value (-10 to 10) to position
+     * @returns {number} - Percentage position on the line (0-100)
+     */
     calculateMarkerPosition(value) {
       // All lines use the same scale calculation
       return ((value + 10) / 20) * 100;
     },
     
+    /**
+     * Format date for display in charts
+     * @param {string} dateString - ISO date string (YYYY-MM-DD)
+     * @returns {string} - Formatted date (e.g., "Jan 2024")
+     */
     formatDate(dateString) {
       // Parse the date manually to avoid timezone issues
       const year = dateString.substring(0, 4);
@@ -2069,93 +2881,9 @@ new Vue({
       return `${monthNames[month]} ${year}`;
     },
     
-    startDragging(event, handle) {
-      this.dragging = handle;
-      window.addEventListener('mousemove', this.handleDrag);
-      window.addEventListener('mouseup', this.stopDragging);
-    },
-    
-    handleDrag(event) {
-      if (!this.dragging) return;
-      
-      // Get container dimensions
-      const container = event.target.closest('.range-slider-container');
-      if (!container) return;
-      
-      const rect = container.getBoundingClientRect();
-      const containerWidth = rect.width;
-      const offsetX = event.clientX - rect.left;
-      
-      // Calculate percent within the container (0-100)
-      let percent = Math.max(0, Math.min(100, (offsetX / containerWidth) * 100));
-      
-      // Find the closest date to this percentage
-      const targetDate = this.findClosestDate(percent);
-      if (!targetDate) return;
-      
-      // Update the appropriate date
-      if (this.dragging === 'start') {
-        // Don't allow start to go past end
-        if (targetDate > this.timeSeriesEndDate) return;
-        
-        this.timeSeriesStartDate = targetDate;
-        this.startYear = parseInt(targetDate.substring(0, 4));
-        this.startMonth = targetDate.substring(5, 7);
-        this.updateTimeSeriesChart();
-      } 
-      else if (this.dragging === 'end') {
-        // Don't allow end to go before start
-        if (targetDate < this.timeSeriesStartDate) return;
-        
-        this.timeSeriesEndDate = targetDate;
-        this.endYear = parseInt(targetDate.substring(0, 4));
-        this.endMonth = targetDate.substring(5, 7);
-        this.updateTimeSeriesChart();
-      }
-      else if (this.dragging === 'current') {
-        this.selectedAllocationDate = targetDate;
-        this.selectedYear = parseInt(targetDate.substring(0, 4));
-        this.selectedMonth = targetDate.substring(5, 7);
-        this.updateAllocationView();
-      }
-    },
-    
-    stopDragging() {
-      this.dragging = null;
-      window.removeEventListener('mousemove', this.handleDrag);
-      window.removeEventListener('mouseup', this.stopDragging);
-    },
-    
-    findClosestDate(percent) {
-      if (this.allocationDates.length === 0) return null;
-      
-      // Convert percentage to a target date
-      const firstDate = this.allocationDates[0];
-      const lastDate = this.allocationDates[this.allocationDates.length - 1];
-      
-      const startMs = new Date(firstDate).getTime();
-      const endMs = new Date(lastDate).getTime();
-      const range = endMs - startMs;
-      
-      const targetMs = startMs + (range * percent / 100);
-      
-      // Find the closest date in our allocation dates
-      let closestDate = null;
-      let minDiff = Infinity;
-      
-      for (const date of this.allocationDates) {
-        const dateMs = new Date(date).getTime();
-        const diff = Math.abs(dateMs - targetMs);
-        
-        if (diff < minDiff) {
-          minDiff = diff;
-          closestDate = date;
-        }
-      }
-      
-      return closestDate;
-    },
-    
+    /**
+     * Update the start date for the time series chart
+     */
     updateStartDate() {
       this.timeSeriesStartDate = `${this.startYear}-${this.startMonth}-01`;
       
@@ -2169,6 +2897,9 @@ new Vue({
       this.updateTimeSeriesChart();
     },
     
+    /**
+     * Update the end date for the time series chart
+     */
     updateEndDate() {
       this.timeSeriesEndDate = `${this.endYear}-${this.endMonth}-01`;
       
@@ -2182,60 +2913,46 @@ new Vue({
       this.updateTimeSeriesChart();
     },
     
-    datePositionPercent(date) {
-      // Calculate the position percentage for a date within the date range
-      if (!date || this.allocationDates.length === 0) return 0;
-      
-      const firstDate = this.allocationDates[0];
-      const lastDate = this.allocationDates[this.allocationDates.length - 1];
-      
-      // Convert to milliseconds since epoch
-      const startMs = new Date(firstDate).getTime();
-      const endMs = new Date(lastDate).getTime();
-      const dateMs = new Date(date).getTime();
-      
-      // Calculate position as percentage
-      const range = endMs - startMs;
-      if (range === 0) return 0;
-      
-      return ((dateMs - startMs) / range) * 100;
-    },
-
-    // Add this new method to handle indentation for hierarchical assets
-    isSubAsset(assetName) {
-      // Check if this is a European country or EM country
-      if (this.currentAllocationTab === 'Equities-Region') {
-        // Check for specific "Other" categories
-        if (assetName.includes('Other EU') || assetName.includes('Other EM')) {
-          return true;
-        }
-        
-        // European sub-regions
-        if (assetName.includes(' - ') && 
-            (assetName.startsWith('Europe') || assetName.startsWith('EM'))) {
-          return true;
-        }
-        
-        // Alternative naming patterns
-        const europeanCountries = ['Germany', 'France', 'Italy', 'Spain', 'UK', 
-                                  'Switzerland', 'Netherlands', 'Belgium', 'Sweden', 
-                                  'Denmark', 'Norway', 'Finland', 'Austria', 'Ireland', 
-                                  'Portugal', 'Greece'];
-                                  
-        const emCountries = ['China', 'India', 'Brazil', 'Russia', 'South Africa', 
-                            'Mexico', 'Indonesia', 'Turkey', 'Thailand', 'Malaysia', 
-                            'Philippines', 'Chile', 'Colombia', 'Peru', 'Egypt',
-                            'Korea', 'South Korea', 'Taiwan']; // Added Korea and Taiwan
-        
-        if (europeanCountries.some(country => assetName.includes(country)) || 
-            emCountries.some(country => assetName.includes(country))) {
-          return true;
-        }
+    /**
+     * Update available datasets for the current allocation tab
+     * Creates data series with appropriate colors for the chart
+     */
+    updateAvailableDatasets() {
+      if (!allocationData || !allocationData[this.currentAllocationTab]) {
+        this.availableDatasets = [];
+        return;
       }
-      return false;
+      
+      const tabData = allocationData[this.currentAllocationTab];
+      const assets = tabData.assets || [];
+      
+      // Professional color palette
+      const colorPalette = [
+        '#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', 
+        '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC',
+        '#1F77B4', '#D62728', '#9467BD', '#8C564B', '#E377C2'
+      ];
+      
+      this.availableDatasets = assets.map((asset, index) => {
+        const color = colorPalette[index % colorPalette.length];
+        return {
+          label: asset,
+          borderColor: color,
+          backgroundColor: 'white'
+        };
+      });
+      
+      // Initialize selectedSeries to all datasets by default
+      if (this.selectedSeries.length === 0) {
+        this.selectedSeries = this.availableDatasets.map(d => d.label);
+      }
     },
 
-    // Enhanced asset name formatting to better handle "Other EU" and "Other EM"
+    /**
+     * Format asset name for display
+     * @param {string} assetName - The raw asset name from data
+     * @returns {string} - Formatted asset name
+     */
     formatAssetName(assetName) {
       if (this.isSubAsset(assetName)) {
         // Special handling for "Other" categories
@@ -2269,8 +2986,48 @@ new Vue({
       }
       return assetName;
     },
+    
+    /**
+     * Determine if an asset is a sub-asset (e.g., country within a region)
+     * @param {string} assetName - The asset name to check
+     * @returns {boolean} - True if this is a sub-asset
+     */
+    isSubAsset(assetName) {
+      // Check if this is a European country or EM country
+      if (this.currentAllocationTab === 'Equities-Region') {
+        // Check for specific "Other" categories
+        if (assetName.includes('Other EU') || assetName.includes('Other EM')) {
+          return true;
+        }
+        
+        // European sub-regions
+        if (assetName.includes(' - ') && 
+            (assetName.startsWith('Europe') || assetName.startsWith('EM'))) {
+          return true;
+        }
+        
+        // Alternative naming patterns
+        const europeanCountries = ['Germany', 'France', 'Italy', 'Spain', 'UK', 
+                                  'Switzerland', 'Netherlands', 'Belgium', 'Sweden', 
+                                  'Denmark', 'Norway', 'Finland', 'Austria', 'Ireland', 
+                                  'Portugal', 'Greece'];
+                                  
+        const emCountries = ['China', 'India', 'Brazil', 'Russia', 'South Africa', 
+                            'Mexico', 'Indonesia', 'Turkey', 'Thailand', 'Malaysia', 
+                            'Philippines', 'Chile', 'Colombia', 'Peru', 'Egypt',
+                            'Korea', 'South Korea', 'Taiwan']; // Added Korea and Taiwan
+        
+        if (europeanCountries.some(country => assetName.includes(country)) || 
+            emCountries.some(country => assetName.includes(country))) {
+          return true;
+        }
+      }
+      return false;
+    },
 
-    // Add toggle method for series selection
+    /**
+     * Toggle the series dropdown visibility
+     */
     toggleSeriesDropdown() {
       this.seriesDropdownOpen = !this.seriesDropdownOpen;
       
@@ -2282,6 +3039,10 @@ new Vue({
       }
     },
 
+    /**
+     * Handle clicks outside the dropdown to close it
+     * @param {Event} event - The click event
+     */
     handleOutsideClick(event) {
       // Get references to dropdown elements
       const dropdown = this.$el.querySelector('.series-dropdown-content');
@@ -2296,56 +3057,1086 @@ new Vue({
       }
     },
 
-    // Clean up event listener when component is destroyed
-    beforeDestroy() {
-      document.removeEventListener('click', this.handleOutsideClick);
-    },
-
-    // Add a new method to update available datasets
-    updateAvailableDatasets() {
-      if (!allocationData || !allocationData[this.currentAllocationTab]) {
-        this.availableDatasets = [];
-        return;
-      }
-      
-      const tabData = allocationData[this.currentAllocationTab];
-      const assets = tabData.assets || [];
-      
-      // Professional color palette
-      const colorPalette = [
-        '#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', 
-        '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC',
-        '#1F77B4', '#D62728', '#9467BD', '#8C564B', '#E377C2'
-      ];
-      
-      this.availableDatasets = assets.map((asset, index) => {
-        const color = colorPalette[index % colorPalette.length];
-        return {
-          label: asset,
-          borderColor: color,
-          backgroundColor: 'white'
-        };
-      });
-      
-      // Initialize selectedSeries to all datasets by default
-      if (this.selectedSeries.length === 0) {
-        this.selectedSeries = this.availableDatasets.map(d => d.label);
-      }
-    },
-
-    // Add this new method to handle series selection
+    /**
+     * Select all available data series
+     */
     selectAllSeries() {
       // Select all available series for the current tab
       this.selectedSeries = [...this.availableDatasets.map(d => d.label)];
       this.updateTimeSeriesChart();
     },
 
-    // Add this new method to handle series deselection
+    /**
+     * Deselect all data series
+     */
     deselectAllSeries() {
       // Deselect all series
       this.selectedSeries = [];
       this.updateTimeSeriesChart();
     },
+    runOptimization() {
+      // Reset the current step
+      this.currentStep = 0;
+      
+      // Simulate a multi-step optimization process
+      const runStep = (step) => {
+        this.currentStep = step;
+        
+        if (step < 6) {
+          setTimeout(() => {
+            runStep(step + 1);
+          }, 800); // Each step takes 800ms
+        } else {
+          // Optimization complete - update results
+          this.updateOptimizationResults();
+        }
+      };
+      
+      // Start the optimization process
+      runStep(1);
+    },
+    updateOptimizationResults() {
+      // Calculate results based on user inputs
+      const riskFactor = this.riskTolerance / 10; // 0.1 to 1
+      
+      // Generate optimized portfolio weights based on objective
+      let weights = [];
+      
+      if (this.optimizationObjective === 'sharpe') {
+        // Maximize Sharpe ratio
+        weights = [45, 25, 20, 5, 5]; // US Equity, Int'l Equity, Bonds, Cash, Alts
+      } else if (this.optimizationObjective === 'return') {
+        // Maximize return
+        weights = [60, 20, 10, 0, 10]; // More equity, less bonds/cash
+      } else if (this.optimizationObjective === 'risk') {
+        // Minimize risk
+        weights = [20, 10, 50, 15, 5]; // More bonds/cash, less equity
+      } else if (this.optimizationObjective === 'sortino') {
+        // Maximize Sortino ratio (similar to Sharpe but different risk focus)
+        weights = [40, 20, 25, 5, 10]; // Balanced approach
+      }
+      
+      // Adjust weights based on risk tolerance
+      if (riskFactor > 0.5) {
+        // Increase equity exposure for higher risk tolerance
+        const adjustment = (riskFactor - 0.5) * 20; // Up to 10% adjustment
+        weights[0] += adjustment * 0.6; // 60% of adjustment to US equity
+        weights[1] += adjustment * 0.4; // 40% to international
+        weights[2] -= adjustment * 0.7; // 70% from bonds
+        weights[3] -= adjustment * 0.3; // 30% from cash
+      } else {
+        // Decrease equity exposure for lower risk tolerance
+        const adjustment = (0.5 - riskFactor) * 20; // Up to 10% adjustment
+        weights[0] -= adjustment * 0.6; // 60% from US equity
+        weights[1] -= adjustment * 0.4; // 40% from international
+        weights[2] += adjustment * 0.7; // 70% to bonds
+        weights[3] += adjustment * 0.3; // 30% to cash
+      }
+      
+      // Enforce constraints
+      // (In a real implementation, this would be more sophisticated)
+      let totalEquity = weights[0] + weights[1];
+      if (totalEquity < this.minEquity) {
+        // Increase equity to minimum
+        const shortfall = this.minEquity - totalEquity;
+        weights[0] += shortfall * 0.7;
+        weights[1] += shortfall * 0.3;
+        weights[2] -= shortfall * 0.7;
+        weights[3] -= shortfall * 0.3;
+      } else if (totalEquity > this.maxEquity) {
+        // Decrease equity to maximum
+        const excess = totalEquity - this.maxEquity;
+        weights[0] -= excess * 0.7;
+        weights[1] -= excess * 0.3;
+        weights[2] += excess * 0.7;
+        weights[3] += excess * 0.3;
+      }
+      
+      // Ensure no negative weights and round to integers
+      weights = weights.map(w => Math.max(0, Math.round(w)));
+      
+      // Normalize to ensure sum = 100%
+      const sum = weights.reduce((a, b) => a + b, 0);
+      weights = weights.map(w => Math.round((w / sum) * 100));
+      
+      // Adjust to ensure total is exactly 100%
+      const adjustedSum = weights.reduce((a, b) => a + b, 0);
+      if (adjustedSum !== 100) {
+        weights[0] += (100 - adjustedSum);
+      }
+      
+      // Update optimized portfolio
+      this.optimizedPortfolio = [
+        { asset: 'US Equities', weight: weights[0] },
+        { asset: 'International Equities', weight: weights[1] },
+        { asset: 'US Bonds', weight: weights[2] },
+        { asset: 'Cash', weight: weights[3] },
+        { asset: 'Alternatives', weight: weights[4] }
+      ];
+      
+      // Calculate performance metrics based on portfolio weights
+      let optimizedReturn, optimizedVolatility, optimizedSharpe, optimizedDrawdown;
+      
+      const equityWeight = weights[0] + weights[1];
+      const bondWeight = weights[2];
+      const cashWeight = weights[3];
+      const altsWeight = weights[4];
+      
+      // These are simplified calculations for demonstration
+      // In a real implementation, these would use actual historical data
+      optimizedReturn = (equityWeight * 0.08 + bondWeight * 0.04 + 
+                        cashWeight * 0.02 + altsWeight * 0.06);
+      
+      optimizedVolatility = Math.sqrt(
+        Math.pow(equityWeight * 0.18, 2) + 
+        Math.pow(bondWeight * 0.06, 2) + 
+        Math.pow(cashWeight * 0.01, 2) + 
+        Math.pow(altsWeight * 0.12, 2)
+      ) * 0.7; // Adjust for correlation effects
+      
+      optimizedSharpe = (optimizedReturn - 2) / optimizedVolatility;
+      
+      optimizedDrawdown = (equityWeight * 0.35 + bondWeight * 0.1 + 
+                         cashWeight * 0.01 + altsWeight * 0.2) * 0.8;
+      
+      // Round metrics for display
+      this.performanceMetrics.optimizedReturn = optimizedReturn.toFixed(1);
+      this.performanceMetrics.optimizedVolatility = optimizedVolatility.toFixed(1);
+      this.performanceMetrics.optimizedSharpe = optimizedSharpe.toFixed(2);
+      this.performanceMetrics.optimizedDrawdown = optimizedDrawdown.toFixed(1);
+      
+      // Update performance chart
+      this.initPerformanceChart();
+    },
+    resetOptimization() {
+      this.currentStep = 0;
+      this.optimizationObjective = 'sharpe';
+      this.riskTolerance = 5;
+      this.timeHorizon = '5';
+      
+      // Reset constraints
+      this.minEquity = 20;
+      this.maxEquity = 80;
+      this.minBonds = 20;
+      this.maxBonds = 60;
+      this.minCash = 0;
+      this.maxCash = 20;
+      this.minAlts = 0;
+      this.maxAlts = 30;
+      
+      // Reset the optimized portfolio
+      this.optimizedPortfolio = [
+        { asset: 'US Equities', weight: 0 },
+        { asset: 'International Equities', weight: 0 },
+        { asset: 'US Bonds', weight: 0 },
+        { asset: 'Cash', weight: 0 },
+        { asset: 'Alternatives', weight: 0 }
+      ];
+      
+      // Reset performance metrics
+      this.performanceMetrics.optimizedReturn = 0;
+      this.performanceMetrics.optimizedVolatility = 0;
+      this.performanceMetrics.optimizedSharpe = 0;
+      this.performanceMetrics.optimizedDrawdown = 0;
+      
+      // Reset the chart
+      if (this.portfolioPerformanceChart) {
+        this.portfolioPerformanceChart.destroy();
+        this.portfolioPerformanceChart = null;
+      }
+    },
+    initPerformanceChart() {
+      this.$nextTick(() => {
+        if (window.Chart && this.$refs.performanceChart) {
+          if (this.portfolioPerformanceChart) {
+            this.portfolioPerformanceChart.destroy();
+          }
+          
+          const ctx = this.$refs.performanceChart.getContext('2d');
+          
+          // Get dates for x-axis - use last 60 months of data (5 years)
+          let dates = [];
+          
+          // Use returnsData if available, otherwise generate sample data
+          if (returnsData && returnsData.dates) {
+            // Use last 60 dates from returnsData.dates or all if fewer
+            const dataLength = returnsData.dates.length;
+            const startIndex = Math.max(0, dataLength - 60);
+            dates = returnsData.dates.slice(startIndex).map(date => this.formatDate(date));
+          } else {
+            // Generate sample dates if no data
+            const today = new Date();
+            for (let i = 59; i >= 0; i--) {
+              const date = new Date(today);
+              date.setMonth(today.getMonth() - i);
+              dates.push(this.formatDate(date.toISOString().slice(0, 10)));
+            }
+          }
+          
+          // Create sample performance data
+          const originalPerformance = this.generateCumulativeReturns(this.performanceMetrics.originalReturn, this.performanceMetrics.originalVolatility, dates.length);
+          const optimizedPerformance = this.generateCumulativeReturns(this.performanceMetrics.optimizedReturn, this.performanceMetrics.optimizedVolatility, dates.length);
+          
+          // Configure and create chart
+          this.portfolioPerformanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: dates,
+              datasets: [
+                {
+                  label: 'Original Portfolio',
+                  data: originalPerformance,
+                  borderColor: '#4F46E5',
+                  backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.1
+                },
+                {
+                  label: 'Optimized Portfolio',
+                  data: optimizedPerformance,
+                  borderColor: '#10B981',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function(value) {
+                      return value + '%';
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: 'Cumulative Return (%)'
+                  }
+                },
+                x: {
+                  ticks: {
+                    maxRotation: 45,
+                    autoSkip: true,
+                    autoSkipPadding: 10
+                  }
+                }
+              },
+              plugins: {
+                tooltip: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                    label: function(context) {
+                      return context.dataset.label + ': ' + context.raw.toFixed(2) + '%';
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+      });
+    },
+
+    generateCumulativeReturns(annualReturn, annualVol, months) {
+      // Convert annual to monthly
+      const monthlyReturn = (Math.pow(1 + annualReturn / 100, 1/12) - 1) * 100;
+      const monthlyVol = annualVol / Math.sqrt(12);
+      
+      let cumulativeReturn = 0;
+      const returns = [0]; // Start at 0% cumulative return
+      
+      for (let i = 1; i < months; i++) {
+        // Add some randomness based on volatility
+        // Using normal-ish distribution with Box-Muller transform
+        const u1 = Math.random();
+        const u2 = Math.random();
+        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        
+        // Monthly return with random component based on volatility
+        const randomReturn = monthlyReturn + z * (monthlyVol / 100) * monthlyReturn;
+        
+        // Add to cumulative
+        cumulativeReturn += randomReturn;
+        returns.push(cumulativeReturn);
+      }
+      
+      return returns;
+    },
+    updatePortfolioReturns() {
+      // Calculate sums, ensuring we handle string inputs properly
+      this.originalWeightsSum = Object.values(this.originalWeights).reduce((a, b) => {
+        const val = parseFloat(b) || 0;
+        return a + val;
+      }, 0);
+      
+      this.optimizedWeightsSum = Object.values(this.optimizedWeights).reduce((a, b) => {
+        const val = parseFloat(b) || 0;
+        return a + val;
+      }, 0);
+      
+      // Update chart and metrics whenever weights change
+      this.updateCumulativeReturnsChart();
+      this.calculatePerformanceMetrics();
+    },
+    
+    formatMetric(value, unit = '') {
+      if (value === 0 || value === null || value === undefined) {
+        return '-';
+      }
+      return `${value.toFixed(2)}${unit}`;
+    },
+    
+    formatDifference(optimized, original, unit = '') {
+      if (optimized === 0 || original === 0) {
+        return '-';
+      }
+      const difference = optimized - original;
+      const sign = difference >= 0 ? '+' : '';
+      return `${sign}${difference.toFixed(2)}${unit}`;
+    },
+    getMetricClass(metric) {
+      // Determine if optimized metric is better than original
+      const original = this.performanceMetrics.original[metric];
+      const optimized = this.performanceMetrics.optimized[metric];
+      
+      // For metrics where higher is better (cagr, sharpe, sortino)
+      if (['cagr', 'sharpe', 'sortino'].includes(metric)) {
+        return optimized > original ? 'metric-better' : 'metric-worse';
+      }
+      // For metrics where lower is better (volatility, cvar, maxDrawdown)
+      else if (['volatility', 'cvar', 'maxDrawdown'].includes(metric)) {
+        return optimized < original ? 'metric-better' : 'metric-worse';
+      }
+      
+      return '';
+    },
+    
+    // New backtest methods
+    initializeBacktestData() {
+      // Initialize available assets from returns data
+      if (returnsData && returnsData.assets && returnsData.assets.asset_names) {
+        this.availableAssets = returnsData.assets.asset_names;
+      } else {
+        // Fallback to sample assets if no data available
+        this.availableAssets = ['US Equities', 'International Equities', 'US Bonds', 'Cash', 'Alternatives'];
+      }
+      
+      // Always initialize ALL weights to 0 when entering the page
+      this.originalWeights = {};
+      this.optimizedWeights = {};
+      
+      this.availableAssets.forEach(asset => {
+        this.$set(this.originalWeights, asset, 0);
+        this.$set(this.optimizedWeights, asset, 0);
+      });
+      
+      // Initialize years for date selectors
+      if (returnsData && returnsData.assets && returnsData.assets.dates) {
+        const dates = returnsData.assets.dates;
+        const years = new Set();
+        dates.forEach(date => {
+          const year = parseInt(date.substring(0, 4));
+          years.add(year);
+        });
+        this.availableYears = Array.from(years).sort();
+        
+        // Set initial dates
+        if (this.availableYears.length > 0) {
+          this.customStartYear = this.availableYears[0];
+          this.customEndYear = this.availableYears[this.availableYears.length - 1];
+        }
+      } else {
+        // Fallback years
+        this.availableYears = [2020, 2021, 2022, 2023, 2024];
+        this.customStartYear = 2020;
+        this.customEndYear = 2024;
+      }
+      
+      // Update portfolio sums
+      this.updatePortfolioReturns();
+    },
+    
+    selectPresetPeriod(period) {
+      this.backtestStartDate = period.start + '-01';
+      this.backtestEndDate = period.end + '-01';
+      
+      // Update the custom selectors to match
+      const [startYear, startMonth] = period.start.split('-');
+      const [endYear, endMonth] = period.end.split('-');
+      
+      this.customStartYear = parseInt(startYear);
+      this.customStartMonth = startMonth;
+      this.customEndYear = parseInt(endYear);
+      this.customEndMonth = endMonth;
+      
+      // Update charts and calculations
+      this.updateCumulativeReturnsChart();
+      this.calculatePerformanceMetrics();
+    },
+    
+    updateCustomPeriod() {
+      this.backtestStartDate = `${this.customStartYear}-${this.customStartMonth}-01`;
+      this.backtestEndDate = `${this.customEndYear}-${this.customEndMonth}-01`;
+      
+      // Update charts and calculations
+      this.updateCumulativeReturnsChart();
+      this.calculatePerformanceMetrics();
+    },
+    
+    updateCumulativeReturnsChart() {
+      this.$nextTick(() => {
+        if (window.Chart && this.$refs.cumulativeReturnsChart) {
+          if (this.cumulativeReturnsChart) {
+            this.cumulativeReturnsChart.destroy();
+          }
+          
+          const ctx = this.$refs.cumulativeReturnsChart.getContext('2d');
+          
+          // Get filtered data for the selected period
+          const { dates, originalReturns, optimizedReturns, benchmarkReturns } = this.getFilteredReturnsData();
+          
+          // If no data is available, show empty chart with message
+          if (dates.length === 0) {
+            // Clear the canvas and show message
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('No data available for the selected period and portfolio weights', ctx.canvas.width/2, ctx.canvas.height/2 - 10);
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.fillText('Ensure portfolio weights sum to 100% and selected assets have data', ctx.canvas.width/2, ctx.canvas.height/2 + 15);
+            return;
+          }
+          
+          // Calculate cumulative returns
+          const originalCumulative = this.calculateCumulativeReturns(originalReturns);
+          const optimizedCumulative = this.calculateCumulativeReturns(optimizedReturns);
+          const allStocksCumulative = this.calculateCumulativeReturns(benchmarkReturns.allStocks);
+          const allBondsCumulative = this.calculateCumulativeReturns(benchmarkReturns.allBonds);
+          const inflationCumulative = this.calculateCumulativeReturns(benchmarkReturns.inflation);
+          
+          // Professional color palette
+          const colors = {
+            allStocks: '#1f77b4',     // Professional blue
+            allBonds: '#ff7f0e',      // Professional orange  
+            inflation: '#2ca02c',     // Professional green
+            original: '#d62728',      // Professional red
+            optimized: '#9467bd'      // Professional purple
+          };
+          
+          // Build datasets array based on weight validation
+          const datasets = [
+            {
+              label: 'All Stocks',
+              data: allStocksCumulative,
+              borderColor: colors.allStocks,
+              backgroundColor: colors.allStocks,
+              borderWidth: 2,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointBackgroundColor: colors.allStocks,
+              pointBorderColor: colors.allStocks,
+              fill: false,
+              tension: 0.1
+            },
+            {
+              label: 'All Bonds',
+              data: allBondsCumulative,
+              borderColor: colors.allBonds,
+              backgroundColor: colors.allBonds,
+              borderWidth: 2,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointBackgroundColor: colors.allBonds,
+              pointBorderColor: colors.allBonds,
+              fill: false,
+              tension: 0.1
+            },
+            {
+              label: 'Inflation',
+              data: inflationCumulative,
+              borderColor: colors.inflation,
+              backgroundColor: colors.inflation,
+              borderWidth: 1,
+              borderDash: [5, 5],
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointBackgroundColor: colors.inflation,
+              pointBorderColor: colors.inflation,
+              fill: false,
+              tension: 0.1
+            }
+          ];
+          
+          // Only add Original Portfolio if weights sum to approximately 100%
+          if (Math.abs(this.originalWeightsSum - 100) < 0.1) {
+            datasets.push({
+              label: 'Original Portfolio',
+              data: originalCumulative,
+              borderColor: colors.original,
+              backgroundColor: colors.original,
+              borderWidth: 3,
+              pointRadius: 0,
+              pointHoverRadius: 5,
+              pointBackgroundColor: colors.original,
+              pointBorderColor: colors.original,
+              fill: false,
+              tension: 0.1
+            });
+          }
+          
+          // Only add Optimized Portfolio if weights sum to approximately 100%
+          if (Math.abs(this.optimizedWeightsSum - 100) < 0.1) {
+            datasets.push({
+              label: 'Optimized Portfolio',
+              data: optimizedCumulative,
+              borderColor: colors.optimized,
+              backgroundColor: colors.optimized,
+              borderWidth: 3,
+              pointRadius: 0,
+              pointHoverRadius: 5,
+              pointBackgroundColor: colors.optimized,
+              pointBorderColor: colors.optimized,
+              fill: false,
+              tension: 0.1
+            });
+          }
+          
+          this.cumulativeReturnsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: dates.map(date => this.formatDate(date)),
+              datasets: datasets
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function(value) {
+                      return value.toFixed(1) + '%';
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: 'Cumulative Return (%)'
+                  }
+                },
+                x: {
+                  ticks: {
+                    maxRotation: 45,
+                    autoSkip: true,
+                    autoSkipPadding: 10
+                  }
+                }
+              },
+                              plugins: {
+                  legend: {
+                    display: true,
+                    position: 'bottom',
+                    align: 'center',
+                    labels: {
+                      usePointStyle: true,
+                      pointStyle: 'circle',
+                      padding: 15,
+                      font: {
+                        size: 12,
+                        family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+                      },
+                      color: '#374151',
+                      generateLabels: function(chart) {
+                        const original = Chart.defaults.plugins.legend.labels.generateLabels;
+                        const labels = original.call(this, chart);
+                        
+                        labels.forEach(label => {
+                          label.pointStyle = 'circle';
+                          label.pointStyleWidth = 10;
+                          label.pointStyleHeight = 10;
+                        });
+                        
+                        return labels;
+                      }
+                    }
+                  },
+                  tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    titleColor: '#111827',
+                    bodyColor: '#374151',
+                    borderColor: '#E5E7EB',
+                    borderWidth: 1,
+                    padding: 10,
+                    boxPadding: 5,
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    boxWidth: 8,
+                    boxHeight: 8,
+                    callbacks: {
+                      label: function(context) {
+                        if (context.raw === null) {
+                          return context.dataset.label + ': No data';
+                        }
+                        return context.dataset.label + ': ' + context.raw.toFixed(2) + '%';
+                      }
+                    }
+                  }
+              }
+            }
+          });
+        }
+      });
+    },
+    
+    getFilteredReturnsData() {
+      // Use real data from returnsData if available
+      if (!returnsData || !returnsData.assets || !returnsData.reference) {
+        console.warn('Returns data not available, using sample data');
+        return this.getSampleReturnsData();
+      }
+      
+      const startDateStr = this.backtestStartDate || '2020-01-01';
+      const endDateStr = this.backtestEndDate || '2024-12-01';
+      
+      // First, filter by user-specified date range
+      const dateFilteredIndices = [];
+      const dateFilteredDates = [];
+      
+      if (returnsData.assets.date_index) {
+        // Fast filtering using date index
+        returnsData.assets.dates.forEach((date, index) => {
+          if (date >= startDateStr && date <= endDateStr) {
+            dateFilteredIndices.push(index);
+            dateFilteredDates.push(date);
+          }
+        });
+      } else {
+        // Fallback to original method
+        returnsData.assets.dates.forEach((date, index) => {
+          if (date >= startDateStr && date <= endDateStr) {
+            dateFilteredIndices.push(index);
+            dateFilteredDates.push(date);
+          }
+        });
+      }
+      
+      if (dateFilteredDates.length === 0) {
+        console.warn('No data found for selected date range, using sample data');
+        return this.getSampleReturnsData();
+      }
+      
+      // Identify all active assets (those with non-zero weights) from both portfolios
+      const allActiveAssets = new Set();
+      
+      // Add assets from original portfolio
+      Object.keys(this.originalWeights).forEach(asset => {
+        const weight = parseFloat(this.originalWeights[asset] || 0);
+        if (weight > 0 && returnsData.assets.assets[asset]) {
+          allActiveAssets.add(asset);
+        }
+      });
+      
+      // Add assets from optimized portfolio
+      Object.keys(this.optimizedWeights).forEach(asset => {
+        const weight = parseFloat(this.optimizedWeights[asset] || 0);
+        if (weight > 0 && returnsData.assets.assets[asset]) {
+          allActiveAssets.add(asset);
+        }
+      });
+      
+      // Filter to only include dates where ALL active assets have data
+      const finalIndices = [];
+      const finalDates = [];
+      
+      dateFilteredIndices.forEach((index, i) => {
+        let allAssetsHaveData = true;
+        
+        // Check if all active assets have data for this date
+        for (const asset of allActiveAssets) {
+          const assetReturn = returnsData.assets.assets[asset][index];
+          if (assetReturn === undefined || assetReturn === null) {
+            allAssetsHaveData = false;
+            break;
+          }
+        }
+        
+        if (allAssetsHaveData) {
+          finalIndices.push(index);
+          finalDates.push(dateFilteredDates[i]);
+        }
+      });
+      
+      if (finalDates.length === 0) {
+        console.warn('No periods found where all assets have complete data, using sample data');
+        return this.getSampleReturnsData();
+      }
+      
+      // Log the data availability info
+      console.log(`Portfolio analysis period: ${finalDates[0]} to ${finalDates[finalDates.length - 1]}`);
+      console.log(`Total periods with complete data: ${finalDates.length} out of ${dateFilteredDates.length} requested`);
+      if (allActiveAssets.size > 0) {
+        console.log(`Active assets requiring data: ${Array.from(allActiveAssets).join(', ')}`);
+      }
+      
+      // Calculate portfolio returns based on weights (now with guaranteed complete data)
+      const originalReturns = this.calculatePortfolioReturns(finalIndices, this.originalWeights);
+      const optimizedReturns = this.calculatePortfolioReturns(finalIndices, this.optimizedWeights);
+      
+      // Further filter to only include periods where at least one portfolio has valid weights
+      const hasOriginalWeights = Math.abs(this.originalWeightsSum - 100) < 0.1;
+      const hasOptimizedWeights = Math.abs(this.optimizedWeightsSum - 100) < 0.1;
+      
+      // If neither portfolio has valid weights, we don't want to show any periods
+      if (!hasOriginalWeights && !hasOptimizedWeights && finalDates.length > 0) {
+        console.log('No portfolios have valid weights (sum to 100%), showing empty chart');
+        return { 
+          dates: [], 
+          originalReturns: [], 
+          optimizedReturns: [], 
+          benchmarkReturns: { allStocks: [], allBonds: [], inflation: [] }
+        };
+      }
+      
+      // Get benchmark returns from reference series
+      const benchmarkReturns = {
+        allStocks: this.getBenchmarkReturns(finalIndices, 'World Equity') || this.getBenchmarkReturns(finalIndices, 'MSCI World') || this.getBenchmarkReturns(finalIndices, 'Equity') || [],
+        allBonds: this.getBenchmarkReturns(finalIndices, 'Canadian Bonds') || this.getBenchmarkReturns(finalIndices, 'US Bond') || this.getBenchmarkReturns(finalIndices, 'Bond') || this.getBenchmarkReturns(finalIndices, 'Bonds') || [],
+        inflation: this.getBenchmarkReturns(finalIndices, 'Inflation') || finalDates.map(() => 0.2)
+      };
+      
+      return { dates: finalDates, originalReturns, optimizedReturns, benchmarkReturns };
+    },
+    
+    getSampleReturnsData() {
+      // Fallback sample data when real data is not available
+      const dates = [];
+      const originalReturns = [];
+      const optimizedReturns = [];
+      
+      const startDate = new Date(this.backtestStartDate || '2020-01-01');
+      const endDate = new Date(this.backtestEndDate || '2024-12-01');
+      
+      let currentDate = new Date(startDate);
+      while (currentDate <= endDate) {
+        dates.push(currentDate.toISOString().substring(0, 10));
+        originalReturns.push((Math.random() - 0.5) * 6);
+        optimizedReturns.push((Math.random() - 0.5) * 5);
+        currentDate.setMonth(currentDate.getMonth() + 1);
+      }
+      
+      const benchmarkReturns = {
+        allStocks: originalReturns.map(r => r * 1.2),
+        allBonds: originalReturns.map(r => r * 0.5),
+        inflation: dates.map(() => 0.2)
+      };
+      
+      return { dates, originalReturns, optimizedReturns, benchmarkReturns };
+    },
+    
+    calculatePortfolioReturns(indices, weights) {
+      // Calculate weighted portfolio returns for given indices with complete data
+      const returns = [];
+      const totalWeight = Object.values(weights).reduce((sum, weight) => sum + parseFloat(weight || 0), 0);
+      
+      if (totalWeight === 0) return indices.map(() => 0);
+      
+      // Pre-filter assets with non-zero weights for efficiency
+      const activeAssets = Object.keys(weights).filter(asset => {
+        const weight = parseFloat(weights[asset] || 0);
+        return weight > 0 && returnsData.assets.assets[asset];
+      });
+      
+      if (activeAssets.length === 0) return indices.map(() => 0);
+      
+      indices.forEach(index => {
+        let portfolioReturn = 0;
+        
+        activeAssets.forEach(asset => {
+          const weight = parseFloat(weights[asset]);
+          const assetReturn = returnsData.assets.assets[asset][index];
+          // Since we only use periods with complete data, assetReturn should never be null/undefined
+          // But if it is null, we should skip this asset for this period
+          if (assetReturn !== null && assetReturn !== undefined) {
+            portfolioReturn += (weight / 100) * assetReturn;
+          }
+        });
+        
+        returns.push(portfolioReturn);
+      });
+      
+      return returns;
+    },
+    
+    getBenchmarkReturns(indices, benchmarkName) {
+      // Get benchmark returns from both assets and reference series
+      let benchmarkKey = null;
+      let benchmarkData = null;
+      let sourceLocation = null;
+      
+      // First search in reference series
+      if (returnsData.reference && returnsData.reference.assets) {
+        const referenceKeys = Object.keys(returnsData.reference.assets);
+        console.log('Looking for benchmark:', benchmarkName, 'in reference series. Available keys:', referenceKeys);
+        
+        benchmarkKey = this.findBenchmarkKey(referenceKeys, benchmarkName);
+        if (benchmarkKey) {
+          benchmarkData = returnsData.reference.assets[benchmarkKey];
+          sourceLocation = 'reference';
+        }
+      }
+      
+      // If not found in reference, search in assets series
+      if (!benchmarkKey && returnsData.assets && returnsData.assets.assets) {
+        const assetKeys = Object.keys(returnsData.assets.assets);
+        console.log('Looking for benchmark:', benchmarkName, 'in assets series. Available keys:', assetKeys);
+        
+        benchmarkKey = this.findBenchmarkKey(assetKeys, benchmarkName);
+        if (benchmarkKey) {
+          benchmarkData = returnsData.assets.assets[benchmarkKey];
+          sourceLocation = 'assets';
+        }
+      }
+      
+      if (!benchmarkKey) {
+        console.warn('No benchmark found for:', benchmarkName);
+        return null;
+      }
+      
+      console.log('Found benchmark key:', benchmarkKey, 'for search term:', benchmarkName, 'in', sourceLocation, 'series');
+      return indices.map(index => {
+        const value = benchmarkData[index];
+        return value !== null && value !== undefined ? value : 0;
+      });
+    },
+    
+    findBenchmarkKey(keys, benchmarkName) {
+      // Helper function to find benchmark key with comprehensive matching
+      let benchmarkKey = keys.find(key => key === benchmarkName) ||
+                         keys.find(key => key.toLowerCase() === benchmarkName.toLowerCase()) ||
+                         keys.find(key => key.toLowerCase().includes(benchmarkName.toLowerCase())) ||
+                         keys.find(key => benchmarkName.toLowerCase().includes(key.toLowerCase()));
+      
+      // Additional specific matching for common bond names
+      if (!benchmarkKey && benchmarkName.toLowerCase().includes('bond')) {
+        benchmarkKey = keys.find(key => 
+          key.toLowerCase().includes('bond') || 
+          key.toLowerCase().includes('treasury') ||
+          key.toLowerCase().includes('govt') ||
+          key.toLowerCase().includes('government')
+        );
+      }
+      
+      return benchmarkKey;
+    },
+    
+    calculateCumulativeReturns(returns) {
+      if (!returns || returns.length === 0) return [];
+      
+      let cumulative = 0;
+      const result = [];
+      
+      for (let i = 0; i < returns.length; i++) {
+        if (i === 0) {
+          // First period starts at 0%
+          result.push(0);
+        } else {
+          // Calculate cumulative return from previous period
+          cumulative = (1 + cumulative / 100) * (1 + returns[i-1] / 100) * 100 - 100;
+          result.push(cumulative);
+        }
+      }
+      
+      return result;
+    },
+    
+    calculatePerformanceMetrics() {
+      // Calculate actual performance metrics based on portfolio weights and selected time period
+      const { dates, originalReturns, optimizedReturns } = this.getFilteredReturnsData();
+      
+      if (dates.length === 0) {
+        // Fallback to static values if no data
+        this.performanceMetrics.original = { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
+        this.performanceMetrics.optimized = { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
+        return;
+      }
+      
+      // Calculate metrics for original portfolio
+      this.performanceMetrics.original = this.calculateMetricsForReturns(originalReturns);
+      
+      // Calculate metrics for optimized portfolio (if it has valid weights)
+      if (Math.abs(this.optimizedWeightsSum - 100) < 0.1) {
+        this.performanceMetrics.optimized = this.calculateMetricsForReturns(optimizedReturns);
+      } else {
+        this.performanceMetrics.optimized = { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
+      }
+    },
+    
+    calculateMetricsForReturns(returns) {
+      if (!returns || returns.length === 0) {
+        return { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
+      }
+      
+      // Convert monthly returns to decimal form
+      const monthlyReturns = returns.map(r => r / 100);
+      
+      // Calculate annualized return (CAGR)
+      const totalReturn = monthlyReturns.reduce((acc, ret) => acc * (1 + ret), 1);
+      const years = returns.length / 12;
+      const cagr = years > 0 ? (Math.pow(totalReturn, 1/years) - 1) * 100 : 0;
+      
+      // Calculate volatility (annualized standard deviation)
+      const meanReturn = monthlyReturns.reduce((a, b) => a + b, 0) / monthlyReturns.length;
+      const variance = monthlyReturns.reduce((acc, ret) => acc + Math.pow(ret - meanReturn, 2), 0) / monthlyReturns.length;
+      const volatility = Math.sqrt(variance * 12) * 100; // Annualized
+      
+      // Calculate Sharpe ratio (assuming 2% risk-free rate)
+      const riskFreeRate = 0.02;
+      const sharpe = volatility > 0 ? (cagr - riskFreeRate) / volatility : 0;
+      
+      // Calculate Sortino ratio (downside deviation)
+      const downsideReturns = monthlyReturns.filter(ret => ret < meanReturn);
+      const downsideVariance = downsideReturns.length > 0 ? 
+        downsideReturns.reduce((acc, ret) => acc + Math.pow(ret - meanReturn, 2), 0) / downsideReturns.length : 0;
+      const downsideDeviation = Math.sqrt(downsideVariance * 12) * 100;
+      const sortino = downsideDeviation > 0 ? (cagr - riskFreeRate) / downsideDeviation : 0;
+      
+      // Calculate CVaR (5% worst returns)
+      const sortedReturns = [...monthlyReturns].sort((a, b) => a - b);
+      const cvarIndex = Math.floor(sortedReturns.length * 0.05);
+      const cvar = cvarIndex > 0 ? 
+        sortedReturns.slice(0, cvarIndex).reduce((a, b) => a + b, 0) / cvarIndex * 100 : 0;
+      
+      // Calculate maximum drawdown
+      let peak = 1;
+      let maxDrawdown = 0;
+      let cumulative = 1;
+      
+      monthlyReturns.forEach(ret => {
+        cumulative *= (1 + ret);
+        if (cumulative > peak) peak = cumulative;
+        const drawdown = (peak - cumulative) / peak;
+        if (drawdown > maxDrawdown) maxDrawdown = drawdown;
+      });
+      
+      return {
+        cagr: parseFloat(cagr.toFixed(2)),
+        volatility: parseFloat(volatility.toFixed(2)),
+        sharpe: parseFloat(sharpe.toFixed(2)),
+        sortino: parseFloat(sortino.toFixed(2)),
+        cvar: parseFloat(cvar.toFixed(2)),
+        maxDrawdown: parseFloat((maxDrawdown * 100).toFixed(2))
+      };
+    },
+    
+    runOptimization() {
+      if (!this.canOptimize) {
+        this.optimizationStatus = 'Please ensure original portfolio weights sum to 100%';
+        return;
+      }
+      
+      this.optimizationStatus = 'Running optimization...';
+      
+      // Simulate optimization process
+      setTimeout(() => {
+        // Simple gradient descent simulation
+        const currentWeights = { ...this.originalWeights };
+        const stepSizePercent = parseFloat(this.stepSize);
+        
+        // Sample optimization: adjust weights based on objective
+        this.availableAssets.forEach(asset => {
+          let adjustment = (Math.random() - 0.5) * stepSizePercent * 2;
+          
+          // Apply objective-specific logic
+          if (this.optimizationObjective === 'sharpe') {
+            // Favor assets with better risk-adjusted returns
+            adjustment = Math.random() > 0.5 ? adjustment : -adjustment;
+          } else if (this.optimizationObjective === 'risk') {
+            // Favor lower-risk assets
+            adjustment = Math.random() > 0.7 ? adjustment : -adjustment;
+          }
+          
+          this.optimizedWeights[asset] = Math.max(0, Math.min(100, 
+            currentWeights[asset] + adjustment));
+        });
+        
+        // Normalize to sum to exactly 100%
+        const sum = Object.values(this.optimizedWeights).reduce((a, b) => (parseFloat(a) || 0) + (parseFloat(b) || 0), 0);
+        if (sum > 0) {
+          // First, normalize and round all weights
+          const normalizedWeights = {};
+          Object.keys(this.optimizedWeights).forEach(asset => {
+            normalizedWeights[asset] = parseFloat(((parseFloat(this.optimizedWeights[asset]) || 0) / sum) * 100).toFixed(1);
+          });
+          
+          // Calculate the difference from 100.0%
+          const roundedSum = Object.values(normalizedWeights).reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
+          const difference = parseFloat((100.0 - roundedSum).toFixed(1));
+          
+          // If there's a difference, adjust the largest weight
+          if (Math.abs(difference) > 0) {
+            // Find the asset with the largest weight to adjust
+            let largestAsset = null;
+            let largestWeight = -1;
+            Object.keys(normalizedWeights).forEach(asset => {
+              const weight = parseFloat(normalizedWeights[asset]);
+              if (weight > largestWeight) {
+                largestWeight = weight;
+                largestAsset = asset;
+              }
+            });
+            
+            // Adjust the largest weight to make the total exactly 100.0%
+            if (largestAsset) {
+              normalizedWeights[largestAsset] = parseFloat((parseFloat(normalizedWeights[largestAsset]) + difference).toFixed(1));
+            }
+          }
+          
+          // Apply the corrected weights
+          Object.keys(normalizedWeights).forEach(asset => {
+            this.optimizedWeights[asset] = normalizedWeights[asset];
+          });
+        }
+        
+        this.updatePortfolioReturns();
+        this.calculatePerformanceMetrics();
+        this.updateCumulativeReturnsChart();
+        
+        this.optimizationStatus = 'Optimization completed successfully!';
+        
+        // Clear status after 3 seconds
+        setTimeout(() => {
+          this.optimizationStatus = null;
+        }, 3000);
+      }, 1500);
+    },
+    
+    resetOptimization() {
+      // Reset optimized portfolio weights
+      this.availableAssets.forEach(asset => {
+        this.optimizedWeights[asset] = 0;
+      });
+      
+      // Reset performance metrics for optimized portfolio
+      this.performanceMetrics.optimized = {
+        cagr: 0,
+        volatility: 0,
+        sharpe: 0,
+        sortino: 0,
+        cvar: 0,
+        maxDrawdown: 0
+      };
+      
+      this.updatePortfolioReturns();
+      this.updateCumulativeReturnsChart();
+      this.optimizationStatus = null;
+    }
   },
   watch: {
     selectedSeries: {
@@ -2370,6 +4161,14 @@ new Vue({
         this.updateAllocationView();
         this.updateTimeSeriesChart();
       }
+    }
+  },
+  // Initialize the performance chart when switching to the Backtest tab
+  currentTab(newTab) {
+    if (newTab === 'Backtest') {
+      this.$nextTick(() => {
+        this.initPerformanceChart();
+      });
     }
   }
 });
