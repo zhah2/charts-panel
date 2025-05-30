@@ -1952,6 +1952,14 @@ select {
                   </div>
                   
                   <div class="control-group">
+                    <label>Optimization Starting State:</label>
+                    <select v-model="optimizationStartingState" class="control-select">
+                      <option value="original">Original Portfolio</option>
+                      <option value="optimized">Optimized Portfolio</option>
+                    </select>
+                  </div>
+                  
+                  <div class="control-group">
                     <label>Turnover Limit:</label>
                     <select v-model="stepSize" class="control-select">
                       <option value="1">1%</option>
@@ -2146,6 +2154,7 @@ new Vue({
     allSeriesSelected: true,
     seriesDropdownOpen: false,
     optimizationObjective: 'sharpe',
+    optimizationStartingState: 'original',
     riskTolerance: 5,
     timeHorizon: '5',
     minEquity: 20,
@@ -3122,8 +3131,27 @@ new Vue({
         const stepSize = 0.1; // Gradient descent step size
         const maxIterations = Math.floor(turnoverLimitPercent / stepSize); // Total iterations based on turnover limit
         
-        // Start with current weights
-        let currentWeights = { ...this.originalWeights };
+        // Determine starting weights based on optimization starting state
+        let currentWeights;
+        
+        if (this.optimizationStartingState === 'optimized') {
+          // Check if optimized weights are valid (not all zeros)
+          const optimizedSum = Object.values(this.optimizedWeights).reduce((sum, weight) => {
+            return sum + (parseFloat(weight) || 0);
+          }, 0);
+          
+          if (Math.abs(optimizedSum - 100) < 0.1) {
+            // Use optimized weights if they sum to 100%
+            currentWeights = { ...this.optimizedWeights };
+          } else {
+            // Fall back to original weights if optimized weights are invalid/zeros
+            currentWeights = { ...this.originalWeights };
+          }
+        } else {
+          // Use original weights
+          currentWeights = { ...this.originalWeights };
+        }
+        
         Object.keys(currentWeights).forEach(asset => {
           currentWeights[asset] = parseFloat(currentWeights[asset]) || 0;
         });
@@ -4072,6 +4100,7 @@ new Vue({
     resetOptimization() {
       this.currentStep = 0;
       this.optimizationObjective = 'sharpe';
+      this.optimizationStartingState = 'original';
       this.riskTolerance = 5;
       this.timeHorizon = '5';
       
@@ -4101,7 +4130,7 @@ new Vue({
         this.$set(this.optimizedWeights, asset, 0);
       });
       
-      // Reset performance metrics
+      // Reset performance metrics (old structure)
       this.performanceMetrics.optimizedReturn = 0;
       this.performanceMetrics.optimizedVolatility = 0;
       this.performanceMetrics.optimizedSharpe = 0;
