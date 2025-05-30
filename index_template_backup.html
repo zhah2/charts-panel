@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1953,7 +1953,7 @@ select {
                   
                   <div class="control-group">
                     <label>Turnover Limit:</label>
-                    <select v-model="stepSize" class="control-select">
+                    <select v-model="turnoverLimit" class="control-select">
                       <option value="1">1%</option>
                       <option value="2">2%</option>
                       <option value="3">3%</option>
@@ -1962,6 +1962,14 @@ select {
                       <option value="6">6%</option>
                       <option value="7">7%</option>
                       <option value="8">8%</option>
+                    </select>
+                  </div>
+                  
+                  <div class="control-group">
+                    <label>Starting State:</label>
+                    <select v-model="optimizationStartingState" class="control-select">
+                      <option value="original">Original Portfolio</option>
+                      <option value="optimized">Optimized Portfolio</option>
                     </select>
                   </div>
                   
@@ -2224,7 +2232,9 @@ new Vue({
         cvar: 0,
         maxDrawdown: 0
       }
-    }
+    },
+    optimizationStartingState: 'original',
+    turnoverLimit: 1
   },
   mounted() {
     this.categories.forEach(cat => {
@@ -3118,12 +3128,18 @@ new Vue({
      */
     gradientDescentOptimization() {
       try {
-        const turnoverLimitPercent = parseFloat(this.stepSize); // UI stepSize is actually turnover limit
+        const turnoverLimitPercent = parseFloat(this.turnoverLimit); // UI turnoverLimit is actually turnover limit
         const stepSize = 0.1; // Gradient descent step size
         const maxIterations = Math.floor(turnoverLimitPercent / stepSize); // Total iterations based on turnover limit
         
-        // Start with current weights
-        let currentWeights = { ...this.originalWeights };
+        // Start with selected starting state (original or optimized weights)
+        let currentWeights;
+        if (this.optimizationStartingState === 'optimized') {
+          currentWeights = { ...this.optimizedWeights };
+        } else {
+          currentWeights = { ...this.originalWeights };
+        }
+        
         Object.keys(currentWeights).forEach(asset => {
           currentWeights[asset] = parseFloat(currentWeights[asset]) || 0;
         });
@@ -3509,15 +3525,6 @@ new Vue({
       this.customStartMonth = startMonth;
       this.customEndYear = parseInt(endYear);
       this.customEndMonth = endMonth;
-      
-      // Update charts and calculations
-      this.updateCumulativeReturnsChart();
-      this.calculatePerformanceMetrics();
-    },
-    
-    updateCustomPeriod() {
-      this.backtestStartDate = `${this.customStartYear}-${this.customStartMonth}-01`;
-      this.backtestEndDate = `${this.customEndYear}-${this.customEndMonth}-01`;
       
       // Update charts and calculations
       this.updateCumulativeReturnsChart();
@@ -4085,7 +4092,12 @@ new Vue({
       this.minAlts = 0;
       this.maxAlts = 30;
       
-      // Reset the optimized portfolio (old structure)
+      // Reset optimized weights to 0 (not matching original portfolio)
+      this.availableAssets.forEach(asset => {
+        this.$set(this.optimizedWeights, asset, 0);
+      });
+      
+      // Reset the optimized portfolio (legacy structure)
       this.optimizedPortfolio = [
         { asset: 'US Equities', weight: 0 },
         { asset: 'International Equities', weight: 0 },
@@ -4094,20 +4106,7 @@ new Vue({
         { asset: 'Alternatives', weight: 0 }
       ];
       
-      // Reset the optimized weights (current structure)
-      this.optimizedWeights = {};
-      this.optimizedWeightsSum = 0;
-      this.availableAssets.forEach(asset => {
-        this.$set(this.optimizedWeights, asset, 0);
-      });
-      
-      // Reset performance metrics
-      this.performanceMetrics.optimizedReturn = 0;
-      this.performanceMetrics.optimizedVolatility = 0;
-      this.performanceMetrics.optimizedSharpe = 0;
-      this.performanceMetrics.optimizedDrawdown = 0;
-      
-      // Reset the current performance metrics structure
+      // Reset performance metrics for optimized portfolio
       this.performanceMetrics.optimized = {
         cagr: 0,
         volatility: 0,
@@ -4117,15 +4116,19 @@ new Vue({
         maxDrawdown: 0
       };
       
+      // Reset legacy performance metrics
+      this.performanceMetrics.optimizedReturn = 0;
+      this.performanceMetrics.optimizedVolatility = 0;
+      this.performanceMetrics.optimizedSharpe = 0;
+      this.performanceMetrics.optimizedDrawdown = 0;
+      
+      // Update portfolio sums and charts
+      this.updatePortfolioReturns();
+      
       // Reset the chart
       if (this.portfolioPerformanceChart) {
         this.portfolioPerformanceChart.destroy();
         this.portfolioPerformanceChart = null;
-      }
-      
-      // Update the cumulative returns chart if it exists
-      if (this.cumulativeReturnsChart) {
-        this.updateCumulativeReturnsChart();
       }
     },
     initPerformanceChart() {
@@ -4357,15 +4360,6 @@ new Vue({
       this.customStartMonth = startMonth;
       this.customEndYear = parseInt(endYear);
       this.customEndMonth = endMonth;
-      
-      // Update charts and calculations
-      this.updateCumulativeReturnsChart();
-      this.calculatePerformanceMetrics();
-    },
-    
-    updateCustomPeriod() {
-      this.backtestStartDate = `${this.customStartYear}-${this.customStartMonth}-01`;
-      this.backtestEndDate = `${this.customEndYear}-${this.customEndMonth}-01`;
       
       // Update charts and calculations
       this.updateCumulativeReturnsChart();
@@ -4917,218 +4911,276 @@ new Vue({
         maxDrawdown: parseFloat((maxDrawdown * 100).toFixed(2))
       };
     },
-    
-    runOptimization() {
-      if (!this.canOptimize) {
-        this.optimizationStatus = 'Please ensure original portfolio weights sum to 100%';
-        return;
+    resetOptimization() {
+      this.currentStep = 0;
+      this.optimizationObjective = 'sharpe';
+      this.riskTolerance = 5;
+      this.timeHorizon = '5';
+      
+      // Reset constraints
+      this.minEquity = 20;
+      this.maxEquity = 80;
+      this.minBonds = 20;
+      this.maxBonds = 60;
+      this.minCash = 0;
+      this.maxCash = 20;
+      this.minAlts = 0;
+      this.maxAlts = 30;
+      
+      // Reset optimized weights to 0 (not matching original portfolio)
+      this.availableAssets.forEach(asset => {
+        this.$set(this.optimizedWeights, asset, 0);
+      });
+      
+      // Reset the optimized portfolio (legacy structure)
+      this.optimizedPortfolio = [
+        { asset: 'US Equities', weight: 0 },
+        { asset: 'International Equities', weight: 0 },
+        { asset: 'US Bonds', weight: 0 },
+        { asset: 'Cash', weight: 0 },
+        { asset: 'Alternatives', weight: 0 }
+      ];
+      
+      // Reset performance metrics for optimized portfolio
+      this.performanceMetrics.optimized = {
+        cagr: 0,
+        volatility: 0,
+        sharpe: 0,
+        sortino: 0,
+        cvar: 0,
+        maxDrawdown: 0
+      };
+      
+      // Reset legacy performance metrics
+      this.performanceMetrics.optimizedReturn = 0;
+      this.performanceMetrics.optimizedVolatility = 0;
+      this.performanceMetrics.optimizedSharpe = 0;
+      this.performanceMetrics.optimizedDrawdown = 0;
+      
+      // Update portfolio sums and charts
+      this.updatePortfolioReturns();
+      
+      // Reset the chart
+      if (this.portfolioPerformanceChart) {
+        this.portfolioPerformanceChart.destroy();
+        this.portfolioPerformanceChart = null;
       }
-      
-      this.optimizationStatus = 'Running gradient descent optimization...';
-      
-      // Run gradient descent optimization
-      setTimeout(() => {
-        const result = this.gradientDescentOptimization();
-        
-        if (result.success) {
-          // Apply the optimized weights
-          Object.keys(result.weights).forEach(asset => {
-            this.optimizedWeights[asset] = result.weights[asset];
-          });
-          
-          this.updatePortfolioReturns();
-          this.calculatePerformanceMetrics();
-          this.updateCumulativeReturnsChart();
-          
-          this.optimizationStatus = `Optimization completed! Improved ${this.optimizationObjective} from ${result.initialMetric.toFixed(3)} to ${result.finalMetric.toFixed(3)} in ${result.iterations} iterations.`;
-        } else {
-          this.optimizationStatus = `Optimization failed: ${result.error}`;
-        }
-        
-        // Clear status after 5 seconds
-        setTimeout(() => {
-          this.optimizationStatus = null;
-        }, 5000);
-      }, 100);
     },
-
-    /**
-     * Gradient descent optimization implementation
-     * Calculates gradients for the chosen performance metric and iteratively improves portfolio
-     */
-    gradientDescentOptimization() {
-      try {
-        const turnoverLimitPercent = parseFloat(this.stepSize); // UI stepSize is actually turnover limit
-        const stepSize = 0.1; // Gradient descent step size
-        const maxIterations = Math.floor(turnoverLimitPercent / stepSize); // Total iterations based on turnover limit
-        
-        // Start with current weights
-        let currentWeights = { ...this.originalWeights };
-        Object.keys(currentWeights).forEach(asset => {
-          currentWeights[asset] = parseFloat(currentWeights[asset]) || 0;
-        });
-        
-        // Get initial performance metric
-        const initialMetric = this.calculateObjectiveFunction(currentWeights);
-        let bestMetric = initialMetric;
-        let bestWeights = { ...currentWeights };
-        
-        // Track total changes to respect turnover limit
-        let totalChanges = {};
-        this.availableAssets.forEach(asset => {
-          totalChanges[asset] = 0;
-        });
-        
-        let iteration = 0;
-        let stagnationCount = 0;
-        const maxStagnation = 10; // Stop if no improvement for 10 iterations
-        
-        // Gradient descent loop
-        while (iteration < maxIterations && stagnationCount < maxStagnation) {
-          // Calculate gradients for all assets
-          const gradients = this.calculateGradients(currentWeights, stepSize);
-          
-          if (!gradients || Object.keys(gradients).length === 0) {
-            break; // No valid gradients
+    initPerformanceChart() {
+      this.$nextTick(() => {
+        if (window.Chart && this.$refs.performanceChart) {
+          if (this.portfolioPerformanceChart) {
+            this.portfolioPerformanceChart.destroy();
           }
           
-          // Sort assets by gradient (highest to lowest)
-          const sortedAssets = Object.keys(gradients).sort((a, b) => gradients[b] - gradients[a]);
+          const ctx = this.$refs.performanceChart.getContext('2d');
           
-          // Find assets to increase (positive gradients) and decrease (negative gradients)
-          const assetsToIncrease = sortedAssets.filter(asset => gradients[asset] > 0);
-          const assetsToDecrease = sortedAssets.filter(asset => gradients[asset] < 0);
+          // Get dates for x-axis - use last 60 months of data (5 years)
+          let dates = [];
           
-          if (assetsToIncrease.length === 0 || assetsToDecrease.length === 0) {
-            stagnationCount++;
-            iteration++;
-            continue;
+          // Use returnsData if available, otherwise generate sample data
+          if (returnsData && returnsData.dates) {
+            // Use last 60 dates from returnsData.dates or all if fewer
+            const dataLength = returnsData.dates.length;
+            const startIndex = Math.max(0, dataLength - 60);
+            dates = returnsData.dates.slice(startIndex).map(date => this.formatDate(date));
+          } else {
+            // Generate sample dates if no data
+            const today = new Date();
+            for (let i = 59; i >= 0; i--) {
+              const date = new Date(today);
+              date.setMonth(today.getMonth() - i);
+              dates.push(this.formatDate(date.toISOString().slice(0, 10)));
+            }
           }
           
-          // Check if we can still make changes within turnover limit
-          const canIncrease = assetsToIncrease.some(asset => 
-            Math.abs(totalChanges[asset]) < turnoverLimitPercent && currentWeights[asset] < 100
-          );
-          const canDecrease = assetsToDecrease.some(asset => 
-            Math.abs(totalChanges[asset]) < turnoverLimitPercent && currentWeights[asset] > 0
-          );
+          // Create sample performance data
+          const originalPerformance = this.generateCumulativeReturns(this.performanceMetrics.originalReturn, this.performanceMetrics.originalVolatility, dates.length);
+          const optimizedPerformance = this.generateCumulativeReturns(this.performanceMetrics.optimizedReturn, this.performanceMetrics.optimizedVolatility, dates.length);
           
-          if (!canIncrease || !canDecrease) {
-            break; // Reached turnover limit
-          }
-          
-          // Make step-by-step adjustments
-          let improved = false;
-          
-          // Increase weight of highest gradient asset (if possible)
-          for (const asset of assetsToIncrease) {
-            if (Math.abs(totalChanges[asset]) < turnoverLimitPercent && 
-                currentWeights[asset] < 100 && 
-                currentWeights[asset] + stepSize <= 100) {
-              
-              // Find a corresponding asset to decrease
-              for (const decreaseAsset of assetsToDecrease) {
-                if (Math.abs(totalChanges[decreaseAsset]) < turnoverLimitPercent && 
-                    currentWeights[decreaseAsset] > 0 && 
-                    currentWeights[decreaseAsset] - stepSize >= 0) {
-                  
-                  // Make the adjustment
-                  const newWeights = { ...currentWeights };
-                  newWeights[asset] += stepSize;
-                  newWeights[decreaseAsset] -= stepSize;
-                  
-                  // Ensure weights are still valid (sum to 100%, non-negative)
-                  if (this.isValidWeightAllocation(newWeights)) {
-                    const newMetric = this.calculateObjectiveFunction(newWeights);
-                    
-                    // Check if this improves the objective function
-                    const isImprovement = this.isMetricImprovement(newMetric, bestMetric);
-                    
-                    if (isImprovement) {
-                      currentWeights = newWeights;
-                      bestMetric = newMetric;
-                      bestWeights = { ...newWeights };
-                      
-                      // Track changes
-                      totalChanges[asset] += stepSize;
-                      totalChanges[decreaseAsset] -= stepSize;
-                      
-                      improved = true;
-                      stagnationCount = 0;
-                      break;
+          // Configure and create chart
+          this.portfolioPerformanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: dates,
+              datasets: [
+                {
+                  label: 'Original Portfolio',
+                  data: originalPerformance,
+                  borderColor: '#4F46E5',
+                  backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.1
+                },
+                {
+                  label: 'Optimized Portfolio',
+                  data: optimizedPerformance,
+                  borderColor: '#10B981',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function(value) {
+                      return value + '%';
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: 'Cumulative Return (%)'
+                  }
+                },
+                x: {
+                  ticks: {
+                    maxRotation: 45,
+                    autoSkip: true,
+                    autoSkipPadding: 10
+                  }
+                }
+              },
+              plugins: {
+                tooltip: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                    label: function(context) {
+                      return context.dataset.label + ': ' + context.raw.toFixed(2) + '%';
                     }
                   }
                 }
               }
-              
-              if (improved) break;
             }
-          }
-          
-          if (!improved) {
-            stagnationCount++;
-          }
-          
-          iteration++;
-        }
-        
-        // Ensure final weights sum to exactly 100%
-        const finalWeights = this.normalizeWeights(bestWeights);
-        
-        return {
-          success: true,
-          weights: finalWeights,
-          initialMetric: initialMetric,
-          finalMetric: bestMetric,
-          iterations: iteration,
-          improvement: bestMetric - initialMetric
-        };
-        
-      } catch (error) {
-        console.error('Gradient descent optimization failed:', error);
-        return {
-          success: false,
-          error: error.message
-        };
-      }
-    },
-
-    /**
-     * Calculate gradients for all assets using finite differences
-     */
-    calculateGradients(weights, stepSize) {
-      const gradients = {};
-      const baseMetric = this.calculateObjectiveFunction(weights);
-      
-      this.availableAssets.forEach(asset => {
-        // Calculate gradient using finite difference
-        const perturbedWeights = { ...weights };
-        
-        // Find an asset to decrease to maintain sum = 100%
-        let decreaseAsset = null;
-        for (const otherAsset of this.availableAssets) {
-          if (otherAsset !== asset && perturbedWeights[otherAsset] >= stepSize) {
-            decreaseAsset = otherAsset;
-            break;
-          }
-        }
-        
-        if (decreaseAsset && perturbedWeights[asset] + stepSize <= 100) {
-          perturbedWeights[asset] += stepSize;
-          perturbedWeights[decreaseAsset] -= stepSize;
-          
-          if (this.isValidWeightAllocation(perturbedWeights)) {
-            const perturbedMetric = this.calculateObjectiveFunction(perturbedWeights);
-            gradients[asset] = (perturbedMetric - baseMetric) / stepSize;
-          } else {
-            gradients[asset] = 0;
-          }
-        } else {
-          gradients[asset] = 0;
+          });
         }
       });
+    },
+
+    generateCumulativeReturns(annualReturn, annualVol, months) {
+      // Convert annual to monthly
+      const monthlyReturn = (Math.pow(1 + annualReturn / 100, 1/12) - 1) * 100;
+      const monthlyVol = annualVol / Math.sqrt(12);
       
-      return gradients;
+      let cumulativeReturn = 0;
+      const returns = [0]; // Start at 0% cumulative return
+      
+      for (let i = 1; i < months; i++) {
+        // Add some randomness based on volatility
+        // Using normal-ish distribution with Box-Muller transform
+        const u1 = Math.random();
+        const u2 = Math.random();
+        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        
+        // Monthly return with random component based on volatility
+        const randomReturn = monthlyReturn + z * (monthlyVol / 100) * monthlyReturn;
+        
+        // Add to cumulative
+        cumulativeReturn += randomReturn;
+        returns.push(cumulativeReturn);
+      }
+      
+      return returns;
+    },
+    updatePortfolioReturns() {
+      // Calculate sums, ensuring we handle string inputs properly
+      this.originalWeightsSum = Object.values(this.originalWeights).reduce((a, b) => {
+        const val = parseFloat(b) || 0;
+        return a + val;
+      }, 0);
+      
+      this.optimizedWeightsSum = Object.values(this.optimizedWeights).reduce((a, b) => {
+        const val = parseFloat(b) || 0;
+        return a + val;
+      }, 0);
+      
+      // Update chart and metrics whenever weights change
+      this.updateCumulativeReturnsChart();
+      this.calculatePerformanceMetrics();
+    },
+    
+    formatMetric(value, unit = '') {
+      if (value === 0 || value === null || value === undefined) {
+        return '-';
+      }
+      return `${value.toFixed(2)}${unit}`;
+    },
+    
+    formatDifference(optimized, original, unit = '') {
+      if (optimized === 0 || original === 0) {
+        return '-';
+      }
+      const difference = optimized - original;
+      const sign = difference >= 0 ? '+' : '';
+      return `${sign}${difference.toFixed(2)}${unit}`;
+    },
+    getMetricClass(metric) {
+      // Determine if optimized metric is better than original
+      const original = this.performanceMetrics.original[metric];
+      const optimized = this.performanceMetrics.optimized[metric];
+      
+      // For metrics where higher is better (cagr, sharpe, sortino)
+      if (['cagr', 'sharpe', 'sortino'].includes(metric)) {
+        return optimized > original ? 'metric-better' : 'metric-worse';
+      }
+      // For metrics where lower is better (volatility, cvar, maxDrawdown)
+      else if (['volatility', 'cvar', 'maxDrawdown'].includes(metric)) {
+        return optimized < original ? 'metric-better' : 'metric-worse';
+      }
+      
+      return '';
+    },
+    
+    // New backtest methods
+    initializeBacktestData() {
+      // Initialize available assets from returns data
+      if (returnsData && returnsData.assets && returnsData.assets.asset_names) {
+        this.availableAssets = returnsData.assets.asset_names;
+      } else {
+        // Fallback to sample assets if no data available
+        this.availableAssets = ['US Equities', 'International Equities', 'US Bonds', 'Cash', 'Alternatives'];
+      }
+      
+      // Always initialize ALL weights to 0 when entering the page
+      this.originalWeights = {};
+      this.optimizedWeights = {};
+      
+      this.availableAssets.forEach(asset => {
+        this.$set(this.originalWeights, asset, 0);
+        this.$set(this.optimizedWeights, asset, 0);
+      });
+      
+      // Initialize years for date selectors
+      if (returnsData && returnsData.assets && returnsData.assets.dates) {
+        const dates = returnsData.assets.dates;
+        const years = new Set();
+        dates.forEach(date => {
+          const year = parseInt(date.substring(0, 4));
+          years.add(year);
+        });
+        this.availableYears = Array.from(years).sort();
+        
+        // Set initial dates
+        if (this.availableYears.length > 0) {
+          this.customStartYear = this.availableYears[0];
+          this.customEndYear = this.availableYears[this.availableYears.length - 1];
+        }
+      } else {
+        // Fallback years
+        this.availableYears = [2020, 2021, 2022, 2023, 2024];
+        this.customStartYear = 2020;
+        this.customEndYear = 2024;
+      }
+      
+      // Update portfolio sums
+      this.updatePortfolioReturns();
     },
 
     /**
