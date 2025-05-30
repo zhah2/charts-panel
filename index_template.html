@@ -2084,6 +2084,10 @@ select {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
+<!-- Portfolio calculation libraries -->
+<script src="js/portfolio-metrics.js"></script>
+<script src="js/portfolio-optimization.js"></script>
+
 <script>
 /* injected by build.py */
 const charts = [[ charts|safe ]];
@@ -3095,23 +3099,70 @@ new Vue({
       
       this.optimizationStatus = 'Running gradient descent optimization...';
       
-      // Run gradient descent optimization
+      // Run gradient descent optimization using external library
       setTimeout(() => {
-        const result = this.gradientDescentOptimization();
-        
-        if (result.success) {
-          // Apply the optimized weights
-          Object.keys(result.weights).forEach(asset => {
-            this.optimizedWeights[asset] = result.weights[asset];
+        try {
+          // Determine starting weights based on optimization starting state
+          let startingWeights;
+          
+          if (this.optimizationStartingState === 'optimized') {
+            // Check if optimized weights are valid (not all zeros)
+            const optimizedSum = Object.values(this.optimizedWeights).reduce((sum, weight) => {
+              return sum + (parseFloat(weight) || 0);
+            }, 0);
+            
+            if (Math.abs(optimizedSum - 100) < 0.1) {
+              // Use optimized weights if they sum to 100%
+              startingWeights = { ...this.optimizedWeights };
+            } else {
+              // Fall back to original weights if optimized weights are invalid/zeros
+              startingWeights = { ...this.originalWeights };
+            }
+          } else {
+            // Use original weights
+            startingWeights = { ...this.originalWeights };
+          }
+          
+          // Create PortfolioOptimizer instance
+          const optimizer = new PortfolioOptimizer({
+            stepSize: 0.1, // Gradient descent step size
+            maxStagnation: 10
           });
           
-          this.updatePortfolioReturns();
-          this.calculatePerformanceMetrics();
-          this.updateCumulativeReturnsChart();
+          // Create metrics calculation function that this component can use
+          const calculateMetrics = (weights) => {
+            const { dates, portfolioReturns } = this.getPortfolioReturnsForWeights(weights);
+            if (!portfolioReturns || portfolioReturns.length === 0) {
+              return null;
+            }
+            return calculateMetricsForReturns(portfolioReturns, 0.02, dates);
+          };
           
-          this.optimizationStatus = `Optimization completed! Improved ${this.optimizationObjective} from ${result.initialMetric.toFixed(3)} to ${result.finalMetric.toFixed(3)} in ${result.iterations} iterations.`;
-        } else {
-          this.optimizationStatus = `Optimization failed: ${result.error}`;
+          // Run optimization
+          const result = optimizer.gradientDescentOptimization(
+            startingWeights,
+            this.optimizationObjective,
+            calculateMetrics,
+            parseFloat(this.stepSize) // turnover limit
+          );
+          
+          if (result.success) {
+            // Apply the optimized weights
+            Object.keys(result.weights).forEach(asset => {
+              this.optimizedWeights[asset] = result.weights[asset];
+            });
+            
+            this.updatePortfolioReturns();
+            this.calculatePerformanceMetrics();
+            this.updateCumulativeReturnsChart();
+            
+            this.optimizationStatus = `Optimization completed! Improved ${this.optimizationObjective} from ${result.initialMetric.toFixed(3)} to ${result.finalMetric.toFixed(3)} in ${result.iterations} iterations.`;
+          } else {
+            this.optimizationStatus = `Optimization failed: ${result.error}`;
+          }
+        } catch (error) {
+          console.error('Optimization error:', error);
+          this.optimizationStatus = `Optimization failed: ${error.message}`;
         }
         
         // Clear status after 5 seconds
@@ -3904,37 +3955,11 @@ new Vue({
     },
     
     calculatePortfolioReturns(indices, weights) {
-      // Calculate weighted portfolio returns for given indices with complete data
-      const returns = [];
-      const totalWeight = Object.values(weights).reduce((sum, weight) => sum + parseFloat(weight || 0), 0);
+      // Use external library function for portfolio return calculations
+      if (!returnsData.assets.assets) return indices.map(() => 0);
       
-      if (totalWeight === 0) return indices.map(() => 0);
-      
-      // Pre-filter assets with non-zero weights for efficiency
-      const activeAssets = Object.keys(weights).filter(asset => {
-        const weight = parseFloat(weights[asset] || 0);
-        return weight > 0 && returnsData.assets.assets[asset];
-      });
-      
-      if (activeAssets.length === 0) return indices.map(() => 0);
-      
-      indices.forEach(index => {
-        let portfolioReturn = 0;
-        
-        activeAssets.forEach(asset => {
-          const weight = parseFloat(weights[asset]);
-          const assetReturn = returnsData.assets.assets[asset][index];
-          // Since we only use periods with complete data, assetReturn should never be null/undefined
-          // But if it is null, we should skip this asset for this period
-          if (assetReturn !== null && assetReturn !== undefined) {
-            portfolioReturn += (weight / 100) * assetReturn;
-          }
-        });
-        
-        returns.push(portfolioReturn);
-      });
-      
-      return returns;
+      // Call external library function
+      return calculatePortfolioReturns(weights, returnsData.assets.assets, indices);
     },
     
     getBenchmarkReturns(indices, benchmarkName) {
@@ -4000,23 +4025,8 @@ new Vue({
     },
     
     calculateCumulativeReturns(returns) {
-      if (!returns || returns.length === 0) return [];
-      
-      let cumulative = 0;
-      const result = [];
-      
-      for (let i = 0; i < returns.length; i++) {
-        if (i === 0) {
-          // First period starts at 0%
-          result.push(0);
-        } else {
-          // Calculate cumulative return from previous period
-          cumulative = (1 + cumulative / 100) * (1 + returns[i-1] / 100) * 100 - 100;
-          result.push(cumulative);
-        }
-      }
-      
-      return result;
+      // Use external library function for cumulative returns calculation
+      return calculateCumulativeReturns(returns);
     },
     
     calculatePerformanceMetrics() {
@@ -4046,56 +4056,12 @@ new Vue({
         return { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
       }
       
-      // Convert monthly returns to decimal form
-      const monthlyReturns = returns.map(r => r / 100);
+      // Use external library function with proper frequency detection
+      // Get dates for frequency detection from filtered data
+      const { dates } = this.getFilteredReturnsData();
       
-      // Calculate annualized return (CAGR)
-      const totalReturn = monthlyReturns.reduce((acc, ret) => acc * (1 + ret), 1);
-      const years = returns.length / 12;
-      const cagr = years > 0 ? (Math.pow(totalReturn, 1/years) - 1) * 100 : 0;
-      
-      // Calculate volatility (annualized standard deviation)
-      const meanReturn = monthlyReturns.reduce((a, b) => a + b, 0) / monthlyReturns.length;
-      const variance = monthlyReturns.reduce((acc, ret) => acc + Math.pow(ret - meanReturn, 2), 0) / monthlyReturns.length;
-      const volatility = Math.sqrt(variance * 12) * 100; // Annualized
-      
-      // Calculate Sharpe ratio (assuming 2% risk-free rate)
-      const riskFreeRate = 0.02;
-      const sharpe = volatility > 0 ? (cagr - riskFreeRate) / volatility : 0;
-      
-      // Calculate Sortino ratio (downside deviation)
-      const downsideReturns = monthlyReturns.filter(ret => ret < meanReturn);
-      const downsideVariance = downsideReturns.length > 0 ? 
-        downsideReturns.reduce((acc, ret) => acc + Math.pow(ret - meanReturn, 2), 0) / downsideReturns.length : 0;
-      const downsideDeviation = Math.sqrt(downsideVariance * 12) * 100;
-      const sortino = downsideDeviation > 0 ? (cagr - riskFreeRate) / downsideDeviation : 0;
-      
-      // Calculate CVaR (5% worst returns)
-      const sortedReturns = [...monthlyReturns].sort((a, b) => a - b);
-      const cvarIndex = Math.floor(sortedReturns.length * 0.05);
-      const cvar = cvarIndex > 0 ? 
-        sortedReturns.slice(0, cvarIndex).reduce((a, b) => a + b, 0) / cvarIndex * 100 : 0;
-      
-      // Calculate maximum drawdown
-      let peak = 1;
-      let maxDrawdown = 0;
-      let cumulative = 1;
-      
-      monthlyReturns.forEach(ret => {
-        cumulative *= (1 + ret);
-        if (cumulative > peak) peak = cumulative;
-        const drawdown = (peak - cumulative) / peak;
-        if (drawdown > maxDrawdown) maxDrawdown = drawdown;
-      });
-      
-      return {
-        cagr: parseFloat(cagr.toFixed(2)),
-        volatility: parseFloat(volatility.toFixed(2)),
-        sharpe: parseFloat(sharpe.toFixed(2)),
-        sortino: parseFloat(sortino.toFixed(2)),
-        cvar: parseFloat(cvar.toFixed(2)),
-        maxDrawdown: parseFloat((maxDrawdown * 100).toFixed(2))
-      };
+      // Call external library function with enhanced calculations
+      return calculateMetricsForReturns(returns, 0.02, dates);
     },
     resetOptimization() {
       this.currentStep = 0;
@@ -4753,37 +4719,11 @@ new Vue({
     },
     
     calculatePortfolioReturns(indices, weights) {
-      // Calculate weighted portfolio returns for given indices with complete data
-      const returns = [];
-      const totalWeight = Object.values(weights).reduce((sum, weight) => sum + parseFloat(weight || 0), 0);
+      // Use external library function for portfolio return calculations
+      if (!returnsData.assets.assets) return indices.map(() => 0);
       
-      if (totalWeight === 0) return indices.map(() => 0);
-      
-      // Pre-filter assets with non-zero weights for efficiency
-      const activeAssets = Object.keys(weights).filter(asset => {
-        const weight = parseFloat(weights[asset] || 0);
-        return weight > 0 && returnsData.assets.assets[asset];
-      });
-      
-      if (activeAssets.length === 0) return indices.map(() => 0);
-      
-      indices.forEach(index => {
-        let portfolioReturn = 0;
-        
-        activeAssets.forEach(asset => {
-          const weight = parseFloat(weights[asset]);
-          const assetReturn = returnsData.assets.assets[asset][index];
-          // Since we only use periods with complete data, assetReturn should never be null/undefined
-          // But if it is null, we should skip this asset for this period
-          if (assetReturn !== null && assetReturn !== undefined) {
-            portfolioReturn += (weight / 100) * assetReturn;
-          }
-        });
-        
-        returns.push(portfolioReturn);
-      });
-      
-      return returns;
+      // Call external library function
+      return calculatePortfolioReturns(weights, returnsData.assets.assets, indices);
     },
     
     getBenchmarkReturns(indices, benchmarkName) {
@@ -4849,23 +4789,8 @@ new Vue({
     },
     
     calculateCumulativeReturns(returns) {
-      if (!returns || returns.length === 0) return [];
-      
-      let cumulative = 0;
-      const result = [];
-      
-      for (let i = 0; i < returns.length; i++) {
-        if (i === 0) {
-          // First period starts at 0%
-          result.push(0);
-        } else {
-          // Calculate cumulative return from previous period
-          cumulative = (1 + cumulative / 100) * (1 + returns[i-1] / 100) * 100 - 100;
-          result.push(cumulative);
-        }
-      }
-      
-      return result;
+      // Use external library function for cumulative returns calculation
+      return calculateCumulativeReturns(returns);
     },
     
     calculatePerformanceMetrics() {
@@ -4895,56 +4820,12 @@ new Vue({
         return { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
       }
       
-      // Convert monthly returns to decimal form
-      const monthlyReturns = returns.map(r => r / 100);
+      // Use external library function with proper frequency detection
+      // Get dates for frequency detection from filtered data
+      const { dates } = this.getFilteredReturnsData();
       
-      // Calculate annualized return (CAGR)
-      const totalReturn = monthlyReturns.reduce((acc, ret) => acc * (1 + ret), 1);
-      const years = returns.length / 12;
-      const cagr = years > 0 ? (Math.pow(totalReturn, 1/years) - 1) * 100 : 0;
-      
-      // Calculate volatility (annualized standard deviation)
-      const meanReturn = monthlyReturns.reduce((a, b) => a + b, 0) / monthlyReturns.length;
-      const variance = monthlyReturns.reduce((acc, ret) => acc + Math.pow(ret - meanReturn, 2), 0) / monthlyReturns.length;
-      const volatility = Math.sqrt(variance * 12) * 100; // Annualized
-      
-      // Calculate Sharpe ratio (assuming 2% risk-free rate)
-      const riskFreeRate = 0.02;
-      const sharpe = volatility > 0 ? (cagr - riskFreeRate) / volatility : 0;
-      
-      // Calculate Sortino ratio (downside deviation)
-      const downsideReturns = monthlyReturns.filter(ret => ret < meanReturn);
-      const downsideVariance = downsideReturns.length > 0 ? 
-        downsideReturns.reduce((acc, ret) => acc + Math.pow(ret - meanReturn, 2), 0) / downsideReturns.length : 0;
-      const downsideDeviation = Math.sqrt(downsideVariance * 12) * 100;
-      const sortino = downsideDeviation > 0 ? (cagr - riskFreeRate) / downsideDeviation : 0;
-      
-      // Calculate CVaR (5% worst returns)
-      const sortedReturns = [...monthlyReturns].sort((a, b) => a - b);
-      const cvarIndex = Math.floor(sortedReturns.length * 0.05);
-      const cvar = cvarIndex > 0 ? 
-        sortedReturns.slice(0, cvarIndex).reduce((a, b) => a + b, 0) / cvarIndex * 100 : 0;
-      
-      // Calculate maximum drawdown
-      let peak = 1;
-      let maxDrawdown = 0;
-      let cumulative = 1;
-      
-      monthlyReturns.forEach(ret => {
-        cumulative *= (1 + ret);
-        if (cumulative > peak) peak = cumulative;
-        const drawdown = (peak - cumulative) / peak;
-        if (drawdown > maxDrawdown) maxDrawdown = drawdown;
-      });
-      
-      return {
-        cagr: parseFloat(cagr.toFixed(2)),
-        volatility: parseFloat(volatility.toFixed(2)),
-        sharpe: parseFloat(sharpe.toFixed(2)),
-        sortino: parseFloat(sortino.toFixed(2)),
-        cvar: parseFloat(cvar.toFixed(2)),
-        maxDrawdown: parseFloat((maxDrawdown * 100).toFixed(2))
-      };
+      // Call external library function with enhanced calculations
+      return calculateMetricsForReturns(returns, 0.02, dates);
     },
     
     runOptimization() {
