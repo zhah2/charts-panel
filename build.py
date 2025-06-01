@@ -209,7 +209,7 @@ env = Environment(loader=FileSystemLoader(str(ROOT)))
 env.variable_start_string = "[["
 env.variable_end_string   = "]]"
 
-tpl = env.get_template("index_template.html")
+tpl = env.get_template("index_template_new.html")
 
 # Add this function to load asset returns
 def load_asset_returns():

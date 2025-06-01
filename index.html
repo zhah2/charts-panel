@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -3091,6 +3091,7 @@ new Vue({
       this.selectedSeries = [];
       this.updateTimeSeriesChart();
     },
+
     runOptimization() {
       if (!this.canOptimize) {
         this.optimizationStatus = 'Please ensure original portfolio weights sum to 100%';
@@ -3111,16 +3112,21 @@ new Vue({
               return sum + (parseFloat(weight) || 0);
             }, 0);
             
+            console.log('Optimized weights sum:', optimizedSum, 'Optimized weights:', this.optimizedWeights);
+            
             if (Math.abs(optimizedSum - 100) < 0.1) {
               // Use optimized weights if they sum to 100%
               startingWeights = { ...this.optimizedWeights };
+              console.log('Using optimized weights as starting point:', startingWeights);
             } else {
               // Fall back to original weights if optimized weights are invalid/zeros
               startingWeights = { ...this.originalWeights };
+              console.log('Falling back to original weights:', startingWeights);
             }
           } else {
             // Use original weights
             startingWeights = { ...this.originalWeights };
+            console.log('Using original weights as starting point:', startingWeights);
           }
           
           // Create PortfolioOptimizer instance
@@ -3131,11 +3137,23 @@ new Vue({
           
           // Create metrics calculation function that this component can use
           const calculateMetrics = (weights) => {
-            const { dates, portfolioReturns } = this.getPortfolioReturnsForWeights(weights);
-            if (!portfolioReturns || portfolioReturns.length === 0) {
+            try {
+              console.log('Calculating metrics for weights:', weights);
+              const { dates, portfolioReturns } = this.getPortfolioReturnsForWeights(weights);
+              console.log('Portfolio returns calculated:', portfolioReturns?.length, 'periods');
+              
+              if (!portfolioReturns || portfolioReturns.length === 0) {
+                console.warn('No portfolio returns available for metrics calculation');
+                return null;
+              }
+              
+              const metrics = calculateMetricsForReturns(portfolioReturns, 0.02, dates);
+              console.log('Calculated metrics:', metrics);
+              return metrics;
+            } catch (error) {
+              console.error('Error in calculateMetrics:', error);
               return null;
             }
-            return calculateMetricsForReturns(portfolioReturns, 0.02, dates);
           };
           
           // Run optimization
@@ -3146,11 +3164,16 @@ new Vue({
             parseFloat(this.stepSize) // turnover limit
           );
           
+          console.log('Optimization result:', result);
+          
           if (result.success) {
+            console.log('Applying optimized weights:', result.weights);
             // Apply the optimized weights
             Object.keys(result.weights).forEach(asset => {
               this.optimizedWeights[asset] = result.weights[asset];
             });
+            
+            console.log('Updated optimizedWeights:', this.optimizedWeights);
             
             this.updatePortfolioReturns();
             this.calculatePerformanceMetrics();
@@ -3158,6 +3181,7 @@ new Vue({
             
             this.optimizationStatus = `Optimization completed! Improved ${this.optimizationObjective} from ${result.initialMetric.toFixed(3)} to ${result.finalMetric.toFixed(3)} in ${result.iterations} iterations.`;
           } else {
+            console.error('Optimization failed:', result.error);
             this.optimizationStatus = `Optimization failed: ${result.error}`;
           }
         } catch (error) {
@@ -3172,897 +3196,6 @@ new Vue({
       }, 100);
     },
 
-    /**
-     * Gradient descent optimization implementation
-     * Calculates gradients for the chosen performance metric and iteratively improves portfolio
-     */
-    gradientDescentOptimization() {
-      try {
-        const turnoverLimitPercent = parseFloat(this.stepSize); // UI stepSize is actually turnover limit
-        const stepSize = 0.1; // Gradient descent step size
-        const maxIterations = Math.floor(turnoverLimitPercent / stepSize); // Total iterations based on turnover limit
-        
-        // Determine starting weights based on optimization starting state
-        let currentWeights;
-        
-        if (this.optimizationStartingState === 'optimized') {
-          // Check if optimized weights are valid (not all zeros)
-          const optimizedSum = Object.values(this.optimizedWeights).reduce((sum, weight) => {
-            return sum + (parseFloat(weight) || 0);
-          }, 0);
-          
-          if (Math.abs(optimizedSum - 100) < 0.1) {
-            // Use optimized weights if they sum to 100%
-            currentWeights = { ...this.optimizedWeights };
-          } else {
-            // Fall back to original weights if optimized weights are invalid/zeros
-            currentWeights = { ...this.originalWeights };
-          }
-        } else {
-          // Use original weights
-          currentWeights = { ...this.originalWeights };
-        }
-        
-        Object.keys(currentWeights).forEach(asset => {
-          currentWeights[asset] = parseFloat(currentWeights[asset]) || 0;
-        });
-        
-        // Get initial performance metric
-        const initialMetric = this.calculateObjectiveFunction(currentWeights);
-        let bestMetric = initialMetric;
-        let bestWeights = { ...currentWeights };
-        
-        // Track total changes to respect turnover limit
-        let totalChanges = {};
-        this.availableAssets.forEach(asset => {
-          totalChanges[asset] = 0;
-        });
-        
-        let iteration = 0;
-        let stagnationCount = 0;
-        const maxStagnation = 10; // Stop if no improvement for 10 iterations
-        
-        // Gradient descent loop
-        while (iteration < maxIterations && stagnationCount < maxStagnation) {
-          // Calculate gradients for all assets
-          const gradients = this.calculateGradients(currentWeights, stepSize);
-          
-          if (!gradients || Object.keys(gradients).length === 0) {
-            break; // No valid gradients
-          }
-          
-          // Sort assets by gradient (highest to lowest)
-          const sortedAssets = Object.keys(gradients).sort((a, b) => gradients[b] - gradients[a]);
-          
-          // Find assets to increase (positive gradients) and decrease (negative gradients)
-          const assetsToIncrease = sortedAssets.filter(asset => gradients[asset] > 0);
-          const assetsToDecrease = sortedAssets.filter(asset => gradients[asset] < 0);
-          
-          if (assetsToIncrease.length === 0 || assetsToDecrease.length === 0) {
-            stagnationCount++;
-            iteration++;
-            continue;
-          }
-          
-          // Check if we can still make changes within turnover limit
-          const canIncrease = assetsToIncrease.some(asset => 
-            Math.abs(totalChanges[asset]) < turnoverLimitPercent && currentWeights[asset] < 100
-          );
-          const canDecrease = assetsToDecrease.some(asset => 
-            Math.abs(totalChanges[asset]) < turnoverLimitPercent && currentWeights[asset] > 0
-          );
-          
-          if (!canIncrease || !canDecrease) {
-            break; // Reached turnover limit
-          }
-          
-          // Make step-by-step adjustments
-          let improved = false;
-          
-          // Increase weight of highest gradient asset (if possible)
-          for (const asset of assetsToIncrease) {
-            if (Math.abs(totalChanges[asset]) < turnoverLimitPercent && 
-                currentWeights[asset] < 100 && 
-                currentWeights[asset] + stepSize <= 100) {
-              
-              // Find a corresponding asset to decrease
-              for (const decreaseAsset of assetsToDecrease) {
-                if (Math.abs(totalChanges[decreaseAsset]) < turnoverLimitPercent && 
-                    currentWeights[decreaseAsset] > 0 && 
-                    currentWeights[decreaseAsset] - stepSize >= 0) {
-                  
-                  // Make the adjustment
-                  const newWeights = { ...currentWeights };
-                  newWeights[asset] += stepSize;
-                  newWeights[decreaseAsset] -= stepSize;
-                  
-                  // Ensure weights are still valid (sum to 100%, non-negative)
-                  if (this.isValidWeightAllocation(newWeights)) {
-                    const newMetric = this.calculateObjectiveFunction(newWeights);
-                    
-                    // Check if this improves the objective function
-                    const isImprovement = this.isMetricImprovement(newMetric, bestMetric);
-                    
-                    if (isImprovement) {
-                      currentWeights = newWeights;
-                      bestMetric = newMetric;
-                      bestWeights = { ...newWeights };
-                      
-                      // Track changes
-                      totalChanges[asset] += stepSize;
-                      totalChanges[decreaseAsset] -= stepSize;
-                      
-                      improved = true;
-                      stagnationCount = 0;
-                      break;
-                    }
-                  }
-                }
-              }
-              
-              if (improved) break;
-            }
-          }
-          
-          if (!improved) {
-            stagnationCount++;
-          }
-          
-          iteration++;
-        }
-        
-        // Ensure final weights sum to exactly 100%
-        const finalWeights = this.normalizeWeights(bestWeights);
-        
-        return {
-          success: true,
-          weights: finalWeights,
-          initialMetric: initialMetric,
-          finalMetric: bestMetric,
-          iterations: iteration,
-          improvement: bestMetric - initialMetric
-        };
-        
-      } catch (error) {
-        console.error('Gradient descent optimization failed:', error);
-        return {
-          success: false,
-          error: error.message
-        };
-      }
-    },
-
-    /**
-     * Calculate gradients for all assets using finite differences
-     */
-    calculateGradients(weights, stepSize) {
-      const gradients = {};
-      const baseMetric = this.calculateObjectiveFunction(weights);
-      
-      this.availableAssets.forEach(asset => {
-        // Calculate gradient using finite difference
-        const perturbedWeights = { ...weights };
-        
-        // Find an asset to decrease to maintain sum = 100%
-        let decreaseAsset = null;
-        for (const otherAsset of this.availableAssets) {
-          if (otherAsset !== asset && perturbedWeights[otherAsset] >= stepSize) {
-            decreaseAsset = otherAsset;
-            break;
-          }
-        }
-        
-        if (decreaseAsset && perturbedWeights[asset] + stepSize <= 100) {
-          perturbedWeights[asset] += stepSize;
-          perturbedWeights[decreaseAsset] -= stepSize;
-          
-          if (this.isValidWeightAllocation(perturbedWeights)) {
-            const perturbedMetric = this.calculateObjectiveFunction(perturbedWeights);
-            gradients[asset] = (perturbedMetric - baseMetric) / stepSize;
-          } else {
-            gradients[asset] = 0;
-          }
-        } else {
-          gradients[asset] = 0;
-        }
-      });
-      
-      return gradients;
-    },
-
-    /**
-     * Calculate the objective function value for given weights
-     */
-    calculateObjectiveFunction(weights) {
-      try {
-        // Get portfolio returns for these weights
-        const { dates, portfolioReturns } = this.getPortfolioReturnsForWeights(weights);
-        
-        if (!portfolioReturns || portfolioReturns.length === 0) {
-          return this.optimizationObjective === 'risk' ? 999 : -999; // Worst possible value
-        }
-        
-        const metrics = this.calculateMetricsForReturns(portfolioReturns);
-        
-        switch (this.optimizationObjective) {
-          case 'sharpe':
-            return metrics.sharpe || -999;
-          case 'risk':
-            return -(metrics.volatility || 999); // Negative because we minimize risk
-          case 'sortino':
-            return metrics.sortino || -999;
-          case 'cvar':
-            return -(Math.abs(metrics.cvar) || 999); // Negative because we minimize CVaR
-          default:
-            return metrics.sharpe || -999;
-        }
-      } catch (error) {
-        console.error('Error calculating objective function:', error);
-        return this.optimizationObjective === 'risk' ? 999 : -999;
-      }
-    },
-
-    /**
-     * Get portfolio returns for specific weights
-     */
-    getPortfolioReturnsForWeights(weights) {
-      const { dates, originalReturns } = this.getFilteredReturnsData();
-      
-      if (!returnsData || !returnsData.assets || dates.length === 0) {
-        return { dates: [], portfolioReturns: [] };
-      }
-      
-      // Calculate portfolio returns using the same logic as existing method
-      const indices = dates.map(date => returnsData.assets.dates.indexOf(date)).filter(i => i !== -1);
-      const portfolioReturns = this.calculatePortfolioReturns(indices, weights);
-      
-      return { dates, portfolioReturns };
-    },
-
-    /**
-     * Check if weights allocation is valid
-     */
-    isValidWeightAllocation(weights) {
-      const sum = Object.values(weights).reduce((a, b) => a + b, 0);
-      const allNonNegative = Object.values(weights).every(w => w >= 0);
-      const allWithinBounds = Object.values(weights).every(w => w <= 100);
-      
-      return allNonNegative && allWithinBounds && Math.abs(sum - 100) < 0.01;
-    },
-
-    /**
-     * Check if new metric is an improvement over current best
-     */
-    isMetricImprovement(newMetric, currentBest) {
-      if (this.optimizationObjective === 'risk' || this.optimizationObjective === 'cvar') {
-        return newMetric > currentBest; // For minimization objectives (stored as negative)
-      } else {
-        return newMetric > currentBest; // For maximization objectives
-      }
-    },
-
-    /**
-     * Normalize weights to sum exactly to 100%
-     */
-    normalizeWeights(weights) {
-      const sum = Object.values(weights).reduce((a, b) => a + b, 0);
-      const normalized = {};
-      
-      if (sum > 0) {
-        Object.keys(weights).forEach(asset => {
-          normalized[asset] = parseFloat(((weights[asset] / sum) * 100).toFixed(1));
-        });
-        
-        // Adjust for rounding errors
-        const normalizedSum = Object.values(normalized).reduce((a, b) => a + b, 0);
-        const difference = parseFloat((100.0 - normalizedSum).toFixed(1));
-        
-        if (Math.abs(difference) > 0) {
-          // Find the asset with the largest weight to adjust
-          let largestAsset = null;
-          let largestWeight = -1;
-          Object.keys(normalized).forEach(asset => {
-            if (normalized[asset] > largestWeight) {
-              largestWeight = normalized[asset];
-              largestAsset = asset;
-            }
-          });
-          
-          if (largestAsset) {
-            normalized[largestAsset] = parseFloat((normalized[largestAsset] + difference).toFixed(1));
-          }
-        }
-      } else {
-        // If sum is 0, distribute equally
-        const equalWeight = parseFloat((100 / Object.keys(weights).length).toFixed(1));
-        Object.keys(weights).forEach(asset => {
-          normalized[asset] = equalWeight;
-        });
-      }
-      
-      return normalized;
-    },
-    updatePortfolioReturns() {
-      // Calculate sums, ensuring we handle string inputs properly
-      this.originalWeightsSum = Object.values(this.originalWeights).reduce((a, b) => {
-        const val = parseFloat(b) || 0;
-        return a + val;
-      }, 0);
-      
-      this.optimizedWeightsSum = Object.values(this.optimizedWeights).reduce((a, b) => {
-        const val = parseFloat(b) || 0;
-        return a + val;
-      }, 0);
-      
-      // Update chart and metrics whenever weights change
-      this.updateCumulativeReturnsChart();
-      this.calculatePerformanceMetrics();
-    },
-    
-    formatMetric(value, unit = '') {
-      if (value === 0 || value === null || value === undefined) {
-        return '-';
-      }
-      return `${value.toFixed(2)}${unit}`;
-    },
-    
-    formatDifference(optimized, original, unit = '') {
-      if (optimized === 0 || original === 0) {
-        return '-';
-      }
-      const difference = optimized - original;
-      const sign = difference >= 0 ? '+' : '';
-      return `${sign}${difference.toFixed(2)}${unit}`;
-    },
-    getMetricClass(metric) {
-      // Determine if optimized metric is better than original
-      const original = this.performanceMetrics.original[metric];
-      const optimized = this.performanceMetrics.optimized[metric];
-      
-      // For metrics where higher is better (cagr, sharpe, sortino)
-      if (['cagr', 'sharpe', 'sortino'].includes(metric)) {
-        return optimized > original ? 'metric-better' : 'metric-worse';
-      }
-      // For metrics where lower is better (volatility, cvar, maxDrawdown)
-      else if (['volatility', 'cvar', 'maxDrawdown'].includes(metric)) {
-        return optimized < original ? 'metric-better' : 'metric-worse';
-      }
-      
-      return '';
-    },
-    
-    // New backtest methods
-    initializeBacktestData() {
-      // Initialize available assets from returns data
-      if (returnsData && returnsData.assets && returnsData.assets.asset_names) {
-        this.availableAssets = returnsData.assets.asset_names;
-      } else {
-        // Fallback to sample assets if no data available
-        this.availableAssets = ['US Equities', 'International Equities', 'US Bonds', 'Cash', 'Alternatives'];
-      }
-      
-      // Always initialize ALL weights to 0 when entering the page
-      this.originalWeights = {};
-      this.optimizedWeights = {};
-      
-      this.availableAssets.forEach(asset => {
-        this.$set(this.originalWeights, asset, 0);
-        this.$set(this.optimizedWeights, asset, 0);
-      });
-      
-      // Initialize years for date selectors
-      if (returnsData && returnsData.assets && returnsData.assets.dates) {
-        const dates = returnsData.assets.dates;
-        const years = new Set();
-        dates.forEach(date => {
-          const year = parseInt(date.substring(0, 4));
-          years.add(year);
-        });
-        this.availableYears = Array.from(years).sort();
-        
-        // Set initial dates
-        if (this.availableYears.length > 0) {
-          this.customStartYear = this.availableYears[0];
-          this.customEndYear = this.availableYears[this.availableYears.length - 1];
-        }
-      } else {
-        // Fallback years
-        this.availableYears = [2020, 2021, 2022, 2023, 2024];
-        this.customStartYear = 2020;
-        this.customEndYear = 2024;
-      }
-      
-      // Update portfolio sums
-      this.updatePortfolioReturns();
-    },
-    
-    selectPresetPeriod(period) {
-      this.backtestStartDate = period.start + '-01';
-      this.backtestEndDate = period.end + '-01';
-      
-      // Update the custom selectors to match
-      const [startYear, startMonth] = period.start.split('-');
-      const [endYear, endMonth] = period.end.split('-');
-      
-      this.customStartYear = parseInt(startYear);
-      this.customStartMonth = startMonth;
-      this.customEndYear = parseInt(endYear);
-      this.customEndMonth = endMonth;
-      
-      // Update charts and calculations
-      this.updateCumulativeReturnsChart();
-      this.calculatePerformanceMetrics();
-    },
-    
-    updateCustomPeriod() {
-      this.backtestStartDate = `${this.customStartYear}-${this.customStartMonth}-01`;
-      this.backtestEndDate = `${this.customEndYear}-${this.customEndMonth}-01`;
-      
-      // Update charts and calculations
-      this.updateCumulativeReturnsChart();
-      this.calculatePerformanceMetrics();
-    },
-    
-    updateCumulativeReturnsChart() {
-      this.$nextTick(() => {
-        if (window.Chart && this.$refs.cumulativeReturnsChart) {
-          if (this.cumulativeReturnsChart) {
-            this.cumulativeReturnsChart.destroy();
-          }
-          
-          const ctx = this.$refs.cumulativeReturnsChart.getContext('2d');
-          
-          // Get filtered data for the selected period
-          const { dates, originalReturns, optimizedReturns, benchmarkReturns } = this.getFilteredReturnsData();
-          
-          // If no data is available, show empty chart with message
-          if (dates.length === 0) {
-            // Clear the canvas and show message
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#6B7280';
-            ctx.fillText('No data available for the selected period and portfolio weights', ctx.canvas.width/2, ctx.canvas.height/2 - 10);
-            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-            ctx.fillText('Ensure portfolio weights sum to 100% and selected assets have data', ctx.canvas.width/2, ctx.canvas.height/2 + 15);
-            return;
-          }
-          
-          // Calculate cumulative returns
-          const originalCumulative = this.calculateCumulativeReturns(originalReturns);
-          const optimizedCumulative = this.calculateCumulativeReturns(optimizedReturns);
-          const allStocksCumulative = this.calculateCumulativeReturns(benchmarkReturns.allStocks);
-          const allBondsCumulative = this.calculateCumulativeReturns(benchmarkReturns.allBonds);
-          const inflationCumulative = this.calculateCumulativeReturns(benchmarkReturns.inflation);
-          
-          // Professional color palette
-          const colors = {
-            allStocks: '#1f77b4',     // Professional blue
-            allBonds: '#ff7f0e',      // Professional orange  
-            inflation: '#2ca02c',     // Professional green
-            original: '#d62728',      // Professional red
-            optimized: '#9467bd'      // Professional purple
-          };
-          
-          // Build datasets array based on weight validation
-          const datasets = [
-            {
-              label: 'All Stocks',
-              data: allStocksCumulative,
-              borderColor: colors.allStocks,
-              backgroundColor: colors.allStocks,
-              borderWidth: 2,
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              pointBackgroundColor: colors.allStocks,
-              pointBorderColor: colors.allStocks,
-              fill: false,
-              tension: 0.1
-            },
-            {
-              label: 'All Bonds',
-              data: allBondsCumulative,
-              borderColor: colors.allBonds,
-              backgroundColor: colors.allBonds,
-              borderWidth: 2,
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              pointBackgroundColor: colors.allBonds,
-              pointBorderColor: colors.allBonds,
-              fill: false,
-              tension: 0.1
-            },
-            {
-              label: 'Inflation',
-              data: inflationCumulative,
-              borderColor: colors.inflation,
-              backgroundColor: colors.inflation,
-              borderWidth: 1,
-              borderDash: [5, 5],
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              pointBackgroundColor: colors.inflation,
-              pointBorderColor: colors.inflation,
-              fill: false,
-              tension: 0.1
-            }
-          ];
-          
-          // Only add Original Portfolio if weights sum to approximately 100%
-          if (Math.abs(this.originalWeightsSum - 100) < 0.1) {
-            datasets.push({
-              label: 'Original Portfolio',
-              data: originalCumulative,
-              borderColor: colors.original,
-              backgroundColor: colors.original,
-              borderWidth: 3,
-              pointRadius: 0,
-              pointHoverRadius: 5,
-              pointBackgroundColor: colors.original,
-              pointBorderColor: colors.original,
-              fill: false,
-              tension: 0.1
-            });
-          }
-          
-          // Only add Optimized Portfolio if weights sum to approximately 100%
-          if (Math.abs(this.optimizedWeightsSum - 100) < 0.1) {
-            datasets.push({
-              label: 'Optimized Portfolio',
-              data: optimizedCumulative,
-              borderColor: colors.optimized,
-              backgroundColor: colors.optimized,
-              borderWidth: 3,
-              pointRadius: 0,
-              pointHoverRadius: 5,
-              pointBackgroundColor: colors.optimized,
-              pointBorderColor: colors.optimized,
-              fill: false,
-              tension: 0.1
-            });
-          }
-          
-          this.cumulativeReturnsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: dates.map(date => this.formatDate(date)),
-              datasets: datasets
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  ticks: {
-                    callback: function(value) {
-                      return value.toFixed(1) + '%';
-                    }
-                  },
-                  title: {
-                    display: true,
-                    text: 'Cumulative Return (%)'
-                  }
-                },
-                x: {
-                  ticks: {
-                    maxRotation: 45,
-                    autoSkip: true,
-                    autoSkipPadding: 10
-                  }
-                }
-              },
-                              plugins: {
-                  legend: {
-                    display: true,
-                    position: 'bottom',
-                    align: 'center',
-                    labels: {
-                      usePointStyle: true,
-                      pointStyle: 'circle',
-                      padding: 15,
-                      font: {
-                        size: 12,
-                        family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-                      },
-                      color: '#374151',
-                      generateLabels: function(chart) {
-                        const original = Chart.defaults.plugins.legend.labels.generateLabels;
-                        const labels = original.call(this, chart);
-                        
-                        labels.forEach(label => {
-                          label.pointStyle = 'circle';
-                          label.pointStyleWidth = 10;
-                          label.pointStyleHeight = 10;
-                        });
-                        
-                        return labels;
-                      }
-                    }
-                  },
-                  tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                    titleColor: '#111827',
-                    bodyColor: '#374151',
-                    borderColor: '#E5E7EB',
-                    borderWidth: 1,
-                    padding: 10,
-                    boxPadding: 5,
-                    usePointStyle: true,
-                    pointStyle: 'circle',
-                    boxWidth: 8,
-                    boxHeight: 8,
-                    callbacks: {
-                      label: function(context) {
-                        if (context.raw === null) {
-                          return context.dataset.label + ': No data';
-                        }
-                        return context.dataset.label + ': ' + context.raw.toFixed(2) + '%';
-                      }
-                    }
-                  }
-              }
-            }
-          });
-        }
-      });
-    },
-    
-    getFilteredReturnsData() {
-      // Use real data from returnsData if available
-      if (!returnsData || !returnsData.assets || !returnsData.reference) {
-        console.warn('Returns data not available, using sample data');
-        return this.getSampleReturnsData();
-      }
-      
-      const startDateStr = this.backtestStartDate || '2020-01-01';
-      const endDateStr = this.backtestEndDate || '2024-12-01';
-      
-      // First, filter by user-specified date range
-      const dateFilteredIndices = [];
-      const dateFilteredDates = [];
-      
-      if (returnsData.assets.date_index) {
-        // Fast filtering using date index
-        returnsData.assets.dates.forEach((date, index) => {
-          if (date >= startDateStr && date <= endDateStr) {
-            dateFilteredIndices.push(index);
-            dateFilteredDates.push(date);
-          }
-        });
-      } else {
-        // Fallback to original method
-        returnsData.assets.dates.forEach((date, index) => {
-          if (date >= startDateStr && date <= endDateStr) {
-            dateFilteredIndices.push(index);
-            dateFilteredDates.push(date);
-          }
-        });
-      }
-      
-      if (dateFilteredDates.length === 0) {
-        console.warn('No data found for selected date range, using sample data');
-        return this.getSampleReturnsData();
-      }
-      
-      // Identify all active assets (those with non-zero weights) from both portfolios
-      const allActiveAssets = new Set();
-      
-      // Add assets from original portfolio
-      Object.keys(this.originalWeights).forEach(asset => {
-        const weight = parseFloat(this.originalWeights[asset] || 0);
-        if (weight > 0 && returnsData.assets.assets[asset]) {
-          allActiveAssets.add(asset);
-        }
-      });
-      
-      // Add assets from optimized portfolio
-      Object.keys(this.optimizedWeights).forEach(asset => {
-        const weight = parseFloat(this.optimizedWeights[asset] || 0);
-        if (weight > 0 && returnsData.assets.assets[asset]) {
-          allActiveAssets.add(asset);
-        }
-      });
-      
-      // Filter to only include dates where ALL active assets have data
-      const finalIndices = [];
-      const finalDates = [];
-      
-      dateFilteredIndices.forEach((index, i) => {
-        let allAssetsHaveData = true;
-        
-        // Check if all active assets have data for this date
-        for (const asset of allActiveAssets) {
-          const assetReturn = returnsData.assets.assets[asset][index];
-          if (assetReturn === undefined || assetReturn === null) {
-            allAssetsHaveData = false;
-            break;
-          }
-        }
-        
-        if (allAssetsHaveData) {
-          finalIndices.push(index);
-          finalDates.push(dateFilteredDates[i]);
-        }
-      });
-      
-      if (finalDates.length === 0) {
-        console.warn('No periods found where all assets have complete data, using sample data');
-        return this.getSampleReturnsData();
-      }
-      
-      // Log the data availability info
-      console.log(`Portfolio analysis period: ${finalDates[0]} to ${finalDates[finalDates.length - 1]}`);
-      console.log(`Total periods with complete data: ${finalDates.length} out of ${dateFilteredDates.length} requested`);
-      if (allActiveAssets.size > 0) {
-        console.log(`Active assets requiring data: ${Array.from(allActiveAssets).join(', ')}`);
-      }
-      
-      // Calculate portfolio returns based on weights (now with guaranteed complete data)
-      const originalReturns = this.calculatePortfolioReturns(finalIndices, this.originalWeights);
-      const optimizedReturns = this.calculatePortfolioReturns(finalIndices, this.optimizedWeights);
-      
-      // Further filter to only include periods where at least one portfolio has valid weights
-      const hasOriginalWeights = Math.abs(this.originalWeightsSum - 100) < 0.1;
-      const hasOptimizedWeights = Math.abs(this.optimizedWeightsSum - 100) < 0.1;
-      
-      // If neither portfolio has valid weights, we don't want to show any periods
-      if (!hasOriginalWeights && !hasOptimizedWeights && finalDates.length > 0) {
-        console.log('No portfolios have valid weights (sum to 100%), showing empty chart');
-        return { 
-          dates: [], 
-          originalReturns: [], 
-          optimizedReturns: [], 
-          benchmarkReturns: { allStocks: [], allBonds: [], inflation: [] }
-        };
-      }
-      
-      // Get benchmark returns from reference series
-      const benchmarkReturns = {
-        allStocks: this.getBenchmarkReturns(finalIndices, 'World Equity') || this.getBenchmarkReturns(finalIndices, 'MSCI World') || this.getBenchmarkReturns(finalIndices, 'Equity') || [],
-        allBonds: this.getBenchmarkReturns(finalIndices, 'Canadian Bonds') || this.getBenchmarkReturns(finalIndices, 'US Bond') || this.getBenchmarkReturns(finalIndices, 'Bond') || this.getBenchmarkReturns(finalIndices, 'Bonds') || [],
-        inflation: this.getBenchmarkReturns(finalIndices, 'Inflation') || finalDates.map(() => 0.2)
-      };
-      
-      return { dates: finalDates, originalReturns, optimizedReturns, benchmarkReturns };
-    },
-    
-    getSampleReturnsData() {
-      // Fallback sample data when real data is not available
-      const dates = [];
-      const originalReturns = [];
-      const optimizedReturns = [];
-      
-      const startDate = new Date(this.backtestStartDate || '2020-01-01');
-      const endDate = new Date(this.backtestEndDate || '2024-12-01');
-      
-      let currentDate = new Date(startDate);
-      while (currentDate <= endDate) {
-        dates.push(currentDate.toISOString().substring(0, 10));
-        originalReturns.push((Math.random() - 0.5) * 6);
-        optimizedReturns.push((Math.random() - 0.5) * 5);
-        currentDate.setMonth(currentDate.getMonth() + 1);
-      }
-      
-      const benchmarkReturns = {
-        allStocks: originalReturns.map(r => r * 1.2),
-        allBonds: originalReturns.map(r => r * 0.5),
-        inflation: dates.map(() => 0.2)
-      };
-      
-      return { dates, originalReturns, optimizedReturns, benchmarkReturns };
-    },
-    
-    calculatePortfolioReturns(indices, weights) {
-      // Use external library function for portfolio return calculations
-      if (!returnsData.assets.assets) return indices.map(() => 0);
-      
-      // Call external library function
-      return calculatePortfolioReturns(weights, returnsData.assets.assets, indices);
-    },
-    
-    getBenchmarkReturns(indices, benchmarkName) {
-      // Get benchmark returns from both assets and reference series
-      let benchmarkKey = null;
-      let benchmarkData = null;
-      let sourceLocation = null;
-      
-      // First search in reference series
-      if (returnsData.reference && returnsData.reference.assets) {
-        const referenceKeys = Object.keys(returnsData.reference.assets);
-        console.log('Looking for benchmark:', benchmarkName, 'in reference series. Available keys:', referenceKeys);
-        
-        benchmarkKey = this.findBenchmarkKey(referenceKeys, benchmarkName);
-        if (benchmarkKey) {
-          benchmarkData = returnsData.reference.assets[benchmarkKey];
-          sourceLocation = 'reference';
-        }
-      }
-      
-      // If not found in reference, search in assets series
-      if (!benchmarkKey && returnsData.assets && returnsData.assets.assets) {
-        const assetKeys = Object.keys(returnsData.assets.assets);
-        console.log('Looking for benchmark:', benchmarkName, 'in assets series. Available keys:', assetKeys);
-        
-        benchmarkKey = this.findBenchmarkKey(assetKeys, benchmarkName);
-        if (benchmarkKey) {
-          benchmarkData = returnsData.assets.assets[benchmarkKey];
-          sourceLocation = 'assets';
-        }
-      }
-      
-      if (!benchmarkKey) {
-        console.warn('No benchmark found for:', benchmarkName);
-        return null;
-      }
-      
-      console.log('Found benchmark key:', benchmarkKey, 'for search term:', benchmarkName, 'in', sourceLocation, 'series');
-      return indices.map(index => {
-        const value = benchmarkData[index];
-        return value !== null && value !== undefined ? value : 0;
-      });
-    },
-    
-    findBenchmarkKey(keys, benchmarkName) {
-      // Helper function to find benchmark key with comprehensive matching
-      let benchmarkKey = keys.find(key => key === benchmarkName) ||
-                         keys.find(key => key.toLowerCase() === benchmarkName.toLowerCase()) ||
-                         keys.find(key => key.toLowerCase().includes(benchmarkName.toLowerCase())) ||
-                         keys.find(key => benchmarkName.toLowerCase().includes(key.toLowerCase()));
-      
-      // Additional specific matching for common bond names
-      if (!benchmarkKey && benchmarkName.toLowerCase().includes('bond')) {
-        benchmarkKey = keys.find(key => 
-          key.toLowerCase().includes('bond') || 
-          key.toLowerCase().includes('treasury') ||
-          key.toLowerCase().includes('govt') ||
-          key.toLowerCase().includes('government')
-        );
-      }
-      
-      return benchmarkKey;
-    },
-    
-    calculateCumulativeReturns(returns) {
-      // Use external library function for cumulative returns calculation
-      return calculateCumulativeReturns(returns);
-    },
-    
-    calculatePerformanceMetrics() {
-      // Calculate actual performance metrics based on portfolio weights and selected time period
-      const { dates, originalReturns, optimizedReturns } = this.getFilteredReturnsData();
-      
-      if (dates.length === 0) {
-        // Fallback to static values if no data
-        this.performanceMetrics.original = { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
-        this.performanceMetrics.optimized = { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
-        return;
-      }
-      
-      // Calculate metrics for original portfolio
-      this.performanceMetrics.original = this.calculateMetricsForReturns(originalReturns);
-      
-      // Calculate metrics for optimized portfolio (if it has valid weights)
-      if (Math.abs(this.optimizedWeightsSum - 100) < 0.1) {
-        this.performanceMetrics.optimized = this.calculateMetricsForReturns(optimizedReturns);
-      } else {
-        this.performanceMetrics.optimized = { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
-      }
-    },
-    
-    calculateMetricsForReturns(returns) {
-      if (!returns || returns.length === 0) {
-        return { cagr: 0, volatility: 0, sharpe: 0, sortino: 0, cvar: 0, maxDrawdown: 0 };
-      }
-      
-      // Use external library function with proper frequency detection
-      // Get dates for frequency detection from filtered data
-      const { dates } = this.getFilteredReturnsData();
-      
-      // Call external library function with enhanced calculations
-      return calculateMetricsForReturns(returns, 0.02, dates);
-    },
     resetOptimization() {
       this.currentStep = 0;
       this.optimizationObjective = 'sharpe';
@@ -4123,6 +3256,7 @@ new Vue({
         this.updateCumulativeReturnsChart();
       }
     },
+
     initPerformanceChart() {
       this.$nextTick(() => {
         if (window.Chart && this.$refs.performanceChart) {
@@ -4132,38 +3266,38 @@ new Vue({
           
           const ctx = this.$refs.performanceChart.getContext('2d');
           
-          // Get dates for x-axis - use last 60 months of data (5 years)
-          let dates = [];
+          // Get actual portfolio returns data instead of generating random data
+          const { dates, originalReturns, optimizedReturns } = this.getFilteredReturnsData();
           
-          // Use returnsData if available, otherwise generate sample data
-          if (returnsData && returnsData.dates) {
-            // Use last 60 dates from returnsData.dates or all if fewer
-            const dataLength = returnsData.dates.length;
-            const startIndex = Math.max(0, dataLength - 60);
-            dates = returnsData.dates.slice(startIndex).map(date => this.formatDate(date));
-          } else {
-            // Generate sample dates if no data
-            const today = new Date();
-            for (let i = 59; i >= 0; i--) {
-              const date = new Date(today);
-              date.setMonth(today.getMonth() - i);
-              dates.push(this.formatDate(date.toISOString().slice(0, 10)));
-            }
+          // If no real data is available, show empty chart with message
+          if (dates.length === 0 || !originalReturns || originalReturns.length === 0) {
+            // Clear the canvas and show message
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('No return data available for performance chart', ctx.canvas.width/2, ctx.canvas.height/2 - 10);
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.fillText('Please ensure portfolio weights are set and return data is loaded', ctx.canvas.width/2, ctx.canvas.height/2 + 15);
+            return;
           }
           
-          // Create sample performance data
-          const originalPerformance = this.generateCumulativeReturns(this.performanceMetrics.originalReturn, this.performanceMetrics.originalVolatility, dates.length);
-          const optimizedPerformance = this.generateCumulativeReturns(this.performanceMetrics.optimizedReturn, this.performanceMetrics.optimizedVolatility, dates.length);
+          // Use external function to calculate cumulative returns from actual data
+          const originalCumulative = calculateCumulativeReturns(originalReturns);
+          const optimizedCumulative = calculateCumulativeReturns(optimizedReturns);
+          
+          // Format dates for display
+          const formattedDates = dates.map(date => this.formatDate(date));
           
           // Configure and create chart
           this.portfolioPerformanceChart = new Chart(ctx, {
             type: 'line',
             data: {
-              labels: dates,
+              labels: formattedDates,
               datasets: [
                 {
                   label: 'Original Portfolio',
-                  data: originalPerformance,
+                  data: originalCumulative,
                   borderColor: '#4F46E5',
                   backgroundColor: 'rgba(79, 70, 229, 0.1)',
                   borderWidth: 2,
@@ -4172,7 +3306,7 @@ new Vue({
                 },
                 {
                   label: 'Optimized Portfolio',
-                  data: optimizedPerformance,
+                  data: optimizedCumulative,
                   borderColor: '#10B981',
                   backgroundColor: 'rgba(16, 185, 129, 0.1)',
                   borderWidth: 2,
@@ -4188,7 +3322,7 @@ new Vue({
                 y: {
                   ticks: {
                     callback: function(value) {
-                      return value + '%';
+                      return value.toFixed(2) + '%';
                     }
                   },
                   title: {
@@ -4221,31 +3355,6 @@ new Vue({
       });
     },
 
-    generateCumulativeReturns(annualReturn, annualVol, months) {
-      // Convert annual to monthly
-      const monthlyReturn = (Math.pow(1 + annualReturn / 100, 1/12) - 1) * 100;
-      const monthlyVol = annualVol / Math.sqrt(12);
-      
-      let cumulativeReturn = 0;
-      const returns = [0]; // Start at 0% cumulative return
-      
-      for (let i = 1; i < months; i++) {
-        // Add some randomness based on volatility
-        // Using normal-ish distribution with Box-Muller transform
-        const u1 = Math.random();
-        const u2 = Math.random();
-        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-        
-        // Monthly return with random component based on volatility
-        const randomReturn = monthlyReturn + z * (monthlyVol / 100) * monthlyReturn;
-        
-        // Add to cumulative
-        cumulativeReturn += randomReturn;
-        returns.push(cumulativeReturn);
-      }
-      
-      return returns;
-    },
     updatePortfolioReturns() {
       // Calculate sums, ensuring we handle string inputs properly
       this.originalWeightsSum = Object.values(this.originalWeights).reduce((a, b) => {
@@ -4392,12 +3501,12 @@ new Vue({
             return;
           }
           
-          // Calculate cumulative returns
-          const originalCumulative = this.calculateCumulativeReturns(originalReturns);
-          const optimizedCumulative = this.calculateCumulativeReturns(optimizedReturns);
-          const allStocksCumulative = this.calculateCumulativeReturns(benchmarkReturns.allStocks);
-          const allBondsCumulative = this.calculateCumulativeReturns(benchmarkReturns.allBonds);
-          const inflationCumulative = this.calculateCumulativeReturns(benchmarkReturns.inflation);
+          // Use external function to calculate cumulative returns
+          const originalCumulative = calculateCumulativeReturns(originalReturns);
+          const optimizedCumulative = calculateCumulativeReturns(optimizedReturns);
+          const allStocksCumulative = calculateCumulativeReturns(benchmarkReturns.allStocks);
+          const allBondsCumulative = calculateCumulativeReturns(benchmarkReturns.allBonds);
+          const inflationCumulative = calculateCumulativeReturns(benchmarkReturns.inflation);
           
           // Professional color palette
           const colors = {
@@ -4664,8 +3773,8 @@ new Vue({
       }
       
       // Calculate portfolio returns based on weights (now with guaranteed complete data)
-      const originalReturns = this.calculatePortfolioReturns(finalIndices, this.originalWeights);
-      const optimizedReturns = this.calculatePortfolioReturns(finalIndices, this.optimizedWeights);
+      const originalReturns = calculatePortfolioReturns(this.originalWeights, returnsData.assets.assets, finalIndices);
+      const optimizedReturns = calculatePortfolioReturns(this.optimizedWeights, returnsData.assets.assets, finalIndices);
       
       // Further filter to only include periods where at least one portfolio has valid weights
       const hasOriginalWeights = Math.abs(this.originalWeightsSum - 100) < 0.1;
@@ -4718,13 +3827,7 @@ new Vue({
       return { dates, originalReturns, optimizedReturns, benchmarkReturns };
     },
     
-    calculatePortfolioReturns(indices, weights) {
-      // Use external library function for portfolio return calculations
-      if (!returnsData.assets.assets) return indices.map(() => 0);
-      
-      // Call external library function
-      return calculatePortfolioReturns(weights, returnsData.assets.assets, indices);
-    },
+
     
     getBenchmarkReturns(indices, benchmarkName) {
       // Get benchmark returns from both assets and reference series
@@ -4788,10 +3891,6 @@ new Vue({
       return benchmarkKey;
     },
     
-    calculateCumulativeReturns(returns) {
-      // Use external library function for cumulative returns calculation
-      return calculateCumulativeReturns(returns);
-    },
     
     calculatePerformanceMetrics() {
       // Calculate actual performance metrics based on portfolio weights and selected time period
@@ -4827,257 +3926,112 @@ new Vue({
       // Call external library function with enhanced calculations
       return calculateMetricsForReturns(returns, 0.02, dates);
     },
-    
-    runOptimization() {
-      if (!this.canOptimize) {
-        this.optimizationStatus = 'Please ensure original portfolio weights sum to 100%';
-        return;
-      }
-      
-      this.optimizationStatus = 'Running gradient descent optimization...';
-      
-      // Run gradient descent optimization
-      setTimeout(() => {
-        const result = this.gradientDescentOptimization();
-        
-        if (result.success) {
-          // Apply the optimized weights
-          Object.keys(result.weights).forEach(asset => {
-            this.optimizedWeights[asset] = result.weights[asset];
-          });
-          
-          this.updatePortfolioReturns();
-          this.calculatePerformanceMetrics();
-          this.updateCumulativeReturnsChart();
-          
-          this.optimizationStatus = `Optimization completed! Improved ${this.optimizationObjective} from ${result.initialMetric.toFixed(3)} to ${result.finalMetric.toFixed(3)} in ${result.iterations} iterations.`;
-        } else {
-          this.optimizationStatus = `Optimization failed: ${result.error}`;
-        }
-        
-        // Clear status after 5 seconds
-        setTimeout(() => {
-          this.optimizationStatus = null;
-        }, 5000);
-      }, 100);
-    },
 
-    /**
-     * Gradient descent optimization implementation
-     * Calculates gradients for the chosen performance metric and iteratively improves portfolio
-     */
-    gradientDescentOptimization() {
-      try {
-        const turnoverLimitPercent = parseFloat(this.stepSize); // UI stepSize is actually turnover limit
-        const stepSize = 0.1; // Gradient descent step size
-        const maxIterations = Math.floor(turnoverLimitPercent / stepSize); // Total iterations based on turnover limit
-        
-        // Start with current weights
-        let currentWeights = { ...this.originalWeights };
-        Object.keys(currentWeights).forEach(asset => {
-          currentWeights[asset] = parseFloat(currentWeights[asset]) || 0;
-        });
-        
-        // Get initial performance metric
-        const initialMetric = this.calculateObjectiveFunction(currentWeights);
-        let bestMetric = initialMetric;
-        let bestWeights = { ...currentWeights };
-        
-        // Track total changes to respect turnover limit
-        let totalChanges = {};
-        this.availableAssets.forEach(asset => {
-          totalChanges[asset] = 0;
-        });
-        
-        let iteration = 0;
-        let stagnationCount = 0;
-        const maxStagnation = 10; // Stop if no improvement for 10 iterations
-        
-        // Gradient descent loop
-        while (iteration < maxIterations && stagnationCount < maxStagnation) {
-          // Calculate gradients for all assets
-          const gradients = this.calculateGradients(currentWeights, stepSize);
-          
-          if (!gradients || Object.keys(gradients).length === 0) {
-            break; // No valid gradients
+
+    initPerformanceChart() {
+      this.$nextTick(() => {
+        if (window.Chart && this.$refs.performanceChart) {
+          if (this.portfolioPerformanceChart) {
+            this.portfolioPerformanceChart.destroy();
           }
           
-          // Sort assets by gradient (highest to lowest)
-          const sortedAssets = Object.keys(gradients).sort((a, b) => gradients[b] - gradients[a]);
+          const ctx = this.$refs.performanceChart.getContext('2d');
           
-          // Find assets to increase (positive gradients) and decrease (negative gradients)
-          const assetsToIncrease = sortedAssets.filter(asset => gradients[asset] > 0);
-          const assetsToDecrease = sortedAssets.filter(asset => gradients[asset] < 0);
+          // Get actual portfolio returns data instead of generating random data
+          const { dates, originalReturns, optimizedReturns } = this.getFilteredReturnsData();
           
-          if (assetsToIncrease.length === 0 || assetsToDecrease.length === 0) {
-            stagnationCount++;
-            iteration++;
-            continue;
+          // If no real data is available, show empty chart with message
+          if (dates.length === 0 || !originalReturns || originalReturns.length === 0) {
+            // Clear the canvas and show message
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('No return data available for performance chart', ctx.canvas.width/2, ctx.canvas.height/2 - 10);
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            ctx.fillText('Please ensure portfolio weights are set and return data is loaded', ctx.canvas.width/2, ctx.canvas.height/2 + 15);
+            return;
           }
           
-          // Check if we can still make changes within turnover limit
-          const canIncrease = assetsToIncrease.some(asset => 
-            Math.abs(totalChanges[asset]) < turnoverLimitPercent && currentWeights[asset] < 100
-          );
-          const canDecrease = assetsToDecrease.some(asset => 
-            Math.abs(totalChanges[asset]) < turnoverLimitPercent && currentWeights[asset] > 0
-          );
+          // Use external function to calculate cumulative returns from actual data
+          const originalCumulative = calculateCumulativeReturns(originalReturns);
+          const optimizedCumulative = calculateCumulativeReturns(optimizedReturns);
           
-          if (!canIncrease || !canDecrease) {
-            break; // Reached turnover limit
-          }
+          // Format dates for display
+          const formattedDates = dates.map(date => this.formatDate(date));
           
-          // Make step-by-step adjustments
-          let improved = false;
-          
-          // Increase weight of highest gradient asset (if possible)
-          for (const asset of assetsToIncrease) {
-            if (Math.abs(totalChanges[asset]) < turnoverLimitPercent && 
-                currentWeights[asset] < 100 && 
-                currentWeights[asset] + stepSize <= 100) {
-              
-              // Find a corresponding asset to decrease
-              for (const decreaseAsset of assetsToDecrease) {
-                if (Math.abs(totalChanges[decreaseAsset]) < turnoverLimitPercent && 
-                    currentWeights[decreaseAsset] > 0 && 
-                    currentWeights[decreaseAsset] - stepSize >= 0) {
-                  
-                  // Make the adjustment
-                  const newWeights = { ...currentWeights };
-                  newWeights[asset] += stepSize;
-                  newWeights[decreaseAsset] -= stepSize;
-                  
-                  // Ensure weights are still valid (sum to 100%, non-negative)
-                  if (this.isValidWeightAllocation(newWeights)) {
-                    const newMetric = this.calculateObjectiveFunction(newWeights);
-                    
-                    // Check if this improves the objective function
-                    const isImprovement = this.isMetricImprovement(newMetric, bestMetric);
-                    
-                    if (isImprovement) {
-                      currentWeights = newWeights;
-                      bestMetric = newMetric;
-                      bestWeights = { ...newWeights };
-                      
-                      // Track changes
-                      totalChanges[asset] += stepSize;
-                      totalChanges[decreaseAsset] -= stepSize;
-                      
-                      improved = true;
-                      stagnationCount = 0;
-                      break;
+          // Configure and create chart
+          this.portfolioPerformanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: formattedDates,
+              datasets: [
+                {
+                  label: 'Original Portfolio',
+                  data: originalCumulative,
+                  borderColor: '#4F46E5',
+                  backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.1
+                },
+                {
+                  label: 'Optimized Portfolio',
+                  data: optimizedCumulative,
+                  borderColor: '#10B981',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  borderWidth: 2,
+                  fill: false,
+                  tension: 0.1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  ticks: {
+                    callback: function(value) {
+                      return value.toFixed(2) + '%';
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: 'Cumulative Return (%)'
+                  }
+                },
+                x: {
+                  ticks: {
+                    maxRotation: 45,
+                    autoSkip: true,
+                    autoSkipPadding: 10
+                  }
+                }
+              },
+              plugins: {
+                tooltip: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                    label: function(context) {
+                      return context.dataset.label + ': ' + context.raw.toFixed(2) + '%';
                     }
                   }
                 }
               }
-              
-              if (improved) break;
             }
-          }
-          
-          if (!improved) {
-            stagnationCount++;
-          }
-          
-          iteration++;
-        }
-        
-        // Ensure final weights sum to exactly 100%
-        const finalWeights = this.normalizeWeights(bestWeights);
-        
-        return {
-          success: true,
-          weights: finalWeights,
-          initialMetric: initialMetric,
-          finalMetric: bestMetric,
-          iterations: iteration,
-          improvement: bestMetric - initialMetric
-        };
-        
-      } catch (error) {
-        console.error('Gradient descent optimization failed:', error);
-        return {
-          success: false,
-          error: error.message
-        };
-      }
-    },
-
-    /**
-     * Calculate gradients for all assets using finite differences
-     */
-    calculateGradients(weights, stepSize) {
-      const gradients = {};
-      const baseMetric = this.calculateObjectiveFunction(weights);
-      
-      this.availableAssets.forEach(asset => {
-        // Calculate gradient using finite difference
-        const perturbedWeights = { ...weights };
-        
-        // Find an asset to decrease to maintain sum = 100%
-        let decreaseAsset = null;
-        for (const otherAsset of this.availableAssets) {
-          if (otherAsset !== asset && perturbedWeights[otherAsset] >= stepSize) {
-            decreaseAsset = otherAsset;
-            break;
-          }
-        }
-        
-        if (decreaseAsset && perturbedWeights[asset] + stepSize <= 100) {
-          perturbedWeights[asset] += stepSize;
-          perturbedWeights[decreaseAsset] -= stepSize;
-          
-          if (this.isValidWeightAllocation(perturbedWeights)) {
-            const perturbedMetric = this.calculateObjectiveFunction(perturbedWeights);
-            gradients[asset] = (perturbedMetric - baseMetric) / stepSize;
-          } else {
-            gradients[asset] = 0;
-          }
-        } else {
-          gradients[asset] = 0;
+          });
         }
       });
-      
-      return gradients;
     },
 
     /**
-     * Calculate the objective function value for given weights
-     */
-    calculateObjectiveFunction(weights) {
-      try {
-        // Get portfolio returns for these weights
-        const { dates, portfolioReturns } = this.getPortfolioReturnsForWeights(weights);
-        
-        if (!portfolioReturns || portfolioReturns.length === 0) {
-          return this.optimizationObjective === 'risk' ? 999 : -999; // Worst possible value
-        }
-        
-        const metrics = this.calculateMetricsForReturns(portfolioReturns);
-        
-        switch (this.optimizationObjective) {
-          case 'sharpe':
-            return metrics.sharpe || -999;
-          case 'risk':
-            return -(metrics.volatility || 999); // Negative because we minimize risk
-          case 'sortino':
-            return metrics.sortino || -999;
-          case 'cvar':
-            return -(Math.abs(metrics.cvar) || 999); // Negative because we minimize CVaR
-          default:
-            return metrics.sharpe || -999;
-        }
-      } catch (error) {
-        console.error('Error calculating objective function:', error);
-        return this.optimizationObjective === 'risk' ? 999 : -999;
-      }
-    },
-
-    /**
-     * Get portfolio returns for specific weights
+     * Get portfolio returns for specific weights - used by optimization
      */
     getPortfolioReturnsForWeights(weights) {
       const { dates, originalReturns } = this.getFilteredReturnsData();
+      
       
       if (!returnsData || !returnsData.assets || dates.length === 0) {
         return { dates: [], portfolioReturns: [] };
@@ -5085,74 +4039,12 @@ new Vue({
       
       // Calculate portfolio returns using the same logic as existing method
       const indices = dates.map(date => returnsData.assets.dates.indexOf(date)).filter(i => i !== -1);
-      const portfolioReturns = this.calculatePortfolioReturns(indices, weights);
+      const portfolioReturns = calculatePortfolioReturns(weights, returnsData.assets.assets, indices);
       
       return { dates, portfolioReturns };
     },
 
-    /**
-     * Check if weights allocation is valid
-     */
-    isValidWeightAllocation(weights) {
-      const sum = Object.values(weights).reduce((a, b) => a + b, 0);
-      const allNonNegative = Object.values(weights).every(w => w >= 0);
-      const allWithinBounds = Object.values(weights).every(w => w <= 100);
-      
-      return allNonNegative && allWithinBounds && Math.abs(sum - 100) < 0.01;
-    },
 
-    /**
-     * Check if new metric is an improvement over current best
-     */
-    isMetricImprovement(newMetric, currentBest) {
-      if (this.optimizationObjective === 'risk' || this.optimizationObjective === 'cvar') {
-        return newMetric > currentBest; // For minimization objectives (stored as negative)
-      } else {
-        return newMetric > currentBest; // For maximization objectives
-      }
-    },
-
-    /**
-     * Normalize weights to sum exactly to 100%
-     */
-    normalizeWeights(weights) {
-      const sum = Object.values(weights).reduce((a, b) => a + b, 0);
-      const normalized = {};
-      
-      if (sum > 0) {
-        Object.keys(weights).forEach(asset => {
-          normalized[asset] = parseFloat(((weights[asset] / sum) * 100).toFixed(1));
-        });
-        
-        // Adjust for rounding errors
-        const normalizedSum = Object.values(normalized).reduce((a, b) => a + b, 0);
-        const difference = parseFloat((100.0 - normalizedSum).toFixed(1));
-        
-        if (Math.abs(difference) > 0) {
-          // Find the asset with the largest weight to adjust
-          let largestAsset = null;
-          let largestWeight = -1;
-          Object.keys(normalized).forEach(asset => {
-            if (normalized[asset] > largestWeight) {
-              largestWeight = normalized[asset];
-              largestAsset = asset;
-            }
-          });
-          
-          if (largestAsset) {
-            normalized[largestAsset] = parseFloat((normalized[largestAsset] + difference).toFixed(1));
-          }
-        }
-      } else {
-        // If sum is 0, distribute equally
-        const equalWeight = parseFloat((100 / Object.keys(weights).length).toFixed(1));
-        Object.keys(weights).forEach(asset => {
-          normalized[asset] = equalWeight;
-        });
-      }
-      
-      return normalized;
-    }
   },
   watch: {
     selectedSeries: {
