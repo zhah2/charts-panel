@@ -329,11 +329,27 @@ if asset_returns:
     (ROOT / "returns.json").write_text(json.dumps(asset_returns, indent=2, cls=DateTimeEncoder))
     print(f"[build] ✅ wrote returns.json with {len(asset_returns.get('assets', {}).get('asset_names', []))} assets")
 
+# Create CORS proxy configuration for the frontend
+cors_config = {
+    "enabled": True,  # Enable CORS proxy support
+    "primary_proxy": {
+        "name": "cloudflare",
+        "url": "https://img-cors-proxy.haining-zha.workers.dev",  # Your Cloudflare Workers proxy
+        "format": "{proxy_url}?url={encoded_url}"
+    },
+    "fallback_proxy": {
+        "name": "allorigins", 
+        "url": "https://api.allorigins.win/raw",
+        "format": "{proxy_url}?url={encoded_url}"
+    }
+}
+
 out_html = tpl.render(
     charts=json.dumps(chart_meta,    separators=(",", ":")),
     cats  =json.dumps(categories_raw, separators=(",", ":")),
     allocation=json.dumps(allocation_data, separators=(",", ":"), cls=DateTimeEncoder),
-    returns=json.dumps(asset_returns, separators=(",", ":"), cls=DateTimeEncoder)
+    returns=json.dumps(asset_returns, separators=(",", ":"), cls=DateTimeEncoder),
+    cors_config=json.dumps(cors_config, separators=(",", ":"))
 )
 (ROOT / "index.html").write_text(out_html, encoding="utf-8")
 print(f"[build] ✅ wrote index.html ({len(chart_meta)} charts, {len(allocation_data)} allocation categories)")
