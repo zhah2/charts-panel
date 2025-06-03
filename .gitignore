@@ -35,7 +35,6 @@ charts.json
 categories.json
 returns.json
 index.html
-chart_*.png
 
 # Log files
 *.log
