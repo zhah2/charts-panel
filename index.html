@@ -418,6 +418,21 @@ input[type="checkbox"] {
   border-top: 1px solid #E5E7EB;
 }
 
+.modal-labels-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-labels-left {
+  flex: 1;
+  text-align: left;
+}
+
+.modal-labels-right {
+  text-align: right;
+}
+
 /* Chart selection checkbox */
 .card {
   position: relative; /* For absolute positioning of checkbox */
@@ -444,6 +459,16 @@ input[type="checkbox"] {
   width: 16px;
   height: 16px;
   cursor: pointer;
+}
+
+/* Chart ID display in bottom right corner */
+.chart-id-display {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
+  font-size: 0.75rem;
+  color: #6B7280;
 }
 
 /* Selected chart indicator */
@@ -1700,6 +1725,21 @@ select {
   border-top: 1px solid #E5E7EB;
 }
 
+.modal-labels-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-labels-left {
+  flex: 1;
+  text-align: left;
+}
+
+.modal-labels-right {
+  text-align: right;
+}
+
 /* Chart selection checkbox */
 .card {
   position: relative; /* For absolute positioning of checkbox */
@@ -1726,6 +1766,16 @@ select {
   width: 16px;
   height: 16px;
   cursor: pointer;
+}
+
+/* Chart ID display in bottom right corner */
+.chart-id-display {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
+  font-size: 0.75rem;
+  color: #6B7280;
 }
 
 /* Selected chart indicator */
@@ -2965,6 +3015,7 @@ select {
                      :checked="selectedCharts.includes(ch.id)" 
                      @change="toggleChartSelection(ch.id)">
             </div>
+            <div class="chart-id-display">ID: {{ ch.id }}</div>
             <div class="card-image" @click="openModal(ch)">
               <component 
                 :is="chartTag(ch)" 
@@ -3356,7 +3407,10 @@ select {
             </component>
         </div>
         <div class="modal-labels">
-            Labels: {{ zoomedChart.labels.join(', ') }}
+            <div class="modal-labels-content">
+              <span class="modal-labels-left">Labels: {{ zoomedChart.labels.join(', ') }}</span>
+              <span class="modal-labels-right">ID: {{ zoomedChart.id }}</span>
+            </div>
         </div>
       </div>
   </div>
