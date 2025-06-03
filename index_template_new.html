@@ -2082,7 +2082,9 @@ select {
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+<!-- html2canvas removed - now using direct CORS proxy fetch for better performance -->
 
 <!-- Portfolio calculation libraries -->
 <script src="js/portfolio-metrics.js"></script>
@@ -2476,7 +2478,7 @@ new Vue({
     },
     
     /**
-     * Generate and download a PDF of selected charts
+     * Download selected charts as PDF
      */
     async downloadSelectedCharts() {
       if (this.selectedCharts.length === 0) {
@@ -2484,716 +2486,695 @@ new Vue({
         return;
       }
 
+      // Check if required libraries are loaded
+      if (typeof window.jspdf === 'undefined') {
+        alert("jsPDF library is not loaded. Please refresh the page and try again.");
+        return;
+      }
+
+      // Add progress feedback
+      const progressDiv = document.createElement('div');
+      progressDiv.id = 'download-progress';
+      progressDiv.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 8px;
+        z-index: 10000; font-family: Arial, sans-serif; text-align: center;
+      `;
+      progressDiv.innerHTML = `
+        <div>Preparing PDF download...</div>
+        <div id="progress-text">Starting...</div>
+        <div style="width: 300px; height: 6px; background: #333; border-radius: 3px; margin: 10px 0;">
+          <div id="progress-bar" style="width: 0%; height: 100%; background: #4CAF50; border-radius: 3px; transition: width 0.3s;"></div>
+        </div>
+      `;
+      document.body.appendChild(progressDiv);
+
+      const updateProgress = (text, percent) => {
+        const progressText = document.getElementById('progress-text');
+        const progressBar = document.getElementById('progress-bar');
+        if (progressText) progressText.textContent = text;
+        if (progressBar) progressBar.style.width = percent + '%';
+        console.log(`Progress: ${percent}% - ${text}`);
+      };
+
       try {
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
-        const pageW = pdf.internal.pageSize.getWidth();
-        const pageH = pdf.internal.pageSize.getHeight();
-        
-        // Title page
-        pdf.setFontSize(16);
-        pdf.text("Selected Charts", 20, 30);
-        pdf.setFontSize(12);
-        pdf.text(`Total charts: ${this.selectedCharts.length}`, 20, 40);
-        pdf.text(`Generated: ${new Date().toLocaleString()}`, 20, 50);
-        
-        // Get selected chart data
+        // Use explicit A4 landscape dimensions for consistency with compression enabled
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'mm',
+          format: 'a4',  // Explicit A4 format (297mm x 210mm in landscape)
+          compress: true  // Enable PDF compression for smaller file size
+        });
+        let isFirstPage = true;
+
+        updateProgress("Initializing PDF...", 5);
+
+        // Get the full chart objects from selected IDs
         const selectedChartData = this.charts.filter(chart => 
           this.selectedCharts.includes(chart.id)
         );
         
-        // Process each selected chart
+        console.log(`Processing ${selectedChartData.length} selected charts:`, this.selectedCharts);
+
         for (let i = 0; i < selectedChartData.length; i++) {
           const chart = selectedChartData[i];
-          pdf.addPage();
+          const progressPercent = 5 + (i / selectedChartData.length) * 90;
           
-          // For image charts (both local and remote)
-          if (chart.kind === 'local_png' || chart.kind === 'remote_img') {
-            try {
-              // Create a new Image object
-              const img = new Image();
-              img.crossOrigin = "Anonymous";  // Handle CORS for remote images
+          updateProgress(`Processing ${chart.title} (${i + 1}/${selectedChartData.length})`, progressPercent);
+          console.log(`Processing chart ${i + 1}/${selectedChartData.length}: ${chart.title}`);
+
+          if (!isFirstPage) {
+            pdf.addPage();
+          }
+          isFirstPage = false;
+
+          // Add chart title at the top (moved further up)
+          pdf.setTextColor(0, 182, 36); // Green color RGB(0,182,36)
+          pdf.setFontSize(28); // Increased font size to 28
+          pdf.setFont(undefined, 'normal'); // Removed bold
+          pdf.text(chart.title, 20, 12); // Moved further up from 18 to 12
+
+          try {
+            let dataURL = null;
+
+            if (chart.kind === 'local_png') {
+              console.log(`Loading local image: ${chart.title}`);
+              updateProgress(`Loading ${chart.title}...`, progressPercent + 2);
               
-              // Create a promise to wait for image to load
-              await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = (e) => {
-                  console.error(`Failed to load image: ${chart.src}`, e);
-                  reject(new Error(`Failed to load image: ${chart.src}`));
+              // ROBUST LOCAL IMAGE SOLUTION
+              console.log(`🖼️ Processing local image: ${chart.src}`);
+              
+              // Check if we're running on HTTP(S) or file:// protocol
+              const isFileProtocol = window.location.protocol === 'file:';
+              
+              if (isFileProtocol) {
+                // For file:// protocol, recommend HTTP server
+                throw new Error(`Local images require an HTTP server for PDF generation. Please run 'python -m http.server 8000' in your project directory and access via http://localhost:8000 instead of opening the HTML file directly. Image: ${chart.src}`);
+              }
+              
+              // For HTTP protocol, try to load the image
+              const imagePath = chart.src.startsWith('/') ? chart.src : './' + chart.src;
+              console.log(`🔄 Loading image via HTTP: ${imagePath}`);
+              
+              const img = new Image();
+              img.crossOrigin = 'anonymous'; // Allow cross-origin for local server
+              
+              dataURL = await new Promise((resolve, reject) => {
+                img.onload = () => {
+                  try {
+                    // Create canvas and draw image with optimized resolution for smaller file size
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Keep original pixels for maximum quality - no pre-scaling blur
+                    const scaleFactor = 1;  // Use original size for maximum quality
+                    canvas.width = img.naturalWidth * scaleFactor;
+                    canvas.height = img.naturalHeight * scaleFactor;
+                    
+                    // Enable highest quality image smoothing
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Use PNG for lossless compression - no JPEG artifacts
+                    const dataURL = canvas.toDataURL('image/png');
+                    
+                    // Validate the data URL
+                    if (dataURL.length < 100) {
+                      reject(new Error('Generated image data is too small, possibly corrupt'));
+                    } else {
+                      resolve(dataURL);
+                    }
+                  } catch (canvasError) {
+                    reject(new Error(`Canvas error: ${canvasError.message}. Try running a local HTTP server.`));
+                  }
                 };
-                img.src = chart.src;
+                
+                img.onerror = () => {
+                  reject(new Error(`Failed to load image: ${imagePath}. Make sure the file exists and you're running an HTTP server (try 'python -m http.server 8000').`));
+                };
+                
+                img.src = imagePath;
               });
               
-              // Calculate dimensions to fit on page
-              const ratio = Math.min(pageW / img.width, (pageH - 40) / img.height);
-              const imgW = img.width * ratio;
-              const imgH = img.height * ratio;
-              const offsetX = (pageW - imgW) / 2;
-              const offsetY = 10;
+              console.log(`✅ Successfully loaded local image: ${chart.title} (${dataURL.length} chars)`);
+            } else if (chart.kind === 'remote_img') {
+              updateProgress(`Fetching ${chart.title}...`, progressPercent + 2);
+              console.log(`Fetching remote image via CORS proxy: ${chart.title}`);
+              console.log(`Chart ID: ${chart.id}, Original URL: ${chart.original_src}`);
+              console.log(`Using proxy URL: ${chart.src}`);
               
-              // Add image to PDF
-              pdf.addImage(img, 'PNG', offsetX, offsetY, imgW, imgH);
+              try {
+                // Use direct fetch through CORS proxy with enhanced error handling
+                dataURL = await this.fetchImageThroughProxy(chart);
+                console.log(`✅ Successfully fetched ${chart.title} via proxy (${dataURL.length} chars)`);
+              } catch (fetchError) {
+                console.error(`❌ Failed to fetch ${chart.title}:`, fetchError);
+                
+                // Try direct fallback to original URL as last resort
+                console.log(`Attempting direct fallback to original URL: ${chart.original_src}`);
+                try {
+                  const fallbackResponse = await fetch(chart.original_src, {
+                    mode: 'no-cors',
+                    cache: 'default'
+                  });
+                  console.log(`Direct fallback response: ${fallbackResponse.status}`);
+                  // Note: no-cors won't let us read the response, so this is mostly for debugging
+                } catch (directError) {
+                  console.log(`Direct URL also failed: ${directError.message}`);
+                }
+                
+                throw fetchError; // Re-throw the original error
+              }
+            }
+
+            // Add the image to PDF if we got one
+            if (dataURL && dataURL.length > 100) { // Basic check for valid data URL
+              updateProgress(`Adding ${chart.title} to PDF...`, progressPercent + 4);
+              console.log(`Adding image to PDF: ${chart.title}`);
               
-              // Add chart info
-              const bottomY = offsetY + imgH + 10;
+              // Calculate 300 DPI sizing from original image dimensions
+              // If we have the image data, extract dimensions for proper 300 DPI calculation
+              let imageWidth = 220, imageHeight = 160; // Much larger default fallback
+              
+              try {
+                // Extract image dimensions from data URL for proper 300 DPI sizing
+                const tempImg = new Image();
+                await new Promise((resolve) => {
+                  tempImg.onload = resolve;
+                  tempImg.src = dataURL;
+                });
+                
+                // For A4 landscape (297mm x 210mm), use much more space available
+                // Calculate optimal size while maintaining aspect ratio
+                const aspectRatio = tempImg.naturalWidth / tempImg.naturalHeight;
+                
+                // Use much larger dimensions to fill most of the page
+                const maxWidth = 260;  // Increased significantly from 240mm
+                const maxHeight = 160; // Increased significantly from 140mm
+                
+                if (aspectRatio > maxWidth / maxHeight) {
+                  // Image is wider - fit to width
+                  imageWidth = maxWidth;
+                  imageHeight = maxWidth / aspectRatio;
+                } else {
+                  // Image is taller - fit to height  
+                  imageHeight = maxHeight;
+                  imageWidth = maxHeight * aspectRatio;
+                }
+                
+                console.log(`Large chart sizing: ${tempImg.naturalWidth}x${tempImg.naturalHeight} -> ${imageWidth.toFixed(1)}x${imageHeight.toFixed(1)}mm`);
+              } catch (e) {
+                console.log('Using default large dimensions for image sizing');
+              }
+              
+              // Layout: Title (top), Chart (centered), Labels & Source (bottom)
+              // Use PNG format and turn off jsPDF re-compression for maximum quality
+              // Center the chart both horizontally and vertically on the page
+              const pageWidth = 297; // A4 landscape width
+              const pageHeight = 210; // A4 landscape height
+              const chartX = (pageWidth - imageWidth) / 2; // Center horizontally
+              const chartY = 30; // Moved down slightly from 25 for better positioning
+              pdf.addImage(dataURL, 'PNG', chartX, chartY, imageWidth, imageHeight, undefined, 'FAST');
+              
+              // Add labels and source closer to the chart and aligned to chart's left edge
+              pdf.setTextColor(60, 60, 60); // Dark gray
               pdf.setFontSize(10);
-              pdf.text(`Title: ${chart.title || "Untitled"}`, 10, bottomY);
-              pdf.text(`Labels: ${chart.labels.join(", ")}`, 10, bottomY + 5);
+              pdf.setFont(undefined, 'normal');
+              const labelsY = chartY + imageHeight + 5; // Tighter spacing - reduced from 10 to 5
+              pdf.text(`Labels: ${chart.labels.join(', ')}`, chartX, labelsY); // Aligned to chart's left edge
+              if (chart.source) {
+                pdf.setFont(undefined, 'italic');
+                pdf.text(`Source: ${chart.source}`, chartX, labelsY + 6); // Reduced spacing from 10 to 6
+              }
               
-            } catch (error) {
-              console.error(`Error processing chart ${chart.title}:`, error);
-              pdf.setFontSize(12);
-              pdf.text(`[Failed to load chart: ${chart.title}]`, 20, 100);
-            }
-          } 
-          // For iframe charts
-          else if (chart.kind === 'remote_iframe') {
-            pdf.setFontSize(12);
-            pdf.text(`[Interactive chart: ${chart.title}]`, 20, 100);
-            pdf.text(`URL: ${chart.src}`, 20, 110);
-          }
-        }
-        
-        // Save the PDF
-        pdf.save("Selected-Charts.pdf");
-        
-      } catch (error) {
-        console.error("Failed to generate PDF:", error);
-        alert("Error generating PDF. Please try again.");
-      }
-    },
-    
-    // Allocation data methods
-    initializeAllocationData() {
-      // Check if we have allocation data
-      if (!allocationData || Object.keys(allocationData).length === 0) {
-        console.warn('No allocation data available');
-        // Set some placeholder dates from 2020-2024
-        const dates = [];
-        for (let year = 2020; year <= 2024; year++) {
-          for (let month = 1; month <= 12; month++) {
-            const monthStr = month < 10 ? `0${month}` : `${month}`;
-            dates.push(`${year}-${monthStr}-01`);
-          }
-        }
-        
-        this.allocationDates = dates;
-        this.currentAssets = [
-          { name: 'Equities', value: 5 },
-          { name: 'Bonds', value: -2 },
-          { name: 'Cash', value: 3 }
-        ];
-        
-        // Initialize years for the picker
-        this.initializeDatePicker();
-        return;
-      }
-      
-      // Extract all unique dates across all tabs
-      const allDates = new Set();
-      for (const tab in allocationData) {
-        if (allocationData[tab] && allocationData[tab].data) {
-          allocationData[tab].data.forEach(item => {
-            allDates.add(item.date);
-          });
-        }
-      }
-      
-      // Sort dates
-      this.allocationDates = Array.from(allDates).sort();
-      
-      // Initialize the date picker
-      this.initializeDatePicker();
-      
-      // Create available datasets first
-      this.updateAvailableDatasets();
-      
-      // Update views
-      this.updateAllocationView();
-      this.initTimeSeriesChart();
-    },
-    
-    /**
-     * Initialize the date picker based on available allocation dates
-     * Sets up years, initial date values and date ticks for the UI
-     */
-    initializeDatePicker() {
-      // Extract years from allocation dates
-      if (this.allocationDates.length > 0) {
-        const minDate = this.allocationDates[0];
-        const maxDate = this.allocationDates[this.allocationDates.length - 1];
-        
-        const minYear = parseInt(minDate.substring(0, 4));
-        const maxYear = parseInt(maxDate.substring(0, 4));
-        
-        this.years = [];
-        for (let year = minYear; year <= maxYear; year++) {
-          this.years.push(year);
-        }
-        
-        // Set initial values
-        this.selectedYear = maxYear;
-        this.selectedMonth = maxDate.substring(5, 7);
-        this.selectedAllocationDate = maxDate;
-        
-        this.startYear = minYear;
-        this.startMonth = minDate.substring(5, 7);
-        this.timeSeriesStartDate = minDate;
-        
-        this.endYear = maxYear;
-        this.endMonth = maxDate.substring(5, 7);
-        this.timeSeriesEndDate = maxDate;
-        
-        // Create date ticks (for years)
-        this.generateDateTicks();
-      }
-    },
-    
-    /**
-     * Generate year markers for date visualization
-     */
-    generateDateTicks() {
-      // Generate ticks for the date range slider
-      this.dateTicks = [];
-      
-      if (this.allocationDates.length === 0) return;
-      
-      const firstDate = this.allocationDates[0];
-      const lastDate = this.allocationDates[this.allocationDates.length - 1];
-      
-      const firstYear = parseInt(firstDate.substring(0, 4));
-      const lastYear = parseInt(lastDate.substring(0, 4));
-      
-      // Add a tick for January of each year
-      for (let year = firstYear; year <= lastYear; year++) {
-        const date = `${year}-01-01`;
-        
-        // Only add if it's within our date range
-        if (date >= firstDate && date <= lastDate) {
-          this.dateTicks.push({
-            date: date,
-            label: year.toString()
-          });
-        }
-      }
-    },
-    
-    /**
-     * Update the selected date for allocation view
-     * Combines the selected year and month into a date string
-     */
-    updateSelectedDate() {
-      // Combine selected year and month
-      this.selectedAllocationDate = `${this.selectedYear}-${this.selectedMonth}-01`;
-      this.updateAllocationView();
-    },
-    
-    /**
-     * Update the allocation view based on current tab and date
-     * Loads asset values for the selected date from the data
-     */
-    updateAllocationView() {
-      // Get data for the current tab
-      if (!allocationData || !allocationData[this.currentAllocationTab]) {
-        this.currentAssets = [];
-        return;
-      }
-      
-      // Find data for the selected date
-      const tabData = allocationData[this.currentAllocationTab].data;
-      const dateData = tabData.find(d => d.date === this.selectedAllocationDate);
-      
-      if (dateData) {
-        this.currentAssets = dateData.assets;
-      } else {
-        // No data for this specific date
-        this.currentAssets = [];
-      }
-    },
-    
-    /**
-     * Initialize the time series chart for historical allocation display
-     * Creates a Chart.js line chart on the canvas element
-     */
-    initTimeSeriesChart() {
-      this.$nextTick(() => {
-        // If Chart.js is available, create time series chart
-        if (window.Chart && this.$refs.timeSeriesChart) {
-          if (this.timeSeriesChart) {
-            this.timeSeriesChart.destroy();
-          }
-          
-          // Ensure all series are selected by default
-          if (this.selectedSeries.length === 0 && this.availableDatasets && this.availableDatasets.length > 0) {
-            this.selectedSeries = this.availableDatasets.map(d => d.label);
-          }
-          
-          const ctx = this.$refs.timeSeriesChart.getContext('2d');
-          this.createTimeSeriesChart(ctx);
-        } else {
-          console.warn('Chart.js not available or canvas element not found');
-        }
-      });
-    },
-    
-    /**
-     * Create a time series chart using Chart.js
-     * @param {CanvasRenderingContext2D} ctx - Canvas context for drawing the chart
-     */
-    createTimeSeriesChart(ctx) {
-      // Early exit if no series selected
-      if (this.selectedSeries.length === 0) {
-        // Clear chart if it exists
-        if (this.timeSeriesChart) {
-          this.timeSeriesChart.destroy();
-          this.timeSeriesChart = null;
-        }
-        
-        // Clear the canvas completely
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.font = '14px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#6B7280';
-        ctx.fillText('No series selected', ctx.canvas.width/2, ctx.canvas.height/2);
-        return;
-      }
-      
-      // Filter data between selected dates
-      const filteredDates = this.allocationDates.filter(date => {
-        const dateStr = date.substring(0, 7); // Get YYYY-MM part
-        const startStr = this.timeSeriesStartDate.substring(0, 7);
-        const endStr = this.timeSeriesEndDate.substring(0, 7);
-        
-        // Ensure both start and end months are included (inclusive comparison)
-        return dateStr >= startStr && dateStr <= endStr;
-      });
-      
-      if (filteredDates.length === 0) return;
-      
-      // Filter datasets based on selection
-      const datasets = this.availableDatasets.filter(d => 
-        this.selectedSeries.includes(d.label)
-      );
-      
-      // Create chart with improved styling
-      this.timeSeriesChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: filteredDates.map(date => this.formatDate(date)),
-          datasets: datasets.map(dataset => {
-            return {
-              ...dataset,
-              pointBackgroundColor: dataset.borderColor, // Ensure points are filled
-              pointRadius: 4,
-              pointHoverRadius: 6,
-              fill: false,
-              tension: 0.1,
-              data: filteredDates.map(date => {
-                const dateData = allocationData[this.currentAllocationTab].data.find(d => d.date === date);
-                if (dateData) {
-                  const assetData = dateData.assets.find(a => a.name === dataset.label);
-                  return assetData ? assetData.value : null;
-                }
-                return null;
-              })
-            };
-          })
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              min: -10,
-              max: 10,
-              ticks: {
-                stepSize: 5
-              },
-              title: {
-                display: true,
-                text: 'Allocation Target'
-              }
-            },
-            x: {
-              ticks: {
-                maxRotation: 45, // Angle labels for better readability
-                autoSkip: true,
-                autoSkipPadding: 10
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false,
-              backgroundColor: 'rgba(255, 255, 255, 0.9)', // White with transparency
-              titleColor: '#111827', // Dark text for title
-              bodyColor: '#374151', // Dark text for body
-              borderColor: '#E5E7EB',
-              borderWidth: 1,
-              padding: 10,
-              boxPadding: 5,
-              usePointStyle: true, // Use point style for legend markers
-              boxWidth: 10, // Width of color box
-              callbacks: {
-                label: function(context) {
-                  if (context.raw === null) {
-                    return context.dataset.label + ': No data';
-                  }
-                  return context.dataset.label + ': ' + Number(context.raw).toFixed(1);
-                }
-              }
-            }
-          }
-        }
-      });
-    },
-    
-    /**
-     * Update the time series chart with current data
-     * Destroys and recreates the chart to ensure clean rendering
-     */
-    updateTimeSeriesChart() {
-      this.$nextTick(() => {
-        if (this.$refs.timeSeriesChart) {
-          const ctx = this.$refs.timeSeriesChart.getContext('2d');
-          
-          // Completely destroy existing chart
-          if (this.timeSeriesChart) {
-            this.timeSeriesChart.destroy();
-            this.timeSeriesChart = null;
-          }
-          
-          // Create new chart (which handles empty series properly)
-          this.createTimeSeriesChart(ctx);
-        }
-      });
-    },
-    
-    /**
-     * Calculate position for marker on allocation line
-     * @param {number} value - The value (-10 to 10) to position
-     * @returns {number} - Percentage position on the line (0-100)
-     */
-    calculateMarkerPosition(value) {
-      // All lines use the same scale calculation
-      return ((value + 10) / 20) * 100;
-    },
-    
-    /**
-     * Format date for display in charts
-     * @param {string} dateString - ISO date string (YYYY-MM-DD)
-     * @returns {string} - Formatted date (e.g., "Jan 2024")
-     */
-    formatDate(dateString) {
-      // Parse the date manually to avoid timezone issues
-      const year = dateString.substring(0, 4);
-      const month = parseInt(dateString.substring(5, 7)) - 1; // Convert to 0-based month index
-      
-      // Use a fixed array of month names to ensure correct display
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      return `${monthNames[month]} ${year}`;
-    },
-    
-    /**
-     * Update the start date for the time series chart
-     */
-    updateStartDate() {
-      this.timeSeriesStartDate = `${this.startYear}-${this.startMonth}-01`;
-      
-      // Ensure start date is not after end date
-      if (this.timeSeriesStartDate > this.timeSeriesEndDate) {
-        this.timeSeriesStartDate = this.timeSeriesEndDate;
-        this.startYear = this.endYear;
-        this.startMonth = this.endMonth;
-      }
-      
-      this.updateTimeSeriesChart();
-    },
-    
-    /**
-     * Update the end date for the time series chart
-     */
-    updateEndDate() {
-      this.timeSeriesEndDate = `${this.endYear}-${this.endMonth}-01`;
-      
-      // Ensure end date is not before start date
-      if (this.timeSeriesEndDate < this.timeSeriesStartDate) {
-        this.timeSeriesEndDate = this.timeSeriesStartDate;
-        this.endYear = this.startYear;
-        this.endMonth = this.startMonth;
-      }
-      
-      this.updateTimeSeriesChart();
-    },
-    
-    /**
-     * Update available datasets for the current allocation tab
-     * Creates data series with appropriate colors for the chart
-     */
-    updateAvailableDatasets() {
-      if (!allocationData || !allocationData[this.currentAllocationTab]) {
-        this.availableDatasets = [];
-        return;
-      }
-      
-      const tabData = allocationData[this.currentAllocationTab];
-      const assets = tabData.assets || [];
-      
-      // Professional color palette
-      const colorPalette = [
-        '#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', 
-        '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC',
-        '#1F77B4', '#D62728', '#9467BD', '#8C564B', '#E377C2'
-      ];
-      
-      this.availableDatasets = assets.map((asset, index) => {
-        const color = colorPalette[index % colorPalette.length];
-        return {
-          label: asset,
-          borderColor: color,
-          backgroundColor: 'white'
-        };
-      });
-      
-      // Initialize selectedSeries to all datasets by default
-      if (this.selectedSeries.length === 0) {
-        this.selectedSeries = this.availableDatasets.map(d => d.label);
-      }
-    },
-
-    /**
-     * Format asset name for display
-     * @param {string} assetName - The raw asset name from data
-     * @returns {string} - Formatted asset name
-     */
-    formatAssetName(assetName) {
-      if (this.isSubAsset(assetName)) {
-        // Special handling for "Other" categories
-        if (assetName.includes('Other EU') || assetName.includes('Other EM')) {
-          return assetName;
-        }
-        
-        // For sub-assets, extract just the country name if possible
-        const nameParts = assetName.split(' - ');
-        if (nameParts.length > 1) {
-          return nameParts[1]; // Return just the country part
-        }
-        
-        // For country names without the parent - country format
-        const europeanParents = ['Europe', 'EU'];
-        const emParents = ['EM', 'Emerging'];
-        
-        for (const parent of europeanParents) {
-          if (assetName.startsWith(parent)) {
-            return assetName.replace(parent, '').trim();
-          }
-        }
-        
-        for (const parent of emParents) {
-          if (assetName.startsWith(parent)) {
-            return assetName.replace(parent, '').trim();
-          }
-        }
-        
-        return assetName;
-      }
-      return assetName;
-    },
-    
-    /**
-     * Determine if an asset is a sub-asset (e.g., country within a region)
-     * @param {string} assetName - The asset name to check
-     * @returns {boolean} - True if this is a sub-asset
-     */
-    isSubAsset(assetName) {
-      // Check if this is a European country or EM country
-      if (this.currentAllocationTab === 'Equities-Region') {
-        // Check for specific "Other" categories
-        if (assetName.includes('Other EU') || assetName.includes('Other EM')) {
-          return true;
-        }
-        
-        // European sub-regions
-        if (assetName.includes(' - ') && 
-            (assetName.startsWith('Europe') || assetName.startsWith('EM'))) {
-          return true;
-        }
-        
-        // Alternative naming patterns
-        const europeanCountries = ['Germany', 'France', 'Italy', 'Spain', 'UK', 
-                                  'Switzerland', 'Netherlands', 'Belgium', 'Sweden', 
-                                  'Denmark', 'Norway', 'Finland', 'Austria', 'Ireland', 
-                                  'Portugal', 'Greece'];
-                                  
-        const emCountries = ['China', 'India', 'Brazil', 'Russia', 'South Africa', 
-                            'Mexico', 'Indonesia', 'Turkey', 'Thailand', 'Malaysia', 
-                            'Philippines', 'Chile', 'Colombia', 'Peru', 'Egypt',
-                            'Korea', 'South Korea', 'Taiwan']; // Added Korea and Taiwan
-        
-        if (europeanCountries.some(country => assetName.includes(country)) || 
-            emCountries.some(country => assetName.includes(country))) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    /**
-     * Toggle the series dropdown visibility
-     */
-    toggleSeriesDropdown() {
-      this.seriesDropdownOpen = !this.seriesDropdownOpen;
-      
-      // If opening dropdown, add document click listener to detect outside clicks
-      if (this.seriesDropdownOpen) {
-        this.$nextTick(() => {
-          document.addEventListener('click', this.handleOutsideClick);
-        });
-      }
-    },
-
-    /**
-     * Handle clicks outside the dropdown to close it
-     * @param {Event} event - The click event
-     */
-    handleOutsideClick(event) {
-      // Get references to dropdown elements
-      const dropdown = this.$el.querySelector('.series-dropdown-content');
-      const toggle = this.$el.querySelector('.series-dropdown-toggle');
-      
-      // Check if click is outside both the dropdown and toggle button
-      if (dropdown && toggle && 
-          !dropdown.contains(event.target) && 
-          !toggle.contains(event.target)) {
-        this.seriesDropdownOpen = false;
-        document.removeEventListener('click', this.handleOutsideClick);
-      }
-    },
-
-    /**
-     * Select all available data series
-     */
-    selectAllSeries() {
-      // Select all available series for the current tab
-      this.selectedSeries = [...this.availableDatasets.map(d => d.label)];
-      this.updateTimeSeriesChart();
-    },
-
-    /**
-     * Deselect all data series
-     */
-    deselectAllSeries() {
-      // Deselect all series
-      this.selectedSeries = [];
-      this.updateTimeSeriesChart();
-    },
-
-    runOptimization() {
-      if (!this.canOptimize) {
-        this.optimizationStatus = 'Please ensure original portfolio weights sum to 100%';
-        return;
-      }
-      
-      this.optimizationStatus = 'Running gradient descent optimization...';
-      
-      // Run gradient descent optimization using external library
-      setTimeout(() => {
-        try {
-          // Determine starting weights based on optimization starting state
-          let startingWeights;
-          
-          if (this.optimizationStartingState === 'optimized') {
-            // Check if optimized weights are valid (not all zeros)
-            const optimizedSum = Object.values(this.optimizedWeights).reduce((sum, weight) => {
-              return sum + (parseFloat(weight) || 0);
-            }, 0);
-            
-            console.log('Optimized weights sum:', optimizedSum, 'Optimized weights:', this.optimizedWeights);
-            
-            if (Math.abs(optimizedSum - 100) < 0.1) {
-              // Use optimized weights if they sum to 100%
-              startingWeights = { ...this.optimizedWeights };
-              console.log('Using optimized weights as starting point:', startingWeights);
+              console.log(`✅ Successfully added ${chart.title} to PDF`);
             } else {
-              // Fall back to original weights if optimized weights are invalid/zeros
-              startingWeights = { ...this.originalWeights };
-              console.log('Falling back to original weights:', startingWeights);
+              throw new Error('Failed to generate image data or data is too small');
             }
-          } else {
-            // Use original weights
-            startingWeights = { ...this.originalWeights };
-            console.log('Using original weights as starting point:', startingWeights);
-          }
-          
-          // Create PortfolioOptimizer instance
-          const optimizer = new PortfolioOptimizer({
-            stepSize: 0.1, // Gradient descent step size
-            maxStagnation: 10
-          });
-          
-          // Create metrics calculation function that this component can use
-          const calculateMetrics = (weights) => {
-            try {
-              console.log('Calculating metrics for weights:', weights);
-              const { dates, portfolioReturns } = this.getPortfolioReturnsForWeights(weights);
-              console.log('Portfolio returns calculated:', portfolioReturns?.length, 'periods');
-              
-              if (!portfolioReturns || portfolioReturns.length === 0) {
-                console.warn('No portfolio returns available for metrics calculation');
-                return null;
-              }
-              
-              const metrics = calculateMetricsForReturns(portfolioReturns, 0.02, dates);
-              console.log('Calculated metrics:', metrics);
-              return metrics;
-            } catch (error) {
-              console.error('Error in calculateMetrics:', error);
-              return null;
+
+          } catch (error) {
+            console.error(`❌ Error processing ${chart.title}:`, error);
+            
+            // Add error message to PDF instead of failing completely
+            pdf.setFontSize(12);
+            pdf.setTextColor(255, 0, 0); // Red text
+            pdf.text(`❌ Could not fetch image`, 20, 60); // Moved down from 50 to 60
+            
+            // Split long error messages into multiple lines manually
+            const errorMsg = `Error: ${error.message}`;
+            const maxLineLength = 80; // Approximate characters per line
+            const errorLines = [];
+            
+            for (let i = 0; i < errorMsg.length; i += maxLineLength) {
+              errorLines.push(errorMsg.substring(i, i + maxLineLength));
             }
-          };
-          
-          // Run optimization
-          const result = optimizer.gradientDescentOptimization(
-            startingWeights,
-            this.optimizationObjective,
-            calculateMetrics,
-            parseFloat(this.stepSize) // turnover limit
-          );
-          
-          console.log('Optimization result:', result);
-          
-          if (result.success) {
-            console.log('Applying optimized weights:', result.weights);
-            // Apply the optimized weights
-            Object.keys(result.weights).forEach(asset => {
-              this.optimizedWeights[asset] = result.weights[asset];
+            
+            let yPos = 75; // Moved down from 65 to 75
+            errorLines.forEach(line => {
+              pdf.text(line, 20, yPos);
+              yPos += 15;
             });
             
-            console.log('Updated optimizedWeights:', this.optimizedWeights);
+            pdf.text(`Chart ID: ${chart.id}`, 20, yPos + 5);
+            pdf.text(`Source: ${chart.src}`, 20, yPos + 20);
+            pdf.setTextColor(0, 0, 0); // Reset to black
             
-            this.updatePortfolioReturns();
-            this.calculatePerformanceMetrics();
-            this.updateCumulativeReturnsChart();
-            
-            this.optimizationStatus = `Optimization completed! Improved ${this.optimizationObjective} from ${result.initialMetric.toFixed(3)} to ${result.finalMetric.toFixed(3)} in ${result.iterations} iterations.`;
-          } else {
-            console.error('Optimization failed:', result.error);
-            this.optimizationStatus = `Optimization failed: ${result.error}`;
+            // Still add labels and source at bottom for reference (moved down)
+            pdf.setTextColor(60, 60, 60); // Dark gray
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'normal');
+            const labelsY = Math.max(chartY + imageHeight + 10, 180); // Dynamic positioning based on chart size
+            pdf.text(`Labels: ${chart.labels.join(', ')}`, 20, labelsY);
+            if (chart.source) {
+              pdf.setFont(undefined, 'italic');
+              pdf.text(`Source: ${chart.source}`, 20, labelsY + 12);
+            }
           }
-        } catch (error) {
-          console.error('Optimization error:', error);
-          this.optimizationStatus = `Optimization failed: ${error.message}`;
         }
+
+        updateProgress("Generating PDF file...", 95);
+        console.log("Merging with cover page...");
         
-        // Clear status after 5 seconds
+        // Generate charts PDF as blob instead of saving directly
+        const chartsPdfBlob = pdf.output('blob');
+        
+        // Merge with cover page
+        await this.buildFinalPdf(chartsPdfBlob);
+        
+        updateProgress("Download complete!", 100);
+        console.log("✅ PDF download completed successfully");
+        
+        // Remove progress indicator after a short delay
         setTimeout(() => {
-          this.optimizationStatus = null;
-        }, 5000);
-      }, 100);
+          const progressElement = document.getElementById('download-progress');
+          if (progressElement) progressElement.remove();
+        }, 1500);
+
+      } catch (error) {
+        console.error("❌ Error creating PDF:", error);
+        alert(`Error creating PDF: ${error.message}`);
+        
+        // Remove progress indicator
+        const progressElement = document.getElementById('download-progress');
+        if (progressElement) progressElement.remove();
+      }
+    },
+
+    /**
+     * Merge cover.pdf with generated charts PDF using pdf-lib
+     */
+    async buildFinalPdf(chartPdfBlob) {
+      try {
+        console.log("Loading cover.pdf and content_page.pdf...");
+        
+        // 1. Fetch both cover.pdf and content_page.pdf as ArrayBuffers
+        const [coverBytes, contentBytes] = await Promise.all([
+          fetch('cover.pdf').then(r => {
+            if (!r.ok) {
+              throw new Error(`Failed to load cover.pdf: ${r.status} ${r.statusText}`);
+            }
+            return r.arrayBuffer();
+          }),
+          fetch('content_page.pdf').then(r => {
+            if (!r.ok) {
+              throw new Error(`Failed to load content_page.pdf: ${r.status} ${r.statusText}`);
+            }
+            return r.arrayBuffer();
+          })
+        ]);
+
+        console.log("Loading PDFs in pdf-lib...");
+        
+        // 2. Load all PDFs in pdf-lib
+        const [coverDoc, contentDoc, chartsDoc] = await Promise.all([
+          PDFLib.PDFDocument.load(coverBytes),
+          PDFLib.PDFDocument.load(contentBytes),
+          PDFLib.PDFDocument.load(await chartPdfBlob.arrayBuffer())
+        ]);
+
+        console.log("Using cover page dimensions as standard...");
+        
+        // 3. Create a new document using cover page dimensions as the standard
+        const finalDoc = await PDFLib.PDFDocument.create();
+        
+        // Get the cover page and use its dimensions as our standard
+        const coverPage = coverDoc.getPage(0);
+        const { width: pageWidth, height: pageHeight } = coverPage.getSize();
+        
+        // Get the content page template
+        const contentPage = contentDoc.getPage(0);
+        
+        console.log(`Using cover page dimensions as standard: ${pageWidth} x ${pageHeight}`);
+        
+        // 4. Add the cover page (no scaling needed since it's our reference size)
+        const newCoverPage = finalDoc.addPage([pageWidth, pageHeight]);
+        const embeddedCoverPage = await finalDoc.embedPage(coverPage);
+        newCoverPage.drawPage(embeddedCoverPage, {
+          x: 0,
+          y: 0,
+          width: pageWidth,
+          height: pageHeight
+        });
+        
+        // 5. Process all chart pages using content page as template
+        const chartPages = chartsDoc.getPages();
+        for (let i = 0; i < chartPages.length; i++) {
+          const chartPage = chartPages[i];
+          const { width: chartWidth, height: chartHeight } = chartPage.getSize();
+          
+          console.log(`Processing chart page ${i + 1} with content template...`);
+          
+          // Create new page with cover page dimensions
+          const newChartPage = finalDoc.addPage([pageWidth, pageHeight]);
+          
+          // First, add the content page template as background
+          const embeddedContentPage = await finalDoc.embedPage(contentPage);
+          
+          // Scale content page to match cover page dimensions if needed
+          const contentScaleX = pageWidth / contentPage.getSize().width;
+          const contentScaleY = pageHeight / contentPage.getSize().height;
+          const contentScale = Math.min(contentScaleX, contentScaleY);
+          
+          const contentScaledWidth = contentPage.getSize().width * contentScale;
+          const contentScaledHeight = contentPage.getSize().height * contentScale;
+          const contentX = (pageWidth - contentScaledWidth) / 2;
+          const contentY = (pageHeight - contentScaledHeight) / 2;
+          
+          newChartPage.drawPage(embeddedContentPage, {
+            x: contentX,
+            y: contentY,
+            width: contentScaledWidth,
+            height: contentScaledHeight
+          });
+          
+          // Then, add the chart content on top of the template
+          // Calculate scaling to fit chart page to cover page dimensions while maintaining aspect ratio
+          const chartScaleX = pageWidth / chartWidth;
+          const chartScaleY = pageHeight / chartHeight;
+          const chartScale = Math.min(chartScaleX, chartScaleY);
+          
+          // Calculate position to center the scaled chart page
+          const chartScaledWidth = chartWidth * chartScale;
+          const chartScaledHeight = chartHeight * chartScale;
+          const chartX = (pageWidth - chartScaledWidth) / 2;
+          const chartY = (pageHeight - chartScaledHeight) / 2;
+          
+          console.log(`Adding chart content on top of template for page ${i + 1}`);
+          
+          // Embed the chart page with some transparency to blend with template
+          const embeddedChartPage = await finalDoc.embedPage(chartPage);
+          newChartPage.drawPage(embeddedChartPage, {
+            x: chartX,
+            y: chartY,
+            width: chartScaledWidth,
+            height: chartScaledHeight,
+            opacity: 0.95 // Slight transparency to blend with template
+          });
+          
+          // Add page number at bottom right corner (starting from page 2)
+          const pageNumber = i + 2; // Page 1 is cover, so charts start from page 2
+          
+          // Embed a standard font for page numbers
+          const font = await finalDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+          
+          newChartPage.drawText(`${pageNumber}`, {
+            x: pageWidth - 50, // 50 points from right edge
+            y: 8, // Moved further down from 15 to 8 points from bottom
+            size: 10,
+            font: font,
+            color: PDFLib.rgb(0.4, 0.4, 0.4) // Gray color
+          });
+          
+          console.log(`Added page number ${pageNumber} to chart page ${i + 1}`);
+        }
+
+        console.log("Generating final PDF...");
+        
+        // 6. Serialize final PDF with compression and trigger download
+        const finalBytes = await finalDoc.save({
+          compress: true, // Enable compression
+          objectStreamsFlate: true // Use flate compression for object streams
+        });
+        
+        // Create download link
+        const blob = new Blob([finalBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Research Chart Package.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        console.log("✅ Final PDF with content page template and page numbers generated successfully");
+        
+      } catch (error) {
+        console.error("❌ Error merging PDF with cover:", error);
+        
+        // Fallback: save charts PDF without cover
+        console.log("Falling back to charts-only PDF...");
+        const url = URL.createObjectURL(chartPdfBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'selected-charts-no-cover.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert(`Could not merge with cover page: ${error.message}\nDownloaded charts-only PDF instead.`);
+      }
+    },
+
+    /**
+     * Fetch image through CORS proxy with fallback support
+     */
+    async fetchImageThroughProxy(chart) {
+      const corsConfig = [[cors_config]];
+      
+      // Determine the image URL to fetch
+      let imageUrl = chart.src;
+      
+      // If chart has proxy configuration, use the appropriate URL
+      if (chart.proxy_urls) {
+        if (corsConfig.enabled && chart.proxy_urls.cloudflare) {
+          imageUrl = chart.proxy_urls.cloudflare;
+          console.log(`Using Cloudflare proxy: ${imageUrl}`);
+        } else if (chart.proxy_urls.allorigins) {
+          imageUrl = chart.proxy_urls.allorigins;
+          console.log(`Using AllOrigins proxy: ${imageUrl}`);
+        } else {
+          imageUrl = chart.original_src || chart.src;
+          console.log(`Using original URL: ${imageUrl}`);
+        }
+      }
+
+      // List of URLs to try (primary and fallback)
+      const urlsToTry = [];
+      
+      if (chart.proxy_urls && corsConfig.enabled) {
+        // Try Cloudflare first, then AllOrigins
+        if (chart.proxy_urls.cloudflare) {
+          urlsToTry.push({
+            url: chart.proxy_urls.cloudflare,
+            name: 'Cloudflare Workers'
+          });
+        }
+        if (chart.proxy_urls.allorigins) {
+          urlsToTry.push({
+            url: chart.proxy_urls.allorigins,
+            name: 'AllOrigins'
+          });
+        }
+      }
+      
+      // Always add original URL as final fallback
+      urlsToTry.push({
+        url: chart.original_src || chart.src,
+        name: 'Original URL'
+      });
+
+      let lastError = null;
+
+      // Try each URL until one works
+      for (let i = 0; i < urlsToTry.length; i++) {
+        const { url, name } = urlsToTry[i];
+        
+        try {
+          console.log(`Attempting to fetch via ${name}: ${url}`);
+          
+          // Create AbortController for timeout handling
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+          
+          const response = await fetch(url, {
+            mode: 'cors',
+            cache: 'default',
+            signal: controller.signal,
+            headers: {
+              'Accept': 'image/*,*/*;q=0.8',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          });
+          
+          clearTimeout(timeoutId); // Clear timeout if request completes
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          
+          const blob = await response.blob();
+          console.log(`Received blob: ${blob.size} bytes, type: ${blob.type}`);
+          
+          // More flexible content type validation - accept any blob that might be an image
+          // Sometimes proxies don't return proper content-type headers
+          const isValidBlob = blob.size > 0 && (
+            blob.type.startsWith('image/') || 
+            blob.type === 'application/octet-stream' ||
+            blob.type === '' ||
+            blob.type === 'text/plain' // Some proxies return this for images
+          );
+          
+          if (!isValidBlob) {
+            throw new Error(`Invalid content: ${blob.size} bytes, type: ${blob.type}`);
+          }
+          
+          // Try to create an image element to validate it's actually an image and optimize it
+          const objectURL = URL.createObjectURL(blob);
+          const optimizedDataURL = await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+              try {
+                console.log(`Original image: ${img.naturalWidth}x${img.naturalHeight}`);
+                
+                // Keep original pixels for maximum quality - no scaling
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Use original dimensions for maximum quality
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                
+                // Enable highest quality image smoothing
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
+                // Draw image at original size
+                ctx.drawImage(img, 0, 0);
+                
+                // Use PNG for lossless compression - no JPEG artifacts
+                const dataURL = canvas.toDataURL('image/png');
+                
+                // Validate the data URL
+                if (dataURL.length < 100) {
+                  reject(new Error('Generated image data is too small, possibly corrupt'));
+                } else {
+                  resolve(dataURL);
+                }
+              } catch (canvasError) {
+                reject(new Error(`Canvas error: ${canvasError.message}. Try running a local HTTP server.`));
+              }
+            };
+            img.onerror = () => {
+              URL.revokeObjectURL(objectURL);
+              reject(new Error('Downloaded content is not a valid image'));
+            };
+            // Set a shorter timeout for image validation
+            setTimeout(() => {
+              URL.revokeObjectURL(objectURL);
+              reject(new Error('Image load timeout'));
+            }, 5000);
+            img.src = objectURL;
+          });
+          
+          console.log(`✅ Successfully fetched and optimized via ${name} (original: ${blob.size} bytes)`);
+          return optimizedDataURL;
+          
+        } catch (error) {
+          console.warn(`❌ Failed to fetch via ${name}: ${error.message}`);
+          lastError = error;
+          
+          // If this was not the last attempt, continue to next URL
+          if (i < urlsToTry.length - 1) {
+            console.log(`Trying next proxy...`);
+            // Add a small delay between attempts
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            continue;
+          }
+        }
+      }
+      
+      // If we get here, all attempts failed
+      throw new Error(`All proxy attempts failed. Last error: ${lastError?.message || 'Unknown error'}`);
+    },
+
+    /**
+     * Debug helper: Log chart information for troubleshooting
+     */
+    debugChart(chartId) {
+      const chart = this.charts.find(c => c.id === chartId);
+      if (!chart) {
+        console.error(`Chart with ID ${chartId} not found`);
+        return;
+      }
+      
+      console.group(`🔍 Debug Chart: ${chart.title} (ID: ${chartId})`);
+      console.log('Chart Data:', chart);
+      console.log('Kind:', chart.kind);
+      console.log('Source Path:', chart.src);
+      console.log('Original Source:', chart.original_src);
+      console.log('Proxy URLs:', chart.proxy_urls);
+      console.log('Labels:', chart.labels);
+      console.log('Description:', chart.description);
+      
+      // Test if local file exists by trying to fetch it
+      if (chart.kind === 'local_png') {
+        console.log('🧪 Testing local file accessibility...');
+        
+        const testPaths = [
+          chart.src,
+          `panel-charts/${chart.src}`,
+          `./${chart.src}`,
+          `/${chart.src}`,
+          chart.src.replace(/\\/g, '/')
+        ];
+        
+        testPaths.forEach(async (path, index) => {
+          try {
+            const response = await fetch(path, { method: 'HEAD' });
+            console.log(`✅ Path ${index + 1} (${path}): ${response.status} ${response.statusText}`);
+            if (response.ok) {
+              console.log(`   Content-Type: ${response.headers.get('content-type')}`);
+              console.log(`   Content-Length: ${response.headers.get('content-length')}`);
+            }
+          } catch (error) {
+            console.log(`❌ Path ${index + 1} (${path}): ${error.message}`);
+          }
+        });
+      }
+      
+      console.groupEnd();
+    },
+
+    /**
+     * Debug helper: Test all selected charts before PDF generation
+     */
+    async debugSelectedCharts() {
+      console.log('🔍 Debug: Testing all selected charts...');
+      
+      const selectedChartData = this.charts.filter(chart => 
+        this.selectedCharts.includes(chart.id)
+      );
+      
+      for (const chart of selectedChartData) {
+        this.debugChart(chart.id);
+      }
+      
+      console.log('🔍 Debug completed. Check console for details.');
     },
 
     resetOptimization() {
@@ -4044,7 +4025,78 @@ new Vue({
       return { dates, portfolioReturns };
     },
 
-
+    /**
+     * Find the image element displayed on the page for a given chart ID
+     */
+    findChartImageElement(chartId) {
+      console.log(`Looking for chart element with ID: ${chartId}`);
+      
+      // Strategy 1: Find the chart card by its data-chart-id attribute
+      const chartCard = document.querySelector(`[data-chart-id="${chartId}"]`);
+      console.log(`Chart card found:`, chartCard);
+      
+      if (chartCard) {
+        // Look for an img element within the card
+        const imgElement = chartCard.querySelector('img');
+        console.log(`Image element in card:`, imgElement);
+        
+        if (imgElement && imgElement.complete && imgElement.naturalHeight > 0) {
+          console.log(`✅ Found valid image element for ${chartId}:`, {
+            src: imgElement.src,
+            width: imgElement.naturalWidth,
+            height: imgElement.naturalHeight,
+            complete: imgElement.complete
+          });
+          return imgElement;
+        } else if (imgElement) {
+          console.warn(`Image element found but not ready:`, {
+            complete: imgElement.complete,
+            naturalHeight: imgElement.naturalHeight
+          });
+        }
+      }
+      
+      // Strategy 2: Find chart by its specific src attribute
+      const chart = this.charts.find(c => c.id === chartId);
+      if (chart && chart.src) {
+        console.log(`Looking for image with src: ${chart.src}`);
+        const imgBySrc = document.querySelector(`img[src="${chart.src}"]`);
+        if (imgBySrc && imgBySrc.complete && imgBySrc.naturalHeight > 0) {
+          console.log(`✅ Found image by src for ${chartId}`);
+          return imgBySrc;
+        }
+      }
+      
+      // Strategy 3: Search all images for partial src match
+      console.log(`Searching all images for ${chartId}...`);
+      const allImages = document.querySelectorAll('img');
+      console.log(`Total images on page: ${allImages.length}`);
+      
+      for (const img of allImages) {
+        if (img.src && (img.src.includes(chartId) || (chart && chart.src && img.src === chart.src))) {
+          console.log(`Found potential match:`, {
+            src: img.src,
+            complete: img.complete,
+            naturalHeight: img.naturalHeight
+          });
+          
+          if (img.complete && img.naturalHeight > 0) {
+            console.log(`✅ Found valid fallback image for ${chartId}`);
+            return img;
+          }
+        }
+      }
+      
+      // Strategy 4: Try to find the chart container and capture that instead
+      const chartContainer = document.querySelector(`[data-chart-id="${chartId}"]`);
+      if (chartContainer) {
+        console.log(`✅ Found chart container for ${chartId}, will capture container`);
+        return chartContainer;
+      }
+      
+      console.error(`❌ Could not find any element for chart ${chartId}`);
+      return null;
+    },
   },
   watch: {
     selectedSeries: {
@@ -4080,6 +4132,9 @@ new Vue({
     }
   }
 });
+
+// CORS proxy configuration and PDF generation now uses direct fetch - no html2canvas needed
+console.log('📄 PDF generation optimized: Using direct CORS proxy fetch instead of DOM capture');
 </script>
 </body>
 </html>

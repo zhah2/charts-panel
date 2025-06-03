@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare Workers CORS Proxy Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 2px solid #ddd;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover { background: #0056b3; }
+        
+        .image-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            min-height: 200px;
+            background: #f8f9fa;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cloudflare Workers CORS Proxy Test</h1>
+    
+    <div class="container">
+        <h2>Configuration</h2>
+        <label for="workerUrl">Your Cloudflare Worker URL:</label>
+        <input type="text" id="workerUrl" value="https://img-cors-proxy.haining-zha.workers.dev" />
+        
+        <label for="testUrl">Test URL (Refinitiv):</label>
+        <input type="text" id="testUrl" value="https://refini.tv/4gm0WdA" />
+    </div>
+    
+    <div class="container">
+        <h2>Test Proxy</h2>
+        <button onclick="testProxy()">Test Cloudflare Proxy</button>
+        <button onclick="testAllOrigins()">Test AllOrigins Proxy</button>
+        <button onclick="testDirectFetch()">Test Direct Fetch (Should Fail)</button>
+        <button onclick="compareProxies()">Compare Both Proxies</button>
+        <button onclick="generatePDF()" id="pdfBtn" disabled>Generate PDF</button>
+        
+        <div id="status" class="status info">Enter your Worker URL above and click a test button</div>
+        
+        <div class="image-container" id="imageContainer">
+            <p>Image will appear here after successful proxy test</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Performance Comparison</h2>
+        <div id="comparisonResults" style="display: none;">
+            <table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
+                <thead>
+                    <tr style="background: #f8f9fa;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Proxy Service</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Response Time</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">File Size</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Debug Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <!-- Libraries for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        let currentImage = null;
+        let capturedDataURL = null;
+        let testResults = {}; // Store test results for comparison
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logContainer = document.getElementById('log');
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'black';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function updateStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+
+        async function testAllOrigins() {
+            const testUrl = document.getElementById('testUrl').value.trim();
+            
+            log('Testing AllOrigins proxy...');
+            updateStatus('Testing AllOrigins proxy...', 'info');
+            
+            const startTime = Date.now();
+            
+            try {
+                // AllOrigins API - use /raw endpoint for direct binary response
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(testUrl)}`;
+                log(`AllOrigins URL: ${proxyUrl}`);
+                
+                const response = await fetch(proxyUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const blob = await response.blob();
+                const loadTime = Date.now() - startTime;
+                
+                log(`✅ AllOrigins successful in ${loadTime}ms (${blob.size} bytes)`, 'success');
+                
+                // Store result for comparison
+                testResults.allorigins = {
+                    responseTime: loadTime,
+                    fileSize: blob.size,
+                    status: 'Success'
+                };
+                
+                // Display image
+                const objectURL = URL.createObjectURL(blob);
+                const img = new Image();
+                
+                img.onload = () => {
+                    log(`✅ AllOrigins image loaded: ${img.naturalWidth}x${img.naturalHeight}`, 'success');
+                    updateStatus(`AllOrigins test successful! Loaded ${img.naturalWidth}x${img.naturalHeight} image in ${loadTime}ms`, 'success');
+                    
+                    const container = document.getElementById('imageContainer');
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                    
+                    currentImage = img;
+                    document.getElementById('pdfBtn').disabled = false;
+                    
+                    updateComparisonTable();
+                };
+                
+                img.onerror = () => {
+                    log('❌ AllOrigins image failed to load from blob', 'error');
+                    updateStatus('AllOrigins image failed to load from response', 'error');
+                    testResults.allorigins.status = 'Failed - Image Load Error';
+                    updateComparisonTable();
+                };
+                
+                img.src = objectURL;
+                
+            } catch (error) {
+                const loadTime = Date.now() - startTime;
+                log(`❌ AllOrigins test failed: ${error.message}`, 'error');
+                updateStatus(`AllOrigins test failed: ${error.message}`, 'error');
+                
+                testResults.allorigins = {
+                    responseTime: loadTime,
+                    fileSize: 0,
+                    status: `Failed - ${error.message}`
+                };
+                updateComparisonTable();
+            }
+        }
+
+        async function testProxy() {
+            const workerUrl = document.getElementById('workerUrl').value.trim();
+            const testUrl = document.getElementById('testUrl').value.trim();
+            
+            if (!workerUrl) {
+                updateStatus('Please enter your Cloudflare Worker URL', 'error');
+                return;
+            }
+            
+            log('Testing Cloudflare Workers proxy...');
+            updateStatus('Testing Cloudflare proxy...', 'info');
+            
+            const startTime = Date.now();
+            
+            try {
+                // Construct proxy URL
+                const proxyUrl = `${workerUrl}?url=${encodeURIComponent(testUrl)}`;
+                log(`Cloudflare Proxy URL: ${proxyUrl}`);
+                
+                const response = await fetch(proxyUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const blob = await response.blob();
+                const loadTime = Date.now() - startTime;
+                
+                log(`✅ Cloudflare proxy successful in ${loadTime}ms (${blob.size} bytes)`, 'success');
+                
+                // Store result for comparison
+                testResults.cloudflare = {
+                    responseTime: loadTime,
+                    fileSize: blob.size,
+                    status: 'Success'
+                };
+                
+                // Display image
+                const objectURL = URL.createObjectURL(blob);
+                const img = new Image();
+                
+                img.onload = () => {
+                    log(`✅ Cloudflare image loaded: ${img.naturalWidth}x${img.naturalHeight}`, 'success');
+                    updateStatus(`Cloudflare proxy test successful! Loaded ${img.naturalWidth}x${img.naturalHeight} image in ${loadTime}ms`, 'success');
+                    
+                    const container = document.getElementById('imageContainer');
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                    
+                    currentImage = img;
+                    document.getElementById('pdfBtn').disabled = false;
+                    
+                    updateComparisonTable();
+                };
+                
+                img.onerror = () => {
+                    log('❌ Cloudflare image failed to load from blob', 'error');
+                    updateStatus('Cloudflare image failed to load from proxy response', 'error');
+                    testResults.cloudflare.status = 'Failed - Image Load Error';
+                    updateComparisonTable();
+                };
+                
+                img.src = objectURL;
+                
+            } catch (error) {
+                const loadTime = Date.now() - startTime;
+                log(`❌ Cloudflare proxy test failed: ${error.message}`, 'error');
+                updateStatus(`Cloudflare proxy test failed: ${error.message}`, 'error');
+                
+                testResults.cloudflare = {
+                    responseTime: loadTime,
+                    fileSize: 0,
+                    status: `Failed - ${error.message}`
+                };
+                updateComparisonTable();
+            }
+        }
+
+        async function compareProxies() {
+            log('Starting comprehensive proxy comparison test...');
+            updateStatus('Running detailed comparison test...', 'info');
+            
+            // Clear previous results
+            testResults = {};
+            
+            const workerUrl = document.getElementById('workerUrl').value.trim();
+            const testUrl = document.getElementById('testUrl').value.trim();
+            
+            // Run multiple tests to account for cold starts and caching
+            const testRuns = 3;
+            log(`Running ${testRuns} test iterations for each proxy...`);
+            
+            // Test Cloudflare Workers multiple times
+            if (workerUrl) {
+                const cfTimes = [];
+                let cfSize = 0;
+                let cfStatus = 'Failed';
+                
+                for (let i = 0; i < testRuns; i++) {
+                    log(`Cloudflare test run ${i + 1}/${testRuns}...`);
+                    updateStatus(`Testing Cloudflare (run ${i + 1}/${testRuns})...`, 'info');
+                    
+                    try {
+                        const result = await testProxyDetailed('Cloudflare', workerUrl, testUrl);
+                        cfTimes.push(result.responseTime);
+                        cfSize = result.fileSize;
+                        cfStatus = 'Success';
+                        
+                        if (i === testRuns - 1) {
+                            // Display image from last successful test
+                            const container = document.getElementById('imageContainer');
+                            container.innerHTML = '';
+                            container.appendChild(result.img);
+                            currentImage = result.img;
+                            document.getElementById('pdfBtn').disabled = false;
+                        }
+                        
+                    } catch (error) {
+                        cfTimes.push(999999); // Large penalty for failed requests
+                        log(`❌ Cloudflare run ${i + 1} failed: ${error.message}`, 'error');
+                    }
+                    
+                    // Small delay between tests
+                    if (i < testRuns - 1) await new Promise(resolve => setTimeout(resolve, 500));
+                }
+                
+                // Calculate statistics
+                const avgTime = cfTimes.reduce((a, b) => a + b, 0) / cfTimes.length;
+                const minTime = Math.min(...cfTimes);
+                const maxTime = Math.max(...cfTimes);
+                
+                testResults.cloudflare = {
+                    responseTime: Math.round(avgTime),
+                    minTime: minTime,
+                    maxTime: maxTime,
+                    allTimes: cfTimes,
+                    fileSize: cfSize,
+                    status: cfStatus,
+                    runs: testRuns
+                };
+                
+                log(`Cloudflare results: avg=${Math.round(avgTime)}ms, min=${minTime}ms, max=${maxTime}ms`, 'info');
+            }
+            
+            // Test AllOrigins multiple times
+            const aoTimes = [];
+            let aoSize = 0;
+            let aoStatus = 'Failed';
+            
+            for (let i = 0; i < testRuns; i++) {
+                log(`AllOrigins test run ${i + 1}/${testRuns}...`);
+                updateStatus(`Testing AllOrigins (run ${i + 1}/${testRuns})...`, 'info');
+                
+                try {
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(testUrl)}`;
+                    const result = await testProxyDetailed('AllOrigins', proxyUrl, testUrl, true);
+                    aoTimes.push(result.responseTime);
+                    aoSize = result.fileSize;
+                    aoStatus = 'Success';
+                    
+                } catch (error) {
+                    aoTimes.push(999999);
+                    log(`❌ AllOrigins run ${i + 1} failed: ${error.message}`, 'error');
+                }
+                
+                // Small delay between tests
+                if (i < testRuns - 1) await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            // Calculate statistics
+            const avgTimeAO = aoTimes.reduce((a, b) => a + b, 0) / aoTimes.length;
+            const minTimeAO = Math.min(...aoTimes);
+            const maxTimeAO = Math.max(...aoTimes);
+            
+            testResults.allorigins = {
+                responseTime: Math.round(avgTimeAO),
+                minTime: minTimeAO,
+                maxTime: maxTimeAO,
+                allTimes: aoTimes,
+                fileSize: aoSize,
+                status: aoStatus,
+                runs: testRuns
+            };
+            
+            log(`AllOrigins results: avg=${Math.round(avgTimeAO)}ms, min=${minTimeAO}ms, max=${maxTimeAO}ms`, 'info');
+            
+            updateComparisonTable();
+            log('Detailed proxy comparison completed');
+            updateStatus('Detailed comparison completed - see results below', 'success');
+        }
+
+        async function testProxyDetailed(serviceName, proxyUrl, originalUrl, isDirect = false) {
+            const startTime = Date.now();
+            
+            // Add more detailed timing
+            const timingMarks = {
+                start: Date.now()
+            };
+            
+            try {
+                log(`[${serviceName}] Starting request to: ${proxyUrl}`);
+                
+                // Construct final URL
+                const finalUrl = isDirect ? proxyUrl : `${proxyUrl}?url=${encodeURIComponent(originalUrl)}`;
+                
+                timingMarks.requestStart = Date.now();
+                const response = await fetch(finalUrl);
+                timingMarks.responseReceived = Date.now();
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const blob = await response.blob();
+                timingMarks.blobCreated = Date.now();
+                
+                const totalTime = timingMarks.blobCreated - timingMarks.start;
+                const networkTime = timingMarks.responseReceived - timingMarks.requestStart;
+                const processingTime = timingMarks.blobCreated - timingMarks.responseReceived;
+                
+                log(`[${serviceName}] Timing - Total: ${totalTime}ms, Network: ${networkTime}ms, Processing: ${processingTime}ms`);
+                log(`[${serviceName}] Response size: ${blob.size} bytes, Content-Type: ${response.headers.get('content-type') || 'unknown'}`);
+                
+                // Create image
+                const objectURL = URL.createObjectURL(blob);
+                const img = new Image();
+                
+                return new Promise((resolve, reject) => {
+                    img.onload = () => {
+                        const imageLoadTime = Date.now() - timingMarks.blobCreated;
+                        log(`[${serviceName}] Image loaded in ${imageLoadTime}ms: ${img.naturalWidth}x${img.naturalHeight}`);
+                        resolve({
+                            responseTime: totalTime,
+                            networkTime: networkTime,
+                            processingTime: processingTime,
+                            imageLoadTime: imageLoadTime,
+                            fileSize: blob.size,
+                            img: img,
+                            timingMarks: timingMarks
+                        });
+                    };
+                    
+                    img.onerror = () => {
+                        reject(new Error('Image load failed'));
+                    };
+                    
+                    img.src = objectURL;
+                });
+                
+            } catch (error) {
+                const failTime = Date.now() - startTime;
+                log(`[${serviceName}] Failed after ${failTime}ms: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+
+        function updateComparisonTable() {
+            const resultsDiv = document.getElementById('comparisonResults');
+            const tableBody = document.getElementById('comparisonTableBody');
+            
+            if (Object.keys(testResults).length === 0) return;
+            
+            resultsDiv.style.display = 'block';
+            tableBody.innerHTML = '';
+            
+            // Add Cloudflare results with detailed timing
+            if (testResults.cloudflare) {
+                const cf = testResults.cloudflare;
+                const row = createDetailedComparisonRow(
+                    'Cloudflare Workers',
+                    cf.responseTime,
+                    cf.minTime,
+                    cf.maxTime,
+                    cf.allTimes,
+                    cf.fileSize,
+                    cf.status,
+                    cf.runs
+                );
+                tableBody.appendChild(row);
+            }
+            
+            // Add AllOrigins results with detailed timing
+            if (testResults.allorigins) {
+                const ao = testResults.allorigins;
+                const row = createDetailedComparisonRow(
+                    'AllOrigins',
+                    ao.responseTime,
+                    ao.minTime,
+                    ao.maxTime,
+                    ao.allTimes,
+                    ao.fileSize,
+                    ao.status,
+                    ao.runs
+                );
+                tableBody.appendChild(row);
+            }
+            
+            // Add detailed analysis
+            if (testResults.cloudflare && testResults.allorigins) {
+                const analysisRow = document.createElement('tr');
+                analysisRow.style.background = '#e8f4f8';
+                analysisRow.style.fontWeight = 'bold';
+                
+                const cf = testResults.cloudflare;
+                const ao = testResults.allorigins;
+                
+                const avgDiff = cf.responseTime - ao.responseTime;
+                const minDiff = cf.minTime - ao.minTime;
+                const fasterService = avgDiff < 0 ? 'Cloudflare' : 'AllOrigins';
+                const fasterMin = minDiff < 0 ? 'Cloudflare' : 'AllOrigins';
+                
+                // Check for cold start pattern (first request much slower)
+                const cfHasColdStart = cf.allTimes.length > 1 && cf.allTimes[0] > cf.allTimes[1] * 2;
+                const aoHasColdStart = ao.allTimes.length > 1 && ao.allTimes[0] > ao.allTimes[1] * 2;
+                
+                let analysis = `Avg: ${fasterService} faster by ${Math.abs(avgDiff)}ms, Min: ${fasterMin} faster by ${Math.abs(minDiff)}ms`;
+                if (cfHasColdStart) analysis += ', CF cold start detected';
+                if (aoHasColdStart) analysis += ', AO cold start detected';
+                
+                analysisRow.innerHTML = `
+                    <td style="border: 1px solid #ddd; padding: 8px;" colspan="4">${analysis}</td>
+                `;
+                
+                tableBody.appendChild(analysisRow);
+            }
+        }
+
+        function createDetailedComparisonRow(service, avgTime, minTime, maxTime, allTimes, fileSize, status, runs) {
+            const row = document.createElement('tr');
+            
+            const statusColor = status === 'Success' ? '#d4edda' : 
+                               status.startsWith('Failed') ? '#f8d7da' : '#fff3cd';
+            
+            const timingDetails = `Avg: ${avgTime}ms, Min: ${minTime}ms, Max: ${maxTime}ms (${runs} runs)`;
+            const allTimesStr = allTimes.map(t => t + 'ms').join(', ');
+            
+            row.innerHTML = `
+                <td style="border: 1px solid #ddd; padding: 8px;">${service}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;" title="${allTimesStr}">${timingDetails}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${formatFileSize(fileSize)}</td>
+                <td style="border: 1px solid #ddd; padding: 8px; background: ${statusColor};">${status}</td>
+            `;
+            
+            return row;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        async function testDirectFetch() {
+            const testUrl = document.getElementById('testUrl').value.trim();
+            
+            log('Testing direct fetch (should fail due to CORS)...');
+            updateStatus('Testing direct fetch...', 'info');
+            
+            try {
+                const response = await fetch(testUrl);
+                log('❌ Direct fetch unexpectedly succeeded!', 'error');
+                updateStatus('Direct fetch unexpectedly succeeded', 'error');
+            } catch (error) {
+                log(`✅ Direct fetch failed as expected: ${error.message}`, 'success');
+                updateStatus('Direct fetch failed as expected (CORS blocked)', 'success');
+            }
+        }
+
+        async function generatePDF() {
+            if (!currentImage) {
+                log('❌ No image loaded', 'error');
+                return;
+            }
+            
+            updateStatus('Generating PDF...', 'info');
+            log('Starting PDF generation...');
+            
+            try {
+                // Capture with html2canvas
+                const canvas = await html2canvas(currentImage, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 1,
+                    backgroundColor: null,
+                    logging: false
+                });
+                
+                // Check if canvas has content
+                const context = canvas.getContext('2d');
+                const pixelBuffer = new Uint32Array(
+                    context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+                );
+                const hasContent = pixelBuffer.some(pixel => pixel !== 0 && pixel !== 0xFFFFFFFF);
+                
+                if (!hasContent) {
+                    throw new Error('Canvas is blank');
+                }
+                
+                capturedDataURL = canvas.toDataURL('image/png');
+                log(`✅ html2canvas successful: ${canvas.width}x${canvas.height}`, 'success');
+                
+                // Generate PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                pdf.setFontSize(16);
+                pdf.text('Cloudflare Workers CORS Proxy Test', 20, 20);
+                
+                pdf.setFontSize(10);
+                pdf.text('Original URL: https://refini.tv/4gm0WdA', 20, 35);
+                pdf.text(`Proxy URL: ${document.getElementById('workerUrl').value}`, 20, 45);
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, 20, 55);
+                
+                pdf.addImage(capturedDataURL, 'PNG', 20, 70, 170, 120);
+                pdf.save('cloudflare-proxy-test.pdf');
+                
+                log('✅ PDF generated and downloaded successfully', 'success');
+                updateStatus('PDF generated and downloaded successfully', 'success');
+                
+            } catch (error) {
+                log(`❌ PDF generation failed: ${error.message}`, 'error');
+                updateStatus(`PDF generation failed: ${error.message}`, 'error');
+            }
+        }
+
+        window.onload = function() {
+            log('Cloudflare Workers proxy test page loaded');
+        };
+    </script>
+</body>
+</html> 

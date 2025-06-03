@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Proxy PDF Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-container {
+            border: 2px solid #ddd;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        
+        .image-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            min-height: 200px;
+            background: #f8f9fa;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .log-container {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #28a745;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .proxy-list {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CORS Proxy PDF Test</h1>
+    <p>Testing URL: <strong>https://refini.tv/4gm0WdA</strong></p>
+    <p>This test demonstrates how to bypass CORS restrictions using proxy services.</p>
+    
+    <div class="test-container">
+        <h2>Available CORS Proxy Services</h2>
+        <div class="proxy-list">
+            <div><strong>1. AllOrigins:</strong> https://api.allorigins.win/raw?url={URL}</div>
+            <div><strong>2. CORS Anywhere:</strong> https://cors-anywhere.herokuapp.com/{URL}</div>
+            <div><strong>3. ThingProxy:</strong> https://thingproxy.freeboard.io/fetch/{URL}</div>
+            <div><strong>4. CORS.io:</strong> https://cors.io/?{URL}</div>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Step 1: Test CORS Proxy Services</h2>
+        <button onclick="testAllOrigins()">Test AllOrigins</button>
+        <button onclick="testCorsAnywhere()">Test CORS Anywhere</button>
+        <button onclick="testThingProxy()">Test ThingProxy</button>
+        <button onclick="testCorsIo()">Test CORS.io</button>
+        <button onclick="testAllProxies()">Test All Proxies</button>
+        
+        <div id="proxy-status" class="status info">Click a button to test CORS proxy services</div>
+        
+        <div class="progress-bar" id="progress-bar" style="display: none;">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        
+        <div class="image-container" id="image-container">
+            <p>Fetched image will appear here</p>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Step 2: HTML2Canvas Capture</h2>
+        <button onclick="captureImage()" id="captureBtn" disabled>Capture with html2canvas</button>
+        
+        <div id="capture-status" class="status info">Load image via proxy first</div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Step 3: Generate PDF</h2>
+        <button onclick="generatePDF()" id="pdfBtn" disabled>Generate PDF</button>
+        
+        <div id="pdf-status" class="status info">Capture image successfully first</div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Debug Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="log-container" class="log-container"></div>
+    </div>
+
+    <!-- Load required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        const REFINITIV_URL = 'https://refini.tv/4gm0WdA';
+        let currentImage = null;
+        let capturedDataURL = null;
+        let workingProxyUrl = null;
+
+        // CORS Proxy URLs
+        const CORS_PROXIES = [
+            {
+                name: 'AllOrigins',
+                getUrl: (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+            },
+            {
+                name: 'CORS Anywhere',
+                getUrl: (url) => `https://cors-anywhere.herokuapp.com/${url}`
+            },
+            {
+                name: 'ThingProxy',
+                getUrl: (url) => `https://thingproxy.freeboard.io/fetch/${url}`
+            },
+            {
+                name: 'CORS.io',
+                getUrl: (url) => `https://cors.io/?${url}`
+            }
+        ];
+
+        // Logging function
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logContainer = document.getElementById('log-container');
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'orange' : 'black';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('log-container').innerHTML = '';
+        }
+
+        function updateStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressFill = document.getElementById('progress-fill');
+            
+            if (percent > 0) {
+                progressBar.style.display = 'block';
+                progressFill.style.width = percent + '%';
+            } else {
+                progressBar.style.display = 'none';
+            }
+        }
+
+        // Test individual proxy services
+        async function testProxy(proxyConfig) {
+            log(`Testing ${proxyConfig.name} proxy...`);
+            
+            try {
+                const proxyUrl = proxyConfig.getUrl(REFINITIV_URL);
+                log(`Proxy URL: ${proxyUrl}`);
+                
+                const startTime = Date.now();
+                const response = await fetch(proxyUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const blob = await response.blob();
+                const loadTime = Date.now() - startTime;
+                
+                log(`✅ ${proxyConfig.name} successful in ${loadTime}ms (${blob.size} bytes)`, 'success');
+                
+                // Create image from blob
+                const objectURL = URL.createObjectURL(blob);
+                const img = new Image();
+                
+                return new Promise((resolve, reject) => {
+                    img.onload = () => {
+                        log(`✅ Image loaded via ${proxyConfig.name}: ${img.naturalWidth}x${img.naturalHeight}`, 'success');
+                        resolve({ proxyConfig, proxyUrl, img, objectURL });
+                    };
+                    
+                    img.onerror = () => {
+                        log(`❌ ${proxyConfig.name} image failed to load`, 'error');
+                        reject(new Error('Image load failed'));
+                    };
+                    
+                    img.src = objectURL;
+                });
+                
+            } catch (error) {
+                log(`❌ ${proxyConfig.name} failed: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+
+        async function testAllOrigins() {
+            updateStatus('proxy-status', 'Testing AllOrigins...', 'info');
+            updateProgress(20);
+            
+            try {
+                const result = await testProxy(CORS_PROXIES[0]);
+                displayImage(result);
+                updateStatus('proxy-status', 'AllOrigins successful', 'success');
+                updateProgress(100);
+            } catch (error) {
+                updateStatus('proxy-status', `AllOrigins failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        async function testCorsAnywhere() {
+            updateStatus('proxy-status', 'Testing CORS Anywhere...', 'info');
+            updateProgress(20);
+            
+            try {
+                const result = await testProxy(CORS_PROXIES[1]);
+                displayImage(result);
+                updateStatus('proxy-status', 'CORS Anywhere successful', 'success');
+                updateProgress(100);
+            } catch (error) {
+                updateStatus('proxy-status', `CORS Anywhere failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        async function testThingProxy() {
+            updateStatus('proxy-status', 'Testing ThingProxy...', 'info');
+            updateProgress(20);
+            
+            try {
+                const result = await testProxy(CORS_PROXIES[2]);
+                displayImage(result);
+                updateStatus('proxy-status', 'ThingProxy successful', 'success');
+                updateProgress(100);
+            } catch (error) {
+                updateStatus('proxy-status', `ThingProxy failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        async function testCorsIo() {
+            updateStatus('proxy-status', 'Testing CORS.io...', 'info');
+            updateProgress(20);
+            
+            try {
+                const result = await testProxy(CORS_PROXIES[3]);
+                displayImage(result);
+                updateStatus('proxy-status', 'CORS.io successful', 'success');
+                updateProgress(100);
+            } catch (error) {
+                updateStatus('proxy-status', `CORS.io failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        async function testAllProxies() {
+            updateStatus('proxy-status', 'Testing all proxy services...', 'info');
+            updateProgress(10);
+            
+            log('Starting comprehensive proxy test...');
+            
+            for (let i = 0; i < CORS_PROXIES.length; i++) {
+                const proxy = CORS_PROXIES[i];
+                const progressPercent = 10 + (i / CORS_PROXIES.length) * 80;
+                updateProgress(progressPercent);
+                
+                try {
+                    const result = await testProxy(proxy);
+                    displayImage(result);
+                    updateStatus('proxy-status', `${proxy.name} successful - using this proxy`, 'success');
+                    updateProgress(100);
+                    log(`✅ Found working proxy: ${proxy.name}`, 'success');
+                    return;
+                } catch (error) {
+                    log(`❌ ${proxy.name} failed, trying next...`, 'warning');
+                    continue;
+                }
+            }
+            
+            updateStatus('proxy-status', 'All proxy services failed', 'error');
+            updateProgress(0);
+            log('❌ All proxy services failed', 'error');
+        }
+
+        function displayImage(result) {
+            const container = document.getElementById('image-container');
+            container.innerHTML = '';
+            container.appendChild(result.img);
+            
+            currentImage = result.img;
+            workingProxyUrl = result.proxyUrl;
+            
+            // Enable capture button
+            document.getElementById('captureBtn').disabled = false;
+            
+            log(`Image displayed: ${result.img.naturalWidth}x${result.img.naturalHeight} from ${result.proxyConfig.name}`, 'success');
+        }
+
+        // Step 2: Capture with html2canvas
+        async function captureImage() {
+            if (!currentImage) {
+                log('❌ No image loaded', 'error');
+                return;
+            }
+            
+            updateStatus('capture-status', 'Capturing image with html2canvas...', 'info');
+            log('Starting html2canvas capture...');
+            
+            try {
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error('html2canvas library not loaded');
+                }
+                
+                const startTime = Date.now();
+                
+                const canvas = await html2canvas(currentImage, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 1,
+                    backgroundColor: null,
+                    logging: false
+                });
+                
+                const captureTime = Date.now() - startTime;
+                
+                // Check if canvas has content
+                const context = canvas.getContext('2d');
+                const pixelBuffer = new Uint32Array(
+                    context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+                );
+                const hasContent = pixelBuffer.some(pixel => pixel !== 0 && pixel !== 0xFFFFFFFF);
+                
+                if (!hasContent) {
+                    throw new Error('Canvas is blank - capture failed');
+                }
+                
+                capturedDataURL = canvas.toDataURL('image/png');
+                
+                log(`✅ html2canvas successful in ${captureTime}ms`, 'success');
+                log(`Canvas: ${canvas.width}x${canvas.height}, DataURL: ${capturedDataURL.length} chars`, 'info');
+                
+                updateStatus('capture-status', `Capture successful (${captureTime}ms)`, 'success');
+                
+                // Enable PDF button
+                document.getElementById('pdfBtn').disabled = false;
+                
+            } catch (error) {
+                log(`❌ html2canvas failed: ${error.message}`, 'error');
+                updateStatus('capture-status', `Capture failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Step 3: Generate PDF
+        function generatePDF() {
+            if (!capturedDataURL) {
+                log('❌ No captured image available', 'error');
+                return;
+            }
+            
+            updateStatus('pdf-status', 'Generating PDF...', 'info');
+            log('Starting PDF generation...');
+            
+            try {
+                if (typeof window.jspdf === 'undefined') {
+                    throw new Error('jsPDF library not loaded');
+                }
+                
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                // Add title and info
+                pdf.setFontSize(16);
+                pdf.text('CORS Proxy PDF Test', 20, 20);
+                
+                pdf.setFontSize(10);
+                pdf.text('Original URL: https://refini.tv/4gm0WdA', 20, 35);
+                pdf.text(`Proxy Used: ${workingProxyUrl}`, 20, 45);
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, 20, 55);
+                
+                // Add the captured image
+                log('Adding captured image to PDF...');
+                pdf.addImage(capturedDataURL, 'PNG', 20, 70, 170, 120);
+                
+                // Save the PDF
+                pdf.save('cors-proxy-refinitiv-test.pdf');
+                
+                log('✅ PDF generated and downloaded successfully', 'success');
+                updateStatus('pdf-status', 'PDF generated and downloaded successfully', 'success');
+                
+            } catch (error) {
+                log(`❌ PDF generation failed: ${error.message}`, 'error');
+                updateStatus('pdf-status', `PDF generation failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize
+        window.onload = function() {
+            log('CORS Proxy PDF test page loaded');
+            
+            // Check library availability
+            setTimeout(() => {
+                if (typeof html2canvas !== 'undefined') {
+                    log('✅ html2canvas library loaded', 'success');
+                } else {
+                    log('❌ html2canvas library not loaded', 'error');
+                }
+                
+                if (typeof window.jspdf !== 'undefined') {
+                    log('✅ jsPDF library loaded', 'success');
+                } else {
+                    log('❌ jsPDF library not loaded', 'error');
+                }
+            }, 1000);
+        };
+    </script>
+</body>
+</html> 

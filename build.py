@@ -8,14 +8,116 @@ Re-build the static dashboard.
 import json, pathlib, re, sys
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from urllib.parse import urlparse          # Added import for URL parsing
+from urllib.parse import urlparse, quote          # Added import for URL parsing
 from datetime import datetime  # Added for datetime handling
+import base64  # For base64 encoding
+import os  # For file operations
+
+# Import configuration
+try:
+    from config import CLOUDFLARE_PROXY_URL, USE_CLOUDFLARE_PROXY
+except ImportError:
+    # Fallback if config.py doesn't exist
+    CLOUDFLARE_PROXY_URL = ""
+    USE_CLOUDFLARE_PROXY = False
+    print("[build] ⚠️ config.py not found, using default settings")
 
 ROOT      = pathlib.Path(__file__).parent.absolute()
 CHART_DIR = ROOT / "panel-charts"
 XL_FILE   = ROOT / "charts_catalog.xlsx"        # adjust if the name differs
 TARGETS_FILE = ROOT / "targets.xlsx"  # Path to the targets file
 RETURNS_FILE = ROOT / "asset_return_history.xlsx"  # Add this new constant
+
+# CORS Proxy Configuration
+ALLORIGINS_PROXY_BASE = "https://api.allorigins.win/raw?url="
+DEFAULT_CLOUDFLARE_PROXY = "https://img-cors-proxy.haining-zha.workers.dev"
+
+# Use configured proxy or fallback to default
+ACTIVE_CLOUDFLARE_PROXY = CLOUDFLARE_PROXY_URL if CLOUDFLARE_PROXY_URL else DEFAULT_CLOUDFLARE_PROXY
+
+# Print configuration status
+if USE_CLOUDFLARE_PROXY:
+    print(f"[build] 🌐 Using Cloudflare Workers proxy as primary: {ACTIVE_CLOUDFLARE_PROXY}")
+    print(f"[build] 🌐 Using AllOrigins as fallback proxy: {ALLORIGINS_PROXY_BASE}")
+else:
+    print(f"[build] 🔄 CORS proxy available but disabled in config")
+    print(f"[build] 📝 Charts will use original URLs (may have CORS issues)")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CORS PROXY HELPERS
+# ──────────────────────────────────────────────────────────────────────────────
+
+def create_proxy_urls(original_url):
+    """
+    Create proxy URLs for Cloudflare Workers and AllOrigins.
+    
+    Args:
+        original_url (str): The original image URL
+    
+    Returns:
+        dict: Dictionary with proxy URLs and metadata
+    """
+    proxy_urls = {
+        'original': original_url,
+        'cloudflare': f"{ACTIVE_CLOUDFLARE_PROXY}?url={quote(original_url)}",
+        'allorigins': f"{ALLORIGINS_PROXY_BASE}{quote(original_url)}",
+        'proxy_enabled': USE_CLOUDFLARE_PROXY
+    }
+    
+    return proxy_urls
+
+def process_chart_sources(charts_data):
+    """
+    Process chart data and add CORS proxy URLs for remote images.
+    """
+    processed_charts = []
+    refinitiv_found = 0
+    refinitiv_processed = 0
+    
+    for chart in charts_data:
+        processed_chart = chart.copy()
+        
+        # Check if this is a remote image that needs proxy configuration
+        if chart['kind'] == 'remote_img':
+            original_src = chart['src']
+            
+            # Check if it's a Refinitiv URL or other remote image
+            if any(domain in original_src.lower() for domain in ['refini.tv', 'refinitiv.com']):
+                refinitiv_found += 1
+                
+                # Add proxy configuration
+                proxy_urls = create_proxy_urls(original_src)
+                
+                # Update chart with proxy information
+                processed_chart.update({
+                    'original_src': original_src,
+                    'proxy_urls': proxy_urls,
+                    'cors_proxy_enabled': USE_CLOUDFLARE_PROXY,
+                    'primary_proxy': 'cloudflare',
+                    'fallback_proxy': 'allorigins'
+                })
+                
+                # If proxy is enabled, use the proxy URL as the main src
+                if USE_CLOUDFLARE_PROXY:
+                    processed_chart['src'] = proxy_urls['cloudflare']
+                    processed_chart['proxy_type'] = 'cloudflare'
+                
+                refinitiv_processed += 1
+        
+        processed_charts.append(processed_chart)
+    
+    # Print summary
+    if refinitiv_found > 0:
+        if USE_CLOUDFLARE_PROXY:
+            print(f"[build] ✅ Configured {refinitiv_found} Refinitiv images with CORS proxy support")
+            print(f"[build] 🎯 Primary: Cloudflare Workers, Fallback: AllOrigins")
+        else:
+            print(f"[build] ⚠️ Found {refinitiv_found} Refinitiv images but CORS proxy disabled")
+            print(f"[build] 💡 Enable with: USE_CLOUDFLARE_PROXY = True in config.py")
+    else:
+        print(f"[build] ℹ️ No Refinitiv images found to process")
+    
+    return processed_charts
 
 # ──────────────────────────────────────────────────────────────────────────────
 # 1)  LOAD & NORMALISE SHEETS
@@ -122,7 +224,13 @@ for _, r in charts_df.iterrows():
     })
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 4)  OPTIONAL: WRITE DEBUG JSON
+# 4)  PROCESS REMOTE IMAGES WITH CORS PROXY SUPPORT
+# ──────────────────────────────────────────────────────────────────────────────
+print(f"[build] Processing {len(chart_meta)} charts for CORS proxy configuration...")
+chart_meta = process_chart_sources(chart_meta)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5)  OPTIONAL: WRITE DEBUG JSON
 # ──────────────────────────────────────────────────────────────────────────────
 (ROOT / "charts.json"    ).write_text(json.dumps(chart_meta,    indent=2))
 (ROOT / "categories.json").write_text(json.dumps(categories_raw, indent=2))
@@ -203,12 +311,13 @@ def load_allocation_targets():
 allocation_data = load_allocation_targets()
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 5)  RENDER index.html (switch Jinja delimiters)
+# 6)  RENDER index.html (switch Jinja delimiters)
 # ──────────────────────────────────────────────────────────────────────────────
 env = Environment(loader=FileSystemLoader(str(ROOT)))
 env.variable_start_string = "[["
 env.variable_end_string   = "]]"
 
+# Specify the template to use
 tpl = env.get_template("index_template_new.html")
 
 # Add this function to load asset returns
@@ -329,14 +438,36 @@ if asset_returns:
     (ROOT / "returns.json").write_text(json.dumps(asset_returns, indent=2, cls=DateTimeEncoder))
     print(f"[build] ✅ wrote returns.json with {len(asset_returns.get('assets', {}).get('asset_names', []))} assets")
 
+# Create CORS proxy configuration for the frontend
+cors_config = {
+    "enabled": USE_CLOUDFLARE_PROXY,
+    "primary_proxy": {
+        "name": "cloudflare",
+        "url": ACTIVE_CLOUDFLARE_PROXY,
+        "format": "{proxy_url}?url={encoded_url}"
+    },
+    "fallback_proxy": {
+        "name": "allorigins", 
+        "url": ALLORIGINS_PROXY_BASE.rstrip('='),
+        "format": "{proxy_url}={encoded_url}"
+    }
+}
+
 out_html = tpl.render(
     charts=json.dumps(chart_meta,    separators=(",", ":")),
     cats  =json.dumps(categories_raw, separators=(",", ":")),
     allocation=json.dumps(allocation_data, separators=(",", ":"), cls=DateTimeEncoder),
-    returns=json.dumps(asset_returns, separators=(",", ":"), cls=DateTimeEncoder)
+    returns=json.dumps(asset_returns, separators=(",", ":"), cls=DateTimeEncoder),
+    cors_config=json.dumps(cors_config, separators=(",", ":"))
 )
 (ROOT / "index.html").write_text(out_html, encoding="utf-8")
+
+# Final summary
+charts_with_proxy = len([c for c in chart_meta if c.get('cors_proxy_enabled')])
+proxy_status = "enabled" if USE_CLOUDFLARE_PROXY else "available but disabled"
+
 print(f"[build] ✅ wrote index.html ({len(chart_meta)} charts, {len(allocation_data)} allocation categories)")
+print(f"[build] 🌐 CORS proxy {proxy_status}, {charts_with_proxy} charts configured with proxy support")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # LOAD RETURN DATA

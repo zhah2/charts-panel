@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML2Canvas Refinitiv Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-container {
+            border: 2px solid #ddd;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        
+        .image-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            min-height: 200px;
+            background: #f8f9fa;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .log-container {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #28a745;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML2Canvas Refinitiv Test</h1>
+    <p>Testing URL: <strong>https://refini.tv/4gm0WdA</strong></p>
+    
+    <div class="test-container">
+        <h2>Step 1: Image Loading Test</h2>
+        <button onclick="loadImage()">Load Image</button>
+        <button onclick="clearImage()">Clear Image</button>
+        
+        <div id="image-status" class="status info">Click "Load Image" to start</div>
+        
+        <div class="image-container" id="image-container">
+            <p>Image will appear here</p>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Step 2: HTML2Canvas Tests</h2>
+        <button onclick="testBasicCapture()" id="basicCaptureBtn">Basic Capture</button>
+        <button onclick="testCaptureWithOptions()" id="optionsCaptureBtn">Capture with Options</button>
+        <button onclick="testCaptureWithTimeout()" id="timeoutCaptureBtn">Capture with Timeout</button>
+        
+        <div id="capture-status" class="status info">Load image first, then test capture methods</div>
+        
+        <div class="progress-bar" id="progress-bar" style="display: none;">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Step 3: PDF Generation Test</h2>
+        <button onclick="generatePDF()" id="pdfBtn">Generate PDF</button>
+        
+        <div id="pdf-status" class="status info">Capture image successfully first, then generate PDF</div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Debug Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="log-container" class="log-container"></div>
+    </div>
+
+    <!-- Load required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" 
+            onerror="this.onerror=null; this.src='https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        const REFINITIV_URL = 'https://refini.tv/4gm0WdA';
+        let currentImage = null;
+        let capturedCanvas = null;
+        let capturedDataURL = null;
+
+        // Logging function
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logContainer = document.getElementById('log-container');
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'orange' : 'black';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('log-container').innerHTML = '';
+        }
+
+        function updateStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressFill = document.getElementById('progress-fill');
+            
+            if (percent > 0) {
+                progressBar.style.display = 'block';
+                progressFill.style.width = percent + '%';
+            } else {
+                progressBar.style.display = 'none';
+            }
+        }
+
+        // Step 1: Load Image
+        function loadImage() {
+            log('Starting image load test...');
+            updateStatus('image-status', 'Loading image...', 'info');
+            
+            const container = document.getElementById('image-container');
+            container.innerHTML = '<p>Loading image...</p>';
+            
+            // Try multiple loading strategies
+            tryLoadImageStrategy1();
+        }
+        
+        // Strategy 1: Load without crossOrigin (most likely to work)
+        function tryLoadImageStrategy1() {
+            log('Strategy 1: Loading image without crossOrigin...');
+            
+            const img = new Image();
+            const startTime = Date.now();
+            
+            img.onload = function() {
+                const loadTime = Date.now() - startTime;
+                log(`✅ Strategy 1 successful: Image loaded without crossOrigin in ${loadTime}ms`, 'success');
+                log(`Image dimensions: ${img.naturalWidth}x${img.naturalHeight}`, 'info');
+                updateStatus('image-status', `Image loaded (${img.naturalWidth}x${img.naturalHeight}) in ${loadTime}ms - No CORS`, 'success');
+                
+                const container = document.getElementById('image-container');
+                container.innerHTML = '';
+                container.appendChild(img);
+                currentImage = img;
+                
+                // Enable capture buttons
+                document.getElementById('basicCaptureBtn').disabled = false;
+                document.getElementById('optionsCaptureBtn').disabled = false;
+                document.getElementById('timeoutCaptureBtn').disabled = false;
+                
+                log('⚠️ Note: Image loaded without CORS - html2canvas may have limitations', 'warning');
+            };
+            
+            img.onerror = function() {
+                const loadTime = Date.now() - startTime;
+                log(`❌ Strategy 1 failed after ${loadTime}ms`, 'error');
+                log('Trying Strategy 2: With crossOrigin=anonymous...', 'info');
+                tryLoadImageStrategy2();
+            };
+            
+            img.src = REFINITIV_URL;
+        }
+        
+        // Strategy 2: Load with crossOrigin='anonymous'
+        function tryLoadImageStrategy2() {
+            log('Strategy 2: Loading image with crossOrigin=anonymous...');
+            
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            const startTime = Date.now();
+            
+            img.onload = function() {
+                const loadTime = Date.now() - startTime;
+                log(`✅ Strategy 2 successful: Image loaded with CORS in ${loadTime}ms`, 'success');
+                log(`Image dimensions: ${img.naturalWidth}x${img.naturalHeight}`, 'info');
+                updateStatus('image-status', `Image loaded (${img.naturalWidth}x${img.naturalHeight}) in ${loadTime}ms - With CORS`, 'success');
+                
+                const container = document.getElementById('image-container');
+                container.innerHTML = '';
+                container.appendChild(img);
+                currentImage = img;
+                
+                // Enable capture buttons
+                document.getElementById('basicCaptureBtn').disabled = false;
+                document.getElementById('optionsCaptureBtn').disabled = false;
+                document.getElementById('timeoutCaptureBtn').disabled = false;
+                
+                log('✅ CORS enabled - html2canvas should work fully', 'success');
+            };
+            
+            img.onerror = function() {
+                const loadTime = Date.now() - startTime;
+                log(`❌ Strategy 2 failed after ${loadTime}ms`, 'error');
+                log('Trying Strategy 3: With crossOrigin=use-credentials...', 'info');
+                tryLoadImageStrategy3();
+            };
+            
+            img.src = REFINITIV_URL;
+        }
+        
+        // Strategy 3: Load with crossOrigin='use-credentials'
+        function tryLoadImageStrategy3() {
+            log('Strategy 3: Loading image with crossOrigin=use-credentials...');
+            
+            const img = new Image();
+            img.crossOrigin = 'use-credentials';
+            const startTime = Date.now();
+            
+            img.onload = function() {
+                const loadTime = Date.now() - startTime;
+                log(`✅ Strategy 3 successful: Image loaded with credentials in ${loadTime}ms`, 'success');
+                log(`Image dimensions: ${img.naturalWidth}x${img.naturalHeight}`, 'info');
+                updateStatus('image-status', `Image loaded (${img.naturalWidth}x${img.naturalHeight}) in ${loadTime}ms - With Credentials`, 'success');
+                
+                const container = document.getElementById('image-container');
+                container.innerHTML = '';
+                container.appendChild(img);
+                currentImage = img;
+                
+                // Enable capture buttons
+                document.getElementById('basicCaptureBtn').disabled = false;
+                document.getElementById('optionsCaptureBtn').disabled = false;
+                document.getElementById('timeoutCaptureBtn').disabled = false;
+                
+                log('✅ Credentials enabled - html2canvas should work fully', 'success');
+            };
+            
+            img.onerror = function() {
+                const loadTime = Date.now() - startTime;
+                log(`❌ Strategy 3 failed after ${loadTime}ms`, 'error');
+                log('Trying Strategy 4: Via fetch API...', 'info');
+                tryLoadImageStrategy4();
+            };
+            
+            img.src = REFINITIV_URL;
+        }
+        
+        // Strategy 4: Fetch as blob and create object URL
+        async function tryLoadImageStrategy4() {
+            log('Strategy 4: Fetching image as blob...');
+            
+            try {
+                const startTime = Date.now();
+                
+                const response = await fetch(REFINITIV_URL, {
+                    mode: 'no-cors' // This allows the request but limits what we can do with response
+                });
+                
+                log(`Fetch response status: ${response.status}, type: ${response.type}`);
+                
+                const blob = await response.blob();
+                const objectURL = URL.createObjectURL(blob);
+                
+                const img = new Image();
+                
+                img.onload = function() {
+                    const loadTime = Date.now() - startTime;
+                    log(`✅ Strategy 4 successful: Image loaded via fetch in ${loadTime}ms`, 'success');
+                    log(`Image dimensions: ${img.naturalWidth}x${img.naturalHeight}`, 'info');
+                    updateStatus('image-status', `Image loaded (${img.naturalWidth}x${img.naturalHeight}) in ${loadTime}ms - Via Fetch`, 'success');
+                    
+                    const container = document.getElementById('image-container');
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                    currentImage = img;
+                    
+                    // Enable capture buttons
+                    document.getElementById('basicCaptureBtn').disabled = false;
+                    document.getElementById('optionsCaptureBtn').disabled = false;
+                    document.getElementById('timeoutCaptureBtn').disabled = false;
+                    
+                    log('✅ Blob-based image - html2canvas should work', 'success');
+                };
+                
+                img.onerror = function() {
+                    const loadTime = Date.now() - startTime;
+                    log(`❌ Strategy 4 failed after ${loadTime}ms`, 'error');
+                    allStrategiesFailed();
+                };
+                
+                img.src = objectURL;
+                
+            } catch (error) {
+                log(`❌ Strategy 4 fetch failed: ${error.message}`, 'error');
+                allStrategiesFailed();
+            }
+        }
+        
+        function allStrategiesFailed() {
+            log('❌ All image loading strategies failed', 'error');
+            updateStatus('image-status', 'All image loading strategies failed - CORS blocked', 'error');
+            
+            const container = document.getElementById('image-container');
+            container.innerHTML = `
+                <p style="color: red;">❌ Failed to load image</p>
+                <p style="font-size: 12px;">This is likely due to CORS restrictions.</p>
+                <p style="font-size: 12px;">The Refinitiv server doesn't allow cross-origin access.</p>
+                <p style="font-size: 12px;">Check the console log for detailed error information.</p>
+            `;
+            
+            log('💡 Suggestion: The image may display in browser but cannot be captured by html2canvas due to CORS', 'warning');
+            log('💡 Alternative: Consider using a CORS proxy or server-side solution', 'warning');
+        }
+
+        function clearImage() {
+            log('Clearing image...');
+            document.getElementById('image-container').innerHTML = '<p>Image will appear here</p>';
+            updateStatus('image-status', 'Image cleared', 'info');
+            currentImage = null;
+            capturedCanvas = null;
+            capturedDataURL = null;
+            
+            // Disable capture buttons
+            document.getElementById('basicCaptureBtn').disabled = true;
+            document.getElementById('optionsCaptureBtn').disabled = true;
+            document.getElementById('timeoutCaptureBtn').disabled = true;
+            document.getElementById('pdfBtn').disabled = true;
+        }
+
+        // Step 2: HTML2Canvas Tests
+        async function testBasicCapture() {
+            if (!currentImage) {
+                log('❌ No image loaded', 'error');
+                return;
+            }
+            
+            log('Testing basic html2canvas capture...');
+            updateStatus('capture-status', 'Capturing with basic settings...', 'info');
+            updateProgress(10);
+            
+            try {
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error('html2canvas library not loaded');
+                }
+                
+                log('Calling html2canvas with basic options...');
+                const startTime = Date.now();
+                
+                const canvas = await html2canvas(currentImage);
+                
+                const captureTime = Date.now() - startTime;
+                log(`✅ Basic capture completed in ${captureTime}ms`, 'success');
+                log(`Canvas dimensions: ${canvas.width}x${canvas.height}`, 'info');
+                
+                capturedCanvas = canvas;
+                capturedDataURL = canvas.toDataURL('image/png');
+                
+                updateStatus('capture-status', `Basic capture successful (${captureTime}ms)`, 'success');
+                updateProgress(100);
+                
+                document.getElementById('pdfBtn').disabled = false;
+                
+                setTimeout(() => updateProgress(0), 2000);
+                
+            } catch (error) {
+                log(`❌ Basic capture failed: ${error.message}`, 'error');
+                updateStatus('capture-status', `Basic capture failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        async function testCaptureWithOptions() {
+            if (!currentImage) {
+                log('❌ No image loaded', 'error');
+                return;
+            }
+            
+            log('Testing html2canvas with advanced options...');
+            updateStatus('capture-status', 'Capturing with advanced options...', 'info');
+            updateProgress(10);
+            
+            try {
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error('html2canvas library not loaded');
+                }
+                
+                log('Calling html2canvas with advanced options...');
+                const startTime = Date.now();
+                
+                const canvas = await html2canvas(currentImage, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 1,
+                    backgroundColor: null,
+                    logging: true,
+                    width: currentImage.offsetWidth,
+                    height: currentImage.offsetHeight,
+                    timeout: 15000
+                });
+                
+                const captureTime = Date.now() - startTime;
+                log(`✅ Advanced capture completed in ${captureTime}ms`, 'success');
+                log(`Canvas dimensions: ${canvas.width}x${canvas.height}`, 'info');
+                
+                capturedCanvas = canvas;
+                capturedDataURL = canvas.toDataURL('image/png');
+                
+                updateStatus('capture-status', `Advanced capture successful (${captureTime}ms)`, 'success');
+                updateProgress(100);
+                
+                document.getElementById('pdfBtn').disabled = false;
+                
+                setTimeout(() => updateProgress(0), 2000);
+                
+            } catch (error) {
+                log(`❌ Advanced capture failed: ${error.message}`, 'error');
+                updateStatus('capture-status', `Advanced capture failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        async function testCaptureWithTimeout() {
+            if (!currentImage) {
+                log('❌ No image loaded', 'error');
+                return;
+            }
+            
+            log('Testing html2canvas with timeout protection...');
+            updateStatus('capture-status', 'Capturing with timeout protection...', 'info');
+            updateProgress(10);
+            
+            try {
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error('html2canvas library not loaded');
+                }
+                
+                log('Calling html2canvas with timeout wrapper...');
+                const startTime = Date.now();
+                
+                // Create timeout promise
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => {
+                        reject(new Error('html2canvas timeout after 10 seconds'));
+                    }, 10000);
+                });
+                
+                // Create capture promise
+                const capturePromise = html2canvas(currentImage, {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 1,
+                    backgroundColor: null,
+                    logging: true,
+                    width: currentImage.offsetWidth,
+                    height: currentImage.offsetHeight
+                });
+                
+                // Race between capture and timeout
+                const canvas = await Promise.race([capturePromise, timeoutPromise]);
+                
+                const captureTime = Date.now() - startTime;
+                log(`✅ Timeout-protected capture completed in ${captureTime}ms`, 'success');
+                log(`Canvas dimensions: ${canvas.width}x${canvas.height}`, 'info');
+                
+                capturedCanvas = canvas;
+                capturedDataURL = canvas.toDataURL('image/png');
+                
+                updateStatus('capture-status', `Timeout-protected capture successful (${captureTime}ms)`, 'success');
+                updateProgress(100);
+                
+                document.getElementById('pdfBtn').disabled = false;
+                
+                setTimeout(() => updateProgress(0), 2000);
+                
+            } catch (error) {
+                log(`❌ Timeout-protected capture failed: ${error.message}`, 'error');
+                updateStatus('capture-status', `Timeout-protected capture failed: ${error.message}`, 'error');
+                updateProgress(0);
+            }
+        }
+
+        // Step 3: PDF Generation
+        function generatePDF() {
+            if (!capturedDataURL) {
+                log('❌ No captured image available', 'error');
+                return;
+            }
+            
+            log('Generating PDF...');
+            updateStatus('pdf-status', 'Generating PDF...', 'info');
+            
+            try {
+                if (typeof window.jspdf === 'undefined') {
+                    throw new Error('jsPDF library not loaded');
+                }
+                
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                // Add title
+                pdf.setFontSize(16);
+                pdf.text('Refinitiv Chart Test', 20, 20);
+                
+                // Add image info
+                pdf.setFontSize(10);
+                pdf.text('URL: https://refini.tv/4gm0WdA', 20, 35);
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, 20, 45);
+                
+                // Add the captured image
+                log('Adding captured image to PDF...');
+                pdf.addImage(capturedDataURL, 'PNG', 20, 55, 170, 120);
+                
+                // Save the PDF
+                pdf.save('refinitiv-chart-test.pdf');
+                
+                log('✅ PDF generated successfully', 'success');
+                updateStatus('pdf-status', 'PDF generated and downloaded successfully', 'success');
+                
+            } catch (error) {
+                log(`❌ PDF generation failed: ${error.message}`, 'error');
+                updateStatus('pdf-status', `PDF generation failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize
+        window.onload = function() {
+            log('Test page loaded');
+            log('Checking library availability...');
+            
+            // Check html2canvas
+            setTimeout(() => {
+                if (typeof html2canvas !== 'undefined') {
+                    log('✅ html2canvas library loaded', 'success');
+                } else {
+                    log('❌ html2canvas library not loaded', 'error');
+                }
+                
+                // Check jsPDF
+                if (typeof window.jspdf !== 'undefined') {
+                    log('✅ jsPDF library loaded', 'success');
+                } else {
+                    log('❌ jsPDF library not loaded', 'error');
+                }
+            }, 1000);
+            
+            // Disable capture and PDF buttons initially
+            document.getElementById('basicCaptureBtn').disabled = true;
+            document.getElementById('optionsCaptureBtn').disabled = true;
+            document.getElementById('timeoutCaptureBtn').disabled = true;
+            document.getElementById('pdfBtn').disabled = true;
+        };
+    </script>
+</body>
+</html> 
