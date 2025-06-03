@@ -2082,6 +2082,7 @@ select {
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <!-- Portfolio calculation libraries -->
@@ -2474,93 +2475,679 @@ new Vue({
     resetSelection() {
       this.selectedCharts = [];
     },
-    
+
     /**
-     * Generate and download a PDF of selected charts
+     * Download selected charts as PDF
      */
-    async downloadSelectedCharts() {
+     async downloadSelectedCharts() {
       if (this.selectedCharts.length === 0) {
         alert("Pick at least one chart first 🙂");
         return;
       }
 
+      // Check if required libraries are loaded
+      if (typeof window.jspdf === 'undefined') {
+        alert("jsPDF library is not loaded. Please refresh the page and try again.");
+        return;
+      }
+
+      if (typeof PDFLib === 'undefined') {
+        alert("pdf-lib library is not loaded. Please refresh the page and try again.");
+        return;
+      }
+
+      // Add progress feedback
+      const progressDiv = document.createElement('div');
+      progressDiv.id = 'download-progress';
+      progressDiv.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 8px;
+        z-index: 10000; font-family: Arial, sans-serif; text-align: center;
+      `;
+      progressDiv.innerHTML = `
+        <div>Preparing PDF download...</div>
+        <div id="progress-text">Starting...</div>
+        <div style="width: 300px; height: 6px; background: #333; border-radius: 3px; margin: 10px 0;">
+          <div id="progress-bar" style="width: 0%; height: 100%; background: #4CAF50; border-radius: 3px; transition: width 0.3s;"></div>
+        </div>
+      `;
+      document.body.appendChild(progressDiv);
+
+      const updateProgress = (text, percent) => {
+        const progressText = document.getElementById('progress-text');
+        const progressBar = document.getElementById('progress-bar');
+        if (progressText) progressText.textContent = text;
+        if (progressBar) progressBar.style.width = percent + '%';
+        console.log(`Progress: ${percent}% - ${text}`);
+      };
+
       try {
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
-        const pageW = pdf.internal.pageSize.getWidth();
-        const pageH = pdf.internal.pageSize.getHeight();
-        
-        // Title page
-        pdf.setFontSize(16);
-        pdf.text("Selected Charts", 20, 30);
-        pdf.setFontSize(12);
-        pdf.text(`Total charts: ${this.selectedCharts.length}`, 20, 40);
-        pdf.text(`Generated: ${new Date().toLocaleString()}`, 20, 50);
-        
-        // Get selected chart data
+        // Use explicit A4 landscape dimensions for consistency with compression enabled
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'mm',
+          format: 'a4',  // Explicit A4 format (297mm x 210mm in landscape)
+          compress: true  // Enable PDF compression for smaller file size
+        });
+        let isFirstPage = true;
+
+        updateProgress("Initializing PDF...", 5);
+
+        // Get the full chart objects from selected IDs
         const selectedChartData = this.charts.filter(chart => 
           this.selectedCharts.includes(chart.id)
         );
         
-        // Process each selected chart
+        console.log(`Processing ${selectedChartData.length} selected charts:`, this.selectedCharts);
+
         for (let i = 0; i < selectedChartData.length; i++) {
           const chart = selectedChartData[i];
-          pdf.addPage();
+          const progressPercent = 5 + (i / selectedChartData.length) * 90;
           
-          // For image charts (both local and remote)
-          if (chart.kind === 'local_png' || chart.kind === 'remote_img') {
-            try {
-              // Create a new Image object
-              const img = new Image();
-              img.crossOrigin = "Anonymous";  // Handle CORS for remote images
+          updateProgress(`Processing ${chart.title} (${i + 1}/${selectedChartData.length})`, progressPercent);
+          console.log(`Processing chart ${i + 1}/${selectedChartData.length}: ${chart.title}`);
+
+          if (!isFirstPage) {
+            pdf.addPage();
+          }
+          isFirstPage = false;
+
+          // Add chart title at the top (moved further up)
+          pdf.setTextColor(0, 182, 36); // Green color RGB(0,182,36)
+          pdf.setFontSize(28); // Increased font size to 28
+          pdf.setFont(undefined, 'normal'); // Removed bold
+          pdf.text(chart.title, 20, 12); // Moved further up from 18 to 12
+
+          try {
+            let dataURL = null;
+            let imageWidth = 220, imageHeight = 160; // Default dimensions
+            let chartX = 0, chartY = 30; // Default positioning
+
+            if (chart.kind === 'local_png') {
+              console.log(`Loading local image: ${chart.title}`);
+              updateProgress(`Loading ${chart.title}...`, progressPercent + 2);
               
-              // Create a promise to wait for image to load
-              await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = (e) => {
-                  console.error(`Failed to load image: ${chart.src}`, e);
-                  reject(new Error(`Failed to load image: ${chart.src}`));
+              // ROBUST LOCAL IMAGE SOLUTION
+              console.log(`🖼️ Processing local image: ${chart.src}`);
+              
+              // Check if we're running on HTTP(S) or file:// protocol
+              const isFileProtocol = window.location.protocol === 'file:';
+              
+              if (isFileProtocol) {
+                // For file:// protocol, recommend HTTP server
+                throw new Error(`Local images require an HTTP server for PDF generation. Please run 'python -m http.server 8000' in your project directory and access via http://localhost:8000 instead of opening the HTML file directly. Image: ${chart.src}`);
+              }
+              
+              // For HTTP protocol, try to load the image
+              const imagePath = chart.src.startsWith('/') ? chart.src : './' + chart.src;
+              console.log(`🔄 Loading image via HTTP: ${imagePath}`);
+              
+              const img = new Image();
+              img.crossOrigin = 'anonymous'; // Allow cross-origin for local server
+              
+              dataURL = await new Promise((resolve, reject) => {
+                img.onload = () => {
+                  try {
+                    // Create canvas and draw image with optimized resolution for smaller file size
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Keep original pixels for maximum quality - no pre-scaling blur
+                    const scaleFactor = 1;  // Use original size for maximum quality
+                    canvas.width = img.naturalWidth * scaleFactor;
+                    canvas.height = img.naturalHeight * scaleFactor;
+                    
+                    // Enable highest quality image smoothing
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Use PNG for lossless compression - no JPEG artifacts
+                    const dataURL = canvas.toDataURL('image/png');
+                    
+                    // Validate the data URL
+                    if (dataURL.length < 100) {
+                      reject(new Error('Generated image data is too small, possibly corrupt'));
+                    } else {
+                      resolve(dataURL);
+                    }
+                  } catch (canvasError) {
+                    reject(new Error(`Canvas error: ${canvasError.message}. Try running a local HTTP server.`));
+                  }
                 };
-                img.src = chart.src;
+                
+                img.onerror = () => {
+                  reject(new Error(`Failed to load image: ${imagePath}. Make sure the file exists and you're running an HTTP server (try 'python -m http.server 8000').`));
+                };
+                
+                img.src = imagePath;
               });
               
-              // Calculate dimensions to fit on page
-              const ratio = Math.min(pageW / img.width, (pageH - 40) / img.height);
-              const imgW = img.width * ratio;
-              const imgH = img.height * ratio;
-              const offsetX = (pageW - imgW) / 2;
-              const offsetY = 10;
+              console.log(`✅ Successfully loaded local image: ${chart.title} (${dataURL.length} chars)`);
+            } else if (chart.kind === 'remote_img') {
+              updateProgress(`Fetching ${chart.title}...`, progressPercent + 2);
+              console.log(`Fetching remote image via CORS proxy: ${chart.title}`);
+              console.log(`Chart ID: ${chart.id}, Original URL: ${chart.original_src}`);
+              console.log(`Using proxy URL: ${chart.src}`);
               
-              // Add image to PDF
-              pdf.addImage(img, 'PNG', offsetX, offsetY, imgW, imgH);
-              
-              // Add chart info
-              const bottomY = offsetY + imgH + 10;
-              pdf.setFontSize(10);
-              pdf.text(`Title: ${chart.title || "Untitled"}`, 10, bottomY);
-              pdf.text(`Labels: ${chart.labels.join(", ")}`, 10, bottomY + 5);
-              
-            } catch (error) {
-              console.error(`Error processing chart ${chart.title}:`, error);
-              pdf.setFontSize(12);
-              pdf.text(`[Failed to load chart: ${chart.title}]`, 20, 100);
+              try {
+                // Use direct fetch through CORS proxy with enhanced error handling
+                dataURL = await this.fetchImageThroughProxy(chart);
+                console.log(`✅ Successfully fetched ${chart.title} via proxy (${dataURL.length} chars)`);
+              } catch (fetchError) {
+                console.error(`❌ Failed to fetch ${chart.title}:`, fetchError);
+                
+                // Try direct fallback to original URL as last resort
+                console.log(`Attempting direct fallback to original URL: ${chart.original_src}`);
+                try {
+                  const fallbackResponse = await fetch(chart.original_src, {
+                    mode: 'no-cors',
+                    cache: 'default'
+                  });
+                  console.log(`Direct fallback response: ${fallbackResponse.status}`);
+                  // Note: no-cors won't let us read the response, so this is mostly for debugging
+                } catch (directError) {
+                  console.log(`Direct URL also failed: ${directError.message}`);
+                }
+                
+                throw fetchError; // Re-throw the original error
+              }
             }
-          } 
-          // For iframe charts
-          else if (chart.kind === 'remote_iframe') {
+
+            // Add the image to PDF if we got one
+            if (dataURL && dataURL.length > 100) { // Basic check for valid data URL
+              updateProgress(`Adding ${chart.title} to PDF...`, progressPercent + 4);
+              console.log(`Adding image to PDF: ${chart.title}`);
+              
+              // Calculate 300 DPI sizing from original image dimensions
+              // If we have the image data, extract dimensions for proper 300 DPI calculation
+              
+              try {
+                // Extract image dimensions from data URL for proper 300 DPI sizing
+                const tempImg = new Image();
+                await new Promise((resolve) => {
+                  tempImg.onload = resolve;
+                  tempImg.src = dataURL;
+                });
+                
+                // For A4 landscape (297mm x 210mm), use much more space available
+                // Calculate optimal size while maintaining aspect ratio
+                const aspectRatio = tempImg.naturalWidth / tempImg.naturalHeight;
+                
+                // Use much larger dimensions to fill most of the page
+                const maxWidth = 260;  // Increased significantly from 240mm
+                const maxHeight = 160; // Increased significantly from 140mm
+                
+                if (aspectRatio > maxWidth / maxHeight) {
+                  // Image is wider - fit to width
+                  imageWidth = maxWidth;
+                  imageHeight = maxWidth / aspectRatio;
+                } else {
+                  // Image is taller - fit to height  
+                  imageHeight = maxHeight;
+                  imageWidth = maxHeight * aspectRatio;
+                }
+                
+                console.log(`Large chart sizing: ${tempImg.naturalWidth}x${tempImg.naturalHeight} -> ${imageWidth.toFixed(1)}x${imageHeight.toFixed(1)}mm`);
+              } catch (e) {
+                console.log('Using default large dimensions for image sizing');
+              }
+              
+              // Layout: Title (top), Chart (centered), Labels & Source (bottom)
+              // Use PNG format and turn off jsPDF re-compression for maximum quality
+              // Center the chart both horizontally and vertically on the page
+              const pageWidth = 297; // A4 landscape width
+              const pageHeight = 210; // A4 landscape height
+              chartX = (pageWidth - imageWidth) / 2; // Center horizontally
+              chartY = 30; // Moved down slightly from 25 for better positioning
+              pdf.addImage(dataURL, 'PNG', chartX, chartY, imageWidth, imageHeight, undefined, 'FAST');
+              
+              // Add labels and source closer to the chart and aligned to chart's left edge
+              pdf.setTextColor(60, 60, 60); // Dark gray
+              pdf.setFontSize(10);
+              pdf.setFont(undefined, 'normal');
+              const labelsY = chartY + imageHeight + 5; // Tighter spacing - reduced from 10 to 5
+              pdf.text(`Labels: ${chart.labels.join(', ')}`, chartX, labelsY); // Aligned to chart's left edge
+              if (chart.source) {
+                pdf.setFont(undefined, 'italic');
+                pdf.text(`Source: ${chart.source}`, chartX, labelsY + 6); // Reduced spacing from 10 to 6
+              }
+              
+              console.log(`✅ Successfully added ${chart.title} to PDF`);
+            } else {
+              throw new Error('Failed to generate image data or data is too small');
+            }
+
+          } catch (error) {
+            console.error(`❌ Error processing ${chart.title}:`, error);
+            
+            // Add error message to PDF instead of failing completely
             pdf.setFontSize(12);
-            pdf.text(`[Interactive chart: ${chart.title}]`, 20, 100);
-            pdf.text(`URL: ${chart.src}`, 20, 110);
+            pdf.setTextColor(255, 0, 0); // Red text
+            pdf.text(`❌ Could not fetch image`, 20, 60); // Moved down from 50 to 60
+            
+            // Split long error messages into multiple lines manually
+            const errorMsg = `Error: ${error.message}`;
+            const maxLineLength = 80; // Approximate characters per line
+            const errorLines = [];
+            
+            for (let i = 0; i < errorMsg.length; i += maxLineLength) {
+              errorLines.push(errorMsg.substring(i, i + maxLineLength));
+            }
+            
+            let yPos = 75; // Moved down from 65 to 75
+            errorLines.forEach(line => {
+              pdf.text(line, 20, yPos);
+              yPos += 15;
+            });
+            
+            pdf.text(`Chart ID: ${chart.id}`, 20, yPos + 5);
+            pdf.text(`Source: ${chart.src}`, 20, yPos + 20);
+            pdf.setTextColor(0, 0, 0); // Reset to black
+            
+            // Still add labels and source at bottom for reference - use safe positioning
+            pdf.setTextColor(60, 60, 60); // Dark gray
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'normal');
+            const safeLabelsY = 180; // Use fixed safe position instead of dynamic positioning
+            pdf.text(`Labels: ${chart.labels.join(', ')}`, 20, safeLabelsY);
+            if (chart.source) {
+              pdf.setFont(undefined, 'italic');
+              pdf.text(`Source: ${chart.source}`, 20, safeLabelsY + 12);
+            }
           }
         }
+
+        updateProgress("Generating PDF file...", 95);
+        console.log("Merging with cover page...");
         
-        // Save the PDF
-        pdf.save("Selected-Charts.pdf");
+        // Generate charts PDF as blob instead of saving directly
+        const chartsPdfBlob = pdf.output('blob');
+        
+        // Merge with cover page
+        await this.buildFinalPdf(chartsPdfBlob);
+        
+        updateProgress("Download complete!", 100);
+        console.log("✅ PDF download completed successfully");
+        
+        // Remove progress indicator after a short delay
+        setTimeout(() => {
+          const progressElement = document.getElementById('download-progress');
+          if (progressElement) progressElement.remove();
+        }, 1500);
+
+      } catch (error) {
+        console.error("❌ Error creating PDF:", error);
+        alert(`Error creating PDF: ${error.message}`);
+        
+        // Remove progress indicator
+        const progressElement = document.getElementById('download-progress');
+        if (progressElement) progressElement.remove();
+      }
+    },
+
+    /**
+     * Merge cover.pdf with generated charts PDF using pdf-lib
+     */
+    async buildFinalPdf(chartPdfBlob) {
+      try {
+        console.log("Loading cover.pdf and content_page.pdf...");
+        
+        // 1. Fetch both cover.pdf and content_page.pdf as ArrayBuffers
+        const [coverBytes, contentBytes] = await Promise.all([
+          fetch('cover.pdf').then(r => {
+            if (!r.ok) {
+              throw new Error(`Failed to load cover.pdf: ${r.status} ${r.statusText}`);
+            }
+            return r.arrayBuffer();
+          }),
+          fetch('content_page.pdf').then(r => {
+            if (!r.ok) {
+              throw new Error(`Failed to load content_page.pdf: ${r.status} ${r.statusText}`);
+            }
+            return r.arrayBuffer();
+          })
+        ]);
+
+        console.log("Loading PDFs in pdf-lib...");
+        
+        // 2. Load all PDFs in pdf-lib
+        const [coverDoc, contentDoc, chartsDoc] = await Promise.all([
+          PDFLib.PDFDocument.load(coverBytes),
+          PDFLib.PDFDocument.load(contentBytes),
+          PDFLib.PDFDocument.load(await chartPdfBlob.arrayBuffer())
+        ]);
+
+        console.log("Using cover page dimensions as standard...");
+        
+        // 3. Create a new document using cover page dimensions as the standard
+        const finalDoc = await PDFLib.PDFDocument.create();
+        
+        // Get the cover page and use its dimensions as our standard
+        const coverPage = coverDoc.getPage(0);
+        const { width: pageWidth, height: pageHeight } = coverPage.getSize();
+        
+        // Get the content page template
+        const contentPage = contentDoc.getPage(0);
+        
+        console.log(`Using cover page dimensions as standard: ${pageWidth} x ${pageHeight}`);
+        
+        // 4. Add the cover page (no scaling needed since it's our reference size)
+        const newCoverPage = finalDoc.addPage([pageWidth, pageHeight]);
+        const embeddedCoverPage = await finalDoc.embedPage(coverPage);
+        newCoverPage.drawPage(embeddedCoverPage, {
+          x: 0,
+          y: 0,
+          width: pageWidth,
+          height: pageHeight
+        });
+        
+        // 5. Process all chart pages using content page as template
+        const chartPages = chartsDoc.getPages();
+        for (let i = 0; i < chartPages.length; i++) {
+          const chartPage = chartPages[i];
+          const { width: chartWidth, height: chartHeight } = chartPage.getSize();
+          
+          console.log(`Processing chart page ${i + 1} with content template...`);
+          
+          // Create new page with cover page dimensions
+          const newChartPage = finalDoc.addPage([pageWidth, pageHeight]);
+          
+          // First, add the content page template as background
+          const embeddedContentPage = await finalDoc.embedPage(contentPage);
+          
+          // Scale content page to match cover page dimensions if needed
+          const contentScaleX = pageWidth / contentPage.getSize().width;
+          const contentScaleY = pageHeight / contentPage.getSize().height;
+          const contentScale = Math.min(contentScaleX, contentScaleY);
+          
+          const contentScaledWidth = contentPage.getSize().width * contentScale;
+          const contentScaledHeight = contentPage.getSize().height * contentScale;
+          const contentX = (pageWidth - contentScaledWidth) / 2;
+          const contentY = (pageHeight - contentScaledHeight) / 2;
+          
+          newChartPage.drawPage(embeddedContentPage, {
+            x: contentX,
+            y: contentY,
+            width: contentScaledWidth,
+            height: contentScaledHeight
+          });
+          
+          // Then, add the chart content on top of the template
+          // Calculate scaling to fit chart page to cover page dimensions while maintaining aspect ratio
+          const chartScaleX = pageWidth / chartWidth;
+          const chartScaleY = pageHeight / chartHeight;
+          const chartScale = Math.min(chartScaleX, chartScaleY);
+          
+          // Calculate position to center the scaled chart page
+          const chartScaledWidth = chartWidth * chartScale;
+          const chartScaledHeight = chartHeight * chartScale;
+          const chartX = (pageWidth - chartScaledWidth) / 2;
+          const chartY = (pageHeight - chartScaledHeight) / 2;
+          
+          console.log(`Adding chart content on top of template for page ${i + 1}`);
+          
+          // Embed the chart page with some transparency to blend with template
+          const embeddedChartPage = await finalDoc.embedPage(chartPage);
+          newChartPage.drawPage(embeddedChartPage, {
+            x: chartX,
+            y: chartY,
+            width: chartScaledWidth,
+            height: chartScaledHeight,
+            opacity: 0.95 // Slight transparency to blend with template
+          });
+          
+          // Add page number at bottom right corner (starting from page 2)
+          const pageNumber = i + 2; // Page 1 is cover, so charts start from page 2
+          
+          // Embed a standard font for page numbers
+          const font = await finalDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+          
+          newChartPage.drawText(`${pageNumber}`, {
+            x: pageWidth - 50, // 50 points from right edge
+            y: 8, // Moved further down from 15 to 8 points from bottom
+            size: 10,
+            font: font,
+            color: PDFLib.rgb(0.4, 0.4, 0.4) // Gray color
+          });
+          
+          console.log(`Added page number ${pageNumber} to chart page ${i + 1}`);
+        }
+
+        console.log("Generating final PDF...");
+        
+        // 6. Serialize final PDF with compression and trigger download
+        const finalBytes = await finalDoc.save({
+          compress: true, // Enable compression
+          objectStreamsFlate: true // Use flate compression for object streams
+        });
+        
+        // Create download link
+        const blob = new Blob([finalBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Research Chart Package.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        console.log("✅ Final PDF with content page template and page numbers generated successfully");
         
       } catch (error) {
-        console.error("Failed to generate PDF:", error);
-        alert("Error generating PDF. Please try again.");
+        console.error("❌ Error merging PDF with cover:", error);
+        
+        // Fallback: save charts PDF without cover
+        console.log("Falling back to charts-only PDF...");
+        const url = URL.createObjectURL(chartPdfBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'selected-charts-no-cover.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert(`Could not merge with cover page: ${error.message}\nDownloaded charts-only PDF instead.`);
       }
+    },
+
+    /**
+     * Fetch image through CORS proxy with fallback support
+     */
+    async fetchImageThroughProxy(chart) {
+      const corsConfig = [[cors_config]];
+      
+      // Determine the original image URL to fetch
+      let originalUrl = chart.original_src || chart.src;
+      
+      // Remove any existing proxy wrapping to get the clean original URL
+      if (originalUrl.includes('refini.tv') && !originalUrl.startsWith('https://refini.tv')) {
+        // Extract the original refini.tv URL if it's wrapped in a proxy
+        const match = originalUrl.match(/refini\.tv\/[^&?]+/);
+        if (match) {
+          originalUrl = 'https://' + match[0];
+        }
+      }
+      
+      console.log(`🔄 Fetching image: ${originalUrl}`);
+
+      // List of proxy services to try in order
+      const proxyServices = [
+        {
+          name: 'Cloudflare Workers',
+          url: 'https://img-cors-proxy.haining-zha.workers.dev',
+          format: (proxyUrl, imageUrl) => `${proxyUrl}?url=${encodeURIComponent(imageUrl)}`
+        },
+        {
+          name: 'AllOrigins Raw',
+          url: 'https://api.allorigins.win/raw',
+          format: (proxyUrl, imageUrl) => `${proxyUrl}?url=${encodeURIComponent(imageUrl)}`
+        },
+        {
+          name: 'CORS Proxy IO',
+          url: 'https://corsproxy.io',
+          format: (proxyUrl, imageUrl) => `${proxyUrl}/?${encodeURIComponent(imageUrl)}`
+        }
+      ];
+
+      let lastError = null;
+
+      // Try each proxy service until one works
+      for (const proxy of proxyServices) {
+        try {
+          console.log(`🔄 Trying ${proxy.name}...`);
+          
+          const proxyUrl = proxy.format(proxy.url, originalUrl);
+          console.log(`Proxy URL: ${proxyUrl}`);
+          
+          // Create AbortController for timeout handling
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => {
+            controller.abort();
+            console.log(`⏰ ${proxy.name} request timed out after 15 seconds`);
+          }, 15000); // 15 second timeout
+          
+          const startTime = Date.now();
+          
+          const response = await fetch(proxyUrl, {
+            mode: 'cors',
+            cache: 'default',
+            signal: controller.signal,
+            headers: {
+              'Accept': 'image/*,*/*;q=0.8',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          });
+          
+          clearTimeout(timeoutId); // Clear timeout if request completes
+          
+          const responseTime = Date.now() - startTime;
+          console.log(`📡 ${proxy.name} response: ${response.status} in ${responseTime}ms`);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          
+          const blob = await response.blob();
+          console.log(`📦 ${proxy.name} blob: ${blob.size} bytes, type: ${blob.type}`);
+          
+          // Validate blob content
+          if (blob.size === 0) {
+            throw new Error('Received empty response');
+          }
+          
+          // More flexible content type validation - accept any blob that might be an image
+          const isValidBlob = blob.size > 0 && (
+            blob.type.startsWith('image/') || 
+            blob.type === 'application/octet-stream' ||
+            blob.type === '' ||
+            blob.type === 'text/plain' // Some proxies return this for images
+          );
+          
+          if (!isValidBlob) {
+            throw new Error(`Invalid content: ${blob.size} bytes, type: ${blob.type}`);
+          }
+          
+          // Convert blob to image and optimize it
+          const objectURL = URL.createObjectURL(blob);
+          
+          try {
+            const optimizedDataURL = await new Promise((resolve, reject) => {
+              const img = new Image();
+              let timeoutId;
+              
+              img.onload = () => {
+                clearTimeout(timeoutId);
+                try {
+                  console.log(`🖼️ ${proxy.name} image loaded: ${img.naturalWidth}x${img.naturalHeight}`);
+                  
+                  // Create canvas for optimization
+                  const canvas = document.createElement('canvas');
+                  const ctx = canvas.getContext('2d');
+                  
+                  // Use original dimensions for maximum quality
+                  canvas.width = img.naturalWidth;
+                  canvas.height = img.naturalHeight;
+                  
+                  // Enable highest quality image smoothing
+                  ctx.imageSmoothingEnabled = true;
+                  ctx.imageSmoothingQuality = 'high';
+                  
+                  // Draw image at original size
+                  ctx.drawImage(img, 0, 0);
+                  
+                  // Use PNG for lossless compression
+                  const dataURL = canvas.toDataURL('image/png');
+                  
+                  // Validate the data URL
+                  if (dataURL.length < 100) {
+                    reject(new Error('Generated image data is too small, possibly corrupt'));
+                  } else {
+                    resolve(dataURL);
+                  }
+                } catch (canvasError) {
+                  reject(new Error(`Canvas error: ${canvasError.message}`));
+                }
+              };
+              
+              img.onerror = () => {
+                clearTimeout(timeoutId);
+                URL.revokeObjectURL(objectURL);
+                reject(new Error('Downloaded content is not a valid image'));
+              };
+              
+              // Set a timeout for image loading
+              timeoutId = setTimeout(() => {
+                URL.revokeObjectURL(objectURL);
+                reject(new Error('Image load timeout'));
+              }, 5000);
+              
+              img.src = objectURL;
+            });
+            
+            URL.revokeObjectURL(objectURL); // Clean up
+            
+            const totalTime = Date.now() - startTime;
+            console.log(`✅ ${proxy.name} success in ${totalTime}ms total`);
+            return optimizedDataURL;
+            
+          } catch (imageError) {
+            URL.revokeObjectURL(objectURL);
+            throw new Error(`Image processing failed: ${imageError.message}`);
+          }
+          
+        } catch (error) {
+          console.warn(`❌ ${proxy.name} failed: ${error.message}`);
+          lastError = error;
+          
+          // Add a small delay between attempts to avoid overwhelming servers
+          await new Promise(resolve => setTimeout(resolve, 500));
+          continue;
+        }
+      }
+      
+      // If all proxies failed, try direct fetch as absolute last resort
+      try {
+        console.log('🔄 All proxies failed, trying direct fetch as last resort...');
+        
+        const response = await fetch(originalUrl, {
+          mode: 'no-cors', // This won't work for reading the response, but worth trying
+          cache: 'default'
+        });
+        
+        console.log(`Direct fetch response status: ${response.status}`);
+        // no-cors mode doesn't allow reading the response, so this is mainly for logging
+        
+      } catch (directError) {
+        console.log(`Direct fetch also failed: ${directError.message}`);
+      }
+      
+      // If we get here, all attempts failed
+      throw new Error(`All proxy attempts failed. Last error: ${lastError?.message || 'Unknown error'}. Original URL: ${originalUrl}`);
     },
     
     // Allocation data methods
