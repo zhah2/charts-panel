@@ -2092,10 +2092,10 @@ select {
 
 <script>
 /* injected by build.py */
-const charts = [[ charts|safe ]];
-const categories = [[ cats|safe ]];
-const allocationData = [[ allocation|safe ]];
-const returnsData = [[ returns|safe ]];
+const charts = [[charts|safe]];
+const categories = [[cats|safe]];
+const allocationData = [[allocation|safe]];
+const returnsData = [[returns|safe]];
 
 /* Vue logic */
 new Vue({
@@ -2186,16 +2186,6 @@ new Vue({
       { asset: 'Cash', weight: 0 },
       { asset: 'Alternatives', weight: 0 }
     ],
-    performanceMetrics: {
-      originalReturn: 7.2,
-      optimizedReturn: 0,
-      originalVolatility: 12.5,
-      optimizedVolatility: 0,
-      originalSharpe: 0.58,
-      optimizedSharpe: 0,
-      originalDrawdown: 18.4,
-      optimizedDrawdown: 0
-    },
     portfolioPerformanceChart: null,
     originalWeights: {},
     optimizedWeights: {},
@@ -2295,16 +2285,16 @@ new Vue({
       return this.selectedCharts.length;
     },
     isOptimizedReturnBetter() {
-      return this.performanceMetrics.optimizedReturn > this.performanceMetrics.originalReturn;
+      return this.performanceMetrics.optimized.cagr > this.performanceMetrics.original.cagr;
     },
     isOptimizedVolatilityBetter() {
-      return this.performanceMetrics.optimizedVolatility < this.performanceMetrics.originalVolatility;
+      return this.performanceMetrics.optimized.volatility < this.performanceMetrics.original.volatility;
     },
     isOptimizedSharpeBetter() {
-      return this.performanceMetrics.optimizedSharpe > this.performanceMetrics.originalSharpe;
+      return this.performanceMetrics.optimized.sharpe > this.performanceMetrics.original.sharpe;
     },
     isOptimizedDrawdownBetter() {
-      return this.performanceMetrics.optimizedDrawdown < this.performanceMetrics.originalDrawdown;
+      return this.performanceMetrics.optimized.maxDrawdown < this.performanceMetrics.original.maxDrawdown;
     },
     canOptimize() {
       return Math.abs(this.originalWeightsSum - 100) < 0.1;
@@ -3394,13 +3384,10 @@ new Vue({
         // Fallback to sample assets if no data available
         this.availableAssets = ['US Equities', 'International Equities', 'US Bonds', 'Cash', 'Alternatives'];
       }
-      
-      // Always initialize ALL weights to 0 when entering the page
-      this.originalWeights = {};
-      this.optimizedWeights = {};
-      
+
+      // Initialize original weights for all assets
       this.availableAssets.forEach(asset => {
-        this.$set(this.originalWeights, asset, 0);
+        this.$set(this.originalWeights, asset, this.getDefaultWeight(asset));
         this.$set(this.optimizedWeights, asset, 0);
       });
       
@@ -3409,24 +3396,20 @@ new Vue({
         const dates = returnsData.assets.dates;
         const years = new Set();
         dates.forEach(date => {
-          const year = parseInt(date.substring(0, 4));
-          years.add(year);
+          years.add(new Date(date).getFullYear());
         });
-        this.availableYears = Array.from(years).sort();
-        
-        // Set initial dates
-        if (this.availableYears.length > 0) {
-          this.customStartYear = this.availableYears[0];
-          this.customEndYear = this.availableYears[this.availableYears.length - 1];
-        }
+        this.availableYears = Array.from(years).sort((a, b) => a - b);
       } else {
-        // Fallback years
-        this.availableYears = [2020, 2021, 2022, 2023, 2024];
-        this.customStartYear = 2020;
-        this.customEndYear = 2024;
+        // Default years
+        this.availableYears = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
       }
       
-      // Update portfolio sums
+      // Set default period
+      if (this.availableYears.length > 0) {
+        this.customStartYear = this.availableYears[0];
+        this.customEndYear = this.availableYears[this.availableYears.length - 1];
+      }
+      
       this.updatePortfolioReturns();
     },
     
@@ -3817,7 +3800,7 @@ new Vue({
       let sourceLocation = null;
       
       // First search in reference series
-      if (returnsData.reference && returnsData.reference.assets) {
+      if (returnsData && returnsData.reference && returnsData.reference.assets) {
         const referenceKeys = Object.keys(returnsData.reference.assets);
         console.log('Looking for benchmark:', benchmarkName, 'in reference series. Available keys:', referenceKeys);
         
@@ -4097,6 +4080,64 @@ new Vue({
       console.error(`❌ Could not find any element for chart ${chartId}`);
       return null;
     },
+
+    initializeAllocationData() {
+      // Check if allocation data is available
+      if (!allocationData || Object.keys(allocationData).length === 0) {
+        console.warn('No allocation data available');
+        return;
+      }
+
+      this.years = [];
+      const yearSet = new Set();
+
+      // Process all available allocation datasets to find unique years
+      for (const tab in allocationData) {
+        if (allocationData[tab] && allocationData[tab].data) {
+          allocationData[tab].data.forEach(item => {
+            if (item.date) {
+              const year = new Date(item.date).getFullYear();
+              yearSet.add(year);
+            }
+          });
+        }
+      }
+
+      this.years = Array.from(yearSet).sort((a, b) => b - a);
+
+      if (this.years.length > 0) {
+        this.selectedYear = this.years[0];
+        this.startYear = this.years[this.years.length - 1];
+        this.endYear = this.years[0];
+      }
+
+      // Set available years for optimization
+      this.availableYears = this.years;
+
+      this.updateAllocationView();
+    },
+
+    updateAllocationView() {
+      // Update based on current allocation tab selection
+      if (!allocationData || !allocationData[this.currentAllocationTab]) {
+        console.warn(`No data available for tab: ${this.currentAllocationTab}`);
+        return;
+      }
+
+      const tabData = allocationData[this.currentAllocationTab].data;
+      
+      // Update dates for this tab
+      const dates = tabData.map(item => item.date).filter(date => date);
+      this.allocationDates = [...new Set(dates)].sort();
+      
+      // Set default date if none selected
+      if (this.allocationDates.length > 0 && !this.selectedAllocationDate) {
+        this.selectedAllocationDate = this.allocationDates[this.allocationDates.length - 1];
+      }
+      
+      // Update available datasets for this tab
+      this.updateAvailableDatasets();
+    },
   },
   watch: {
     selectedSeries: {
@@ -4121,14 +4162,14 @@ new Vue({
         this.updateAllocationView();
         this.updateTimeSeriesChart();
       }
-    }
-  },
-  // Initialize the performance chart when switching to the Backtest tab
-  currentTab(newTab) {
-    if (newTab === 'Backtest') {
-      this.$nextTick(() => {
-        this.initPerformanceChart();
-      });
+    },
+    // Initialize the performance chart when switching to the Backtest tab
+    currentTab(newTab) {
+      if (newTab === 'Backtest') {
+        this.$nextTick(() => {
+          this.initPerformanceChart();
+        });
+      }
     }
   }
 });

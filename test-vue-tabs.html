@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Tabs Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <style>
+        .tab-nav {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 20px 0;
+        }
+        .tab-nav button {
+            background: none;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .tab-nav button.active {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .tab-content {
+            min-height: 200px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Vue Tab Test</h1>
+        <div class="tab-nav">
+            <button :class="{active: currentTab==='Charts'}" @click="currentTab='Charts'">Charts</button>
+            <button :class="{active: currentTab==='Target'}" @click="currentTab='Target'">Target</button>
+            <button :class="{active: currentTab==='Backtest'}" @click="currentTab='Backtest'">Backtest</button>
+        </div>
+        
+        <div class="tab-content">
+            <div v-if="currentTab==='Charts'">
+                <h2>Charts Tab</h2>
+                <p>This is the Charts tab content.</p>
+            </div>
+            <div v-else-if="currentTab==='Target'">
+                <h2>Target Tab</h2>
+                <p>This is the Target tab content.</p>
+            </div>
+            <div v-else-if="currentTab==='Backtest'">
+                <h2>Backtest Tab</h2>
+                <p>This is the Backtest tab content.</p>
+            </div>
+        </div>
+        
+        <p>Current tab: {{ currentTab }}</p>
+        <p>Vue is working: {{ message }}</p>
+    </div>
+
+    <script>
+        console.log('Vue version:', Vue.version);
+        
+        new Vue({
+            el: '#app',
+            data: {
+                currentTab: 'Charts',
+                message: 'Yes!'
+            },
+            mounted() {
+                console.log('Vue mounted successfully');
+                console.log('Current tab:', this.currentTab);
+            },
+            watch: {
+                currentTab(newTab) {
+                    console.log('Tab changed to:', newTab);
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
