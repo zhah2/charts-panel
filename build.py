@@ -1,26 +1,65 @@
 #!/usr/bin/env python3
 """
-Re-build the static dashboard.
+Charts Panel Dashboard Builder
 
-  $ python build.py
+This script rebuilds the static dashboard by:
+1. Reading chart catalog and configuration from Excel files
+2. Processing chart metadata and categories
+3. Loading allocation targets and asset returns data
+4. Generating the final HTML dashboard with Vue.js integration
+
+Usage:
+    $ python build.py
+
+Input Files:
+    - charts_catalog.xlsx: Chart definitions and metadata
+    - targets.xlsx: Portfolio allocation targets (optional)
+    - asset_return_history.xlsx: Historical returns data (optional)
+
+Output Files:
+    - index.html: Final dashboard HTML file
+    - charts.json: Chart metadata (debug)
+    - categories.json: Category definitions (debug)
+    - returns.json: Asset returns data (debug, if available)
 """
 
 import json, pathlib, re, sys
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from urllib.parse import urlparse          # Added import for URL parsing
-from datetime import datetime  # Added for datetime handling
-
-ROOT      = pathlib.Path(__file__).parent.absolute()
-CHART_DIR = ROOT / "panel-charts"
-XL_FILE   = ROOT / "charts_catalog.xlsx"        # adjust if the name differs
-TARGETS_FILE = ROOT / "targets.xlsx"  # Path to the targets file
-RETURNS_FILE = ROOT / "asset_return_history.xlsx"  # Add this new constant
+from urllib.parse import urlparse          # For URL parsing in chart location detection
+from datetime import datetime              # For datetime handling in data processing
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 1)  LOAD & NORMALISE SHEETS
+# CONFIGURATION & FILE PATHS
 # ──────────────────────────────────────────────────────────────────────────────
+
+# Define project paths
+ROOT         = pathlib.Path(__file__).parent.absolute()
+CHART_DIR    = ROOT / "panel-charts"
+XL_FILE      = ROOT / "charts_catalog.xlsx"        # Main chart catalog
+TARGETS_FILE = ROOT / "targets.xlsx"               # Portfolio allocation targets
+RETURNS_FILE = ROOT / "asset_return_history.xlsx"  # Historical returns data
+
+print(f"[build] 🔧 Starting dashboard build process...")
+print(f"[build] 📁 Working directory: {ROOT}")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1) LOAD & NORMALIZE EXCEL SHEETS
+# ──────────────────────────────────────────────────────────────────────────────
+
 def tidy_cols(df):
+    """
+    Normalize DataFrame column names by:
+    - Removing leading/trailing whitespace
+    - Converting to lowercase  
+    - Removing internal whitespace
+    
+    Args:
+        df (pd.DataFrame): Input DataFrame
+        
+    Returns:
+        pd.DataFrame: DataFrame with normalized column names
+    """
     df.columns = (
         df.columns.str.strip()
                   .str.lower()
@@ -28,22 +67,31 @@ def tidy_cols(df):
     )
     return df
 
+# Load main chart catalog
+print(f"[build] 📖 Reading chart catalog from: {XL_FILE}")
 try:
     labels_df = tidy_cols(pd.read_excel(XL_FILE, sheet_name="labels"))
     charts_df = tidy_cols(pd.read_excel(XL_FILE, sheet_name="charts"))
+    print(f"[build] ✅ Loaded {len(labels_df)} label definitions and {len(charts_df)} chart records")
 except Exception as e:
-    sys.exit(f"[build] ❌ cannot read {XL_FILE}: {e}")
+    sys.exit(f"[build] ❌ Cannot read {XL_FILE}: {e}")
 
+# Validate required columns
 if not {"name", "type"}.issubset(labels_df.columns):
     sys.exit("[build] ❌ 'labels' sheet must have columns Name & Type")
 
 if not {"id", "name", "label", "location"}.issubset(charts_df.columns):
     sys.exit("[build] ❌ 'charts' sheet must have columns ID, Name, Label, Location")
 
+print(f"[build] ✅ Schema validation passed")
+
 # ──────────────────────────────────────────────────────────────────────────────
-# 2)  CATEGORY STRUCTURE
+# 2) BUILD CATEGORY STRUCTURE
 # ──────────────────────────────────────────────────────────────────────────────
-# Original categories from label types
+
+print(f"[build] 🏷️  Building category structure...")
+
+# Create categories from label types (e.g., Asset Class, Strategy, etc.)
 categories_raw = (
     labels_df.groupby("type")["name"]
              .apply(list)
@@ -52,92 +100,135 @@ categories_raw = (
              .to_dict(orient="records")
 )
 
-# Add Source category
+# Add dynamic Source category from chart sources
 sources = charts_df["source"].dropna().unique().tolist()
 sources = [src.strip() for src in sources if src.strip()]
 if sources:
     categories_raw.append({"name": "Source", "labels": sorted(sources)})
+    print(f"[build] 📊 Added Source category with {len(sources)} sources")
 
-# Add Status category
+# Add dynamic Status category from chart statuses
 statuses = charts_df["status"].dropna().unique().tolist()
 statuses = [status.strip() for status in statuses if status.strip()]
 if statuses:
     categories_raw.append({"name": "Status", "labels": sorted(statuses)})
+    print(f"[build] 📈 Added Status category with {len(statuses)} statuses")
+
+print(f"[build] ✅ Built {len(categories_raw)} categories")
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 3)  CHART METADATA
+# 3) PROCESS CHART METADATA
 # ──────────────────────────────────────────────────────────────────────────────
+
 def kind_and_src(loc: str):
+    """
+    Determine chart type and source path from location string.
+    
+    Handles:
+    - Remote URLs (http/https) - detects images vs iframes
+    - File URIs (file://) 
+    - Local relative/absolute paths
+    
+    Args:
+        loc (str): Chart location/path
+        
+    Returns:
+        tuple: (chart_type, source_path)
+    """
     loc = str(loc).strip()
 
-    # 1) true remote (http / https)
+    # 1) Remote HTTP/HTTPS resources
     if re.match(r"^https?://", loc):
-        # Handle remote resources as before...
         ext = pathlib.Path(urlparse(loc).path).suffix.lower()
-        return ("remote_img" if ext in {".png", ".jpg", ".jpeg",
-                                      ".gif", ".svg"} or "refini.tv" in loc.lower()
+        # Detect if it's an image or iframe content
+        return ("remote_img" if ext in {".png", ".jpg", ".jpeg", ".gif", ".svg"} 
+                or "refini.tv" in loc.lower()
                 else "remote_iframe", loc)
 
-    # 2) remote image on a share – already a file URI
+    # 2) File URI - treat as remote image
     if loc.startswith("file://"):
         return "remote_img", loc
 
-    # 3) local path - use as-is for relative paths
-    # Don't modify the path structure for local resources
-    if not loc.startswith('/'):
-        # It's already a relative path, use as-is
-        src_path = loc
-    else:
-        # It's an absolute path, keep the leading slash
-        src_path = loc
-        
+    # 3) Local paths - preserve structure
+    src_path = loc if not loc.startswith('/') else loc
     kind = "local_png" if loc.lower().endswith((".png", ".jpg", ".jpeg", ".gif")) else "local_html"
     return kind, src_path
 
+print(f"[build] 🔍 Processing chart metadata...")
+
 chart_meta = []
 for _, r in charts_df.iterrows():
+    # Parse comma-separated labels
     labels = [lbl.strip() for lbl in str(r["label"]).split(",") if lbl.strip()]
+    
+    # Determine chart type and source
     kind, src = kind_and_src(r["location"])
     
-    # Get source and status
+    # Extract additional metadata
     source = str(r.get("source", "")).strip()
     status = str(r.get("status", "")).strip()
     
-    # Add source and status to labels if they exist
+    # Combine all labels including source and status for filtering
     all_labels = labels.copy()
     if source:
         all_labels.append(source)
     if status:
         all_labels.append(status)
     
+    # Build chart metadata object
     chart_meta.append({
-        "id":    str(r["id"]),
-        "title": str(r["name"]),
-        "labels": all_labels,  # Use combined labels including source and status
-        "kind":  kind,
-        "src":   src,
+        "id":          str(r["id"]),
+        "title":       str(r["name"]),
+        "labels":      all_labels,
+        "kind":        kind,
+        "src":         src,
         "description": str(r.get("description", "")).strip(),
         "status":      status,
         "source":      source,
     })
 
-# ──────────────────────────────────────────────────────────────────────────────
-# 4)  OPTIONAL: WRITE DEBUG JSON
-# ──────────────────────────────────────────────────────────────────────────────
-(ROOT / "charts.json"    ).write_text(json.dumps(chart_meta,    indent=2))
-(ROOT / "categories.json").write_text(json.dumps(categories_raw, indent=2))
+print(f"[build] ✅ Processed {len(chart_meta)} charts")
 
 # ──────────────────────────────────────────────────────────────────────────────
-# LOAD ALLOCATION TARGET DATA
+# 4) EXPORT DEBUG JSON FILES  
 # ──────────────────────────────────────────────────────────────────────────────
+
+print(f"[build] 💾 Writing debug JSON files...")
+
+# Export chart metadata and categories for debugging
+charts_json_path = ROOT / "charts.json"
+categories_json_path = ROOT / "categories.json"
+
+charts_json_path.write_text(json.dumps(chart_meta, indent=2))
+categories_json_path.write_text(json.dumps(categories_raw, indent=2))
+
+print(f"[build] ✅ Written: {charts_json_path}")
+print(f"[build] ✅ Written: {categories_json_path}")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5) LOAD ALLOCATION TARGET DATA
+# ──────────────────────────────────────────────────────────────────────────────
+
 def load_allocation_targets():
+    """
+    Load portfolio allocation targets from Excel file.
+    
+    Processes multiple sheets representing different asset classes:
+    - Cross Assets, Equities-Region, Equities-Sector
+    - Bonds-Region, Bonds-Sector, FX, Commodities
+    
+    Returns:
+        dict: Nested structure with allocation data by sheet and date
+    """
     # Check if targets file exists
     if not TARGETS_FILE.exists():
-        print(f"[build] ⚠️ targets file not found: {TARGETS_FILE}")
+        print(f"[build] ⚠️  Targets file not found: {TARGETS_FILE}")
         return {}
     
+    print(f"[build] 📊 Loading allocation targets from: {TARGETS_FILE}")
+    
     try:
-        # Define the sheets to process
+        # Define sheets to process
         sheets = [
             "Cross Assets", 
             "Equities-Region", "Equities-Sector",
@@ -147,32 +238,33 @@ def load_allocation_targets():
         ]
         
         targets_data = {}
+        total_records = 0
         
         # Process each sheet
         for sheet in sheets:
             try:
-                # Read data, standardize column names
+                # Read and standardize data
                 df = pd.read_excel(TARGETS_FILE, sheet_name=sheet)
                 
                 # Ensure first column is Date
-                if not "Date" in df.columns[0]:
+                if "Date" not in df.columns[0]:
                     df = df.rename(columns={df.columns[0]: "Date"})
                 
-                # Convert dates to ISO format strings for JSON serialization
+                # Convert dates to ISO format for JSON serialization
                 if pd.api.types.is_datetime64_any_dtype(df["Date"]):
                     df["Date"] = df["Date"].dt.strftime('%Y-%m-%d')
                 
-                # Get list of assets (all columns except Date)
+                # Get asset list (all columns except Date)
                 assets = [col for col in df.columns if col != "Date"]
                 
-                # Convert to list of records for JSON
+                # Convert to records format
                 data = []
                 for _, row in df.iterrows():
                     date = row["Date"]
                     asset_values = []
                     for asset in assets:
                         value = row[asset]
-                        # Ensure numeric values (handle NaN)
+                        # Handle NaN values
                         if pd.isna(value):
                             value = 0
                         asset_values.append({
@@ -184,50 +276,61 @@ def load_allocation_targets():
                         "assets": asset_values
                     })
                 
-                # Store data for this sheet
+                # Store processed data
                 targets_data[sheet] = {
                     "data": data,
                     "assets": assets
                 }
+                
+                total_records += len(data)
+                print(f"[build] ✅ Processed sheet '{sheet}': {len(data)} records, {len(assets)} assets")
             
             except Exception as e:
-                print(f"[build] ⚠️ error processing sheet {sheet}: {e}")
+                print(f"[build] ⚠️  Error processing sheet {sheet}: {e}")
         
+        print(f"[build] ✅ Loaded allocation targets: {len(targets_data)} sheets, {total_records} total records")
         return targets_data
     
     except Exception as e:
-        print(f"[build] ⚠️ cannot read targets file: {e}")
+        print(f"[build] ❌ Cannot read targets file: {e}")
         return {}
 
 # Load allocation targets
 allocation_data = load_allocation_targets()
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 5)  RENDER index.html (switch Jinja delimiters)
+# 6) LOAD ASSET RETURNS DATA
 # ──────────────────────────────────────────────────────────────────────────────
-env = Environment(loader=FileSystemLoader(str(ROOT)))
-env.variable_start_string = "[["
-env.variable_end_string   = "]]"
 
-tpl = env.get_template("index_template_new.html")
-
-# Add this function to load asset returns
 def load_asset_returns():
+    """
+    Load historical asset returns from Excel file.
+    
+    Processes two sheets:
+    - assets: Main asset return series
+    - reference_series: Benchmark/reference return series
+    
+    Returns:
+        dict: Structured data with dates, assets, and pre-calculated statistics
+    """
     # Check if returns file exists
     if not RETURNS_FILE.exists():
-        print(f"[build] ⚠️ asset returns file not found: {RETURNS_FILE}")
+        print(f"[build] ⚠️  Asset returns file not found: {RETURNS_FILE}")
         return {}
     
+    print(f"[build] 📈 Loading asset returns from: {RETURNS_FILE}")
+    
     try:
-        # Read both tabs from the Excel file
+        # Read both sheets
         assets_df = pd.read_excel(RETURNS_FILE, sheet_name="assets")
         reference_df = pd.read_excel(RETURNS_FILE, sheet_name="reference_series")
         
         def process_sheet(df, sheet_name):
-            # Get asset names from first row (headers)
+            """Process individual sheet data"""
+            # Get asset names from headers
             asset_names = df.columns.tolist()
             
-            # Skip the second row (detailed descriptions) and start from row 3
+            # Skip description row and start from data
             data_df = df.iloc[1:].reset_index(drop=True)
             
             # Convert dates to ISO format strings for JSON serialization
@@ -243,36 +346,30 @@ def load_asset_returns():
                 else:
                     dates.append(str(date_val))
             
-            # Prepare assets data with JSON-serializable values and create date index
+            # Build date index for O(1) lookups
+            date_index = {str(date): i for i, date in enumerate(dates)}
+            
+            # Process asset data
             assets_data = {}
-            date_index = {}  # For faster date lookups
-            
-            for i, date in enumerate(dates):
-                date_index[str(date)] = i  # Ensure key is string
-            
             for asset in asset_names[1:]:  # Skip date column
-                # Convert any datetime values to strings and ensure all values are JSON serializable
                 asset_values = []
                 for val in data_df[asset]:
-                    # Handle different types of values
+                    # Handle different value types
                     if pd.isna(val):
-                        asset_values.append(None)  # Preserve missing data as null in JSON
+                        asset_values.append(None)
                     elif isinstance(val, (pd.Timestamp, datetime)):
-                        asset_values.append(None)  # Date values marked as missing for returns
+                        asset_values.append(None)  # Date values marked as missing
                     else:
-                        # Convert to float for numerical values
                         try:
                             asset_values.append(float(val))
                         except (TypeError, ValueError):
-                            # If conversion fails, mark as missing
                             asset_values.append(None)
                 
                 assets_data[asset] = asset_values
             
-            # Pre-calculate some common statistics for performance
+            # Pre-calculate summary statistics for performance
             summary_stats = {}
             for asset in asset_names[1:]:
-                # Only include non-null values for statistics
                 values = [v for v in assets_data[asset] if v is not None]
                 if values:
                     summary_stats[asset] = {
@@ -283,12 +380,14 @@ def load_asset_returns():
                         "missing_count": len([v for v in assets_data[asset] if v is None])
                     }
             
+            print(f"[build] ✅ Processed '{sheet_name}' sheet: {len(dates)} periods, {len(asset_names)-1} assets")
+            
             return {
                 "dates": dates,
                 "assets": assets_data,
-                "asset_names": asset_names[1:],  # Asset names without date column
-                "date_index": date_index,  # For O(1) date lookups
-                "summary_stats": summary_stats,  # Pre-calculated statistics
+                "asset_names": asset_names[1:],
+                "date_index": date_index,
+                "summary_stats": summary_stats,
                 "date_range": {
                     "start": dates[0] if dates else None,
                     "end": dates[-1] if dates else None,
@@ -306,12 +405,13 @@ def load_asset_returns():
             "reference": reference_data
         }
         
+        print(f"[build] ✅ Loaded asset returns: {assets_data['date_range']['count']} periods total")
         return returns_data
     
     except Exception as e:
-        print(f"[build] ⚠️ cannot read asset returns file: {e}")
+        print(f"[build] ❌ Cannot read asset returns file: {e}")
         import traceback
-        traceback.print_exc()  # Print the full traceback for debugging
+        traceback.print_exc()
         return {}
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -322,19 +422,26 @@ class DateTimeEncoder(json.JSONEncoder):
         return super().default(obj)
 
 # Load asset returns data
+print(f"[build] 📊 Processing asset returns data...")
 asset_returns = load_asset_returns()
 
-# Write returns data to separate JSON file for debugging and external use
+# Export returns data for debugging and external use
 if asset_returns:
-    (ROOT / "returns.json").write_text(json.dumps(asset_returns, indent=2, cls=DateTimeEncoder))
-    print(f"[build] ✅ wrote returns.json with {len(asset_returns.get('assets', {}).get('asset_names', []))} assets")
+    returns_json_path = ROOT / "returns.json"
+    returns_json_path.write_text(json.dumps(asset_returns, indent=2, cls=DateTimeEncoder))
+    asset_count = len(asset_returns.get('assets', {}).get('asset_names', []))
+    print(f"[build] ✅ Written: {returns_json_path} ({asset_count} assets)")
 
-# Create CORS proxy configuration for the frontend
+# ──────────────────────────────────────────────────────────────────────────────
+# 7) CONFIGURE CORS PROXY FOR REMOTE IMAGES
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Create CORS proxy configuration for handling remote images (e.g., refini.tv)
 cors_config = {
-    "enabled": True,  # Enable CORS proxy support
+    "enabled": True,
     "primary_proxy": {
         "name": "cloudflare",
-        "url": "https://img-cors-proxy.haining-zha.workers.dev",  # Your Cloudflare Workers proxy
+        "url": "https://img-cors-proxy.haining-zha.workers.dev",
         "format": "{proxy_url}?url={encoded_url}"
     },
     "fallback_proxy": {
@@ -344,20 +451,59 @@ cors_config = {
     }
 }
 
+print(f"[build] 🌐 Configured CORS proxy for remote image handling")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 8) RENDER FINAL HTML DASHBOARD
+# ──────────────────────────────────────────────────────────────────────────────
+
+print(f"[build] 🎨 Rendering HTML dashboard...")
+
+# Configure Jinja2 environment with custom delimiters (to avoid Vue.js conflicts)
+env = Environment(loader=FileSystemLoader(str(ROOT)))
+env.variable_start_string = "[["  # Use [[ ]] instead of {{ }}
+env.variable_end_string   = "]]"  # to avoid Vue.js template conflicts
+
+# Load template
+template_path = "index_template_new.html"
+print(f"[build] 📄 Using template: {template_path}")
+tpl = env.get_template(template_path)
+
+# Render final HTML with all data
+output_html_path = ROOT / "index.html"
 out_html = tpl.render(
-    charts=json.dumps(chart_meta,    separators=(",", ":")),
-    cats  =json.dumps(categories_raw, separators=(",", ":")),
+    charts=json.dumps(chart_meta, separators=(",", ":")),
+    cats=json.dumps(categories_raw, separators=(",", ":")),
     allocation=json.dumps(allocation_data, separators=(",", ":"), cls=DateTimeEncoder),
     returns=json.dumps(asset_returns, separators=(",", ":"), cls=DateTimeEncoder),
     cors_config=json.dumps(cors_config, separators=(",", ":"))
 )
-(ROOT / "index.html").write_text(out_html, encoding="utf-8")
-print(f"[build] ✅ wrote index.html ({len(chart_meta)} charts, {len(allocation_data)} allocation categories)")
+
+# Write final HTML file
+output_html_path.write_text(out_html, encoding="utf-8")
 
 # ──────────────────────────────────────────────────────────────────────────────
-# LOAD RETURN DATA
+# 9) BUILD SUMMARY
 # ──────────────────────────────────────────────────────────────────────────────
+
+print(f"\n[build] 🎉 Dashboard build completed successfully!")
+print(f"[build] ✅ Output: {output_html_path}")
+print(f"[build] 📊 Summary:")
+print(f"         • {len(chart_meta)} charts processed")
+print(f"         • {len(categories_raw)} categories created")
+print(f"         • {len(allocation_data)} allocation datasets loaded")
+print(f"         • {'Asset returns loaded' if asset_returns else 'No asset returns data'}")
+print(f"[build] 🚀 Ready to serve!")
+
+# ──────────────────────────────────────────────────────────────────────────────
+# DEPRECATED: Legacy return data loading function (kept for reference)
+# ──────────────────────────────────────────────────────────────────────────────
+
 def load_return_data():
+    """
+    DEPRECATED: Legacy function for loading return data.
+    Replaced by load_asset_returns() for better structure and performance.
+    """
     # Read from a CSV/Excel file containing historical returns
     returns_df = pd.read_excel(RETURNS_FILE, sheet_name="returns")
     

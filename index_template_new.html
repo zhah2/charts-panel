@@ -1,19 +1,66 @@
 <!DOCTYPE html>
+<!--
+Charts Panel Dashboard - Vue.js Frontend
+=========================================
+
+This is the main HTML template for the charts panel dashboard. It provides:
+
+1. STRUCTURE:
+   - Header with logo and title
+   - Tab navigation (Charts, Target, Backtest, X Query)
+   - Sidebar with filterable categories
+   - Main content area with responsive chart grid
+   - Modal for zoomed chart viewing
+
+2. FUNCTIONALITY:
+   - Vue.js reactive data binding
+   - Chart filtering by multiple categories
+   - Chart selection and PDF export
+   - Portfolio allocation visualization
+   - Backtest performance analysis
+
+3. DATA SOURCES:
+   - Chart metadata from charts_catalog.xlsx
+   - Allocation targets from targets.xlsx  
+   - Asset returns from asset_return_history.xlsx
+   - CORS proxy for remote image handling
+
+4. LIBRARIES:
+   - Vue.js 2.6.14 (reactive framework)
+   - Chart.js (charts and visualizations)  
+   - jsPDF & pdf-lib (PDF generation)
+   - html2canvas (chart image capture)
+
+Template Variables (injected by build.py):
+- [[ charts|safe ]]: Chart metadata array
+- [[ cats|safe ]]: Category definitions
+- [[ allocation|safe ]]: Portfolio allocation data
+- [[ returns|safe ]]: Asset returns data
+- [[ cors_config|safe ]]: CORS proxy configuration
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Research & Strategy Team Dashboard</title>
 <style>
-/* Base styles inspired by reference site */
+/* ====================================================================
+   BASE STYLES & TYPOGRAPHY
+   ==================================================================== */
+
+/* Base font and layout inspired by modern design systems */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #F9FAFB; /* light gray background */
+  background-color: #F9FAFB; /* Light gray background */
   margin: 0;
   padding: 0;
-  color: #111827; /* dark gray text */
+  color: #111827; /* Dark gray text for readability */
 }
 
-/* Header styling - move buttons to topbar level */
+/* ====================================================================
+   HEADER & NAVIGATION
+   ==================================================================== */
+
+/* Top header bar with logo and title */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -40,7 +87,7 @@ body {
   align-items: center;
 }
 
-/* Tabs container with action buttons */
+/* Tab navigation container with action buttons */
 .tabs-container {
   position: relative;
   display: flex;
@@ -49,13 +96,13 @@ body {
   background-color: white;
   border-bottom: 1px solid #E5E7EB;
   padding: 0 2rem;
-  height: 40px; /* Same height as tabs */
+  height: 40px; /* Consistent height with tab buttons */
 }
 
-/* Tabs styling - updated to match image */
+/* Main tab navigation styling */
 .tabs {
   display: flex;
-  margin-left: 0; /* Align to left */
+  margin-left: 0; /* Left-aligned tabs */
 }
 
 .tabs button {
@@ -65,7 +112,7 @@ body {
   padding: 0 16px;
   font-weight: 500;
   cursor: pointer;
-  color: #6B7280; /* gray-500 for inactive */
+  color: #6B7280; /* Gray for inactive tabs */
   transition: color 0.2s, border-bottom 0.2s;
   margin-right: 8px;
   border-bottom: 2px solid transparent;
@@ -73,17 +120,25 @@ body {
 
 .tabs button.active {
   color: #111827; /* Dark text for active tab */
-  border-bottom: 2px solid #111827; /* Dark underline */
+  border-bottom: 2px solid #111827; /* Dark underline indicator */
   font-weight: 600;
 }
 
-/* Main content layout */
+/* ====================================================================
+   MAIN LAYOUT STRUCTURE
+   ==================================================================== */
+
+/* Main content area - flexbox layout */
 main {
   display: flex;
-  height: calc(100vh - 65px); /* Full height minus header */
+  height: calc(100vh - 65px); /* Full viewport height minus header */
 }
 
-/* Sidebar styles */
+/* ====================================================================
+   SIDEBAR
+   ==================================================================== */
+
+/* Sidebar styling */
 .sidebar {
   width: 200px; /* Narrower sidebar (reduced from 240px) */
   background-color: #F9FAFB;
@@ -223,6 +278,10 @@ input[type="checkbox"] {
   margin-top: 0 !important;
 }
 
+/* ====================================================================
+   GRID
+   ==================================================================== */
+
 /* Chart grid area */
 .grid {
   flex: 1;
@@ -315,6 +374,1313 @@ input[type="checkbox"] {
     color: #6B7280;
     text-align: center;
     font-size: 1rem;
+}
+
+/* Style for empty tabs */
+.empty-tab {
+  width: 100%;
+  height: calc(100vh - 110px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-tab .empty-state {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+/* Modal styles for zoom */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 95vw;
+  max-height: 95vh;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.modal-overlay.visible .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #6B7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.5rem;
+}
+.modal-close:hover {
+    color: #111827;
+}
+
+.modal-image-container {
+  width: 100%;
+  height: calc(85vh - 4rem); /* Increased from 75vh to 85vh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.modal-image-container img, .modal-image-container iframe {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.modal-labels {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.modal-labels-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-labels-left {
+  flex: 1;
+  text-align: left;
+}
+
+.modal-labels-right {
+  text-align: right;
+}
+
+/* Chart selection checkbox */
+.card {
+  position: relative; /* For absolute positioning of checkbox */
+}
+
+/* Move chart checkbox to top-left */
+.chart-checkbox-container {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.card:hover .chart-checkbox-container {
+  opacity: 1;
+}
+
+.chart-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Chart ID display in bottom right corner */
+.chart-id-display {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+/* Selected chart indicator */
+.card.selected {
+  box-shadow: 0 0 0 2px #4F46E5, 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Improve label count styling */
+.label-with-count {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.label-count {
+  color: #6B7280;
+  font-size: 0.875rem;
+  margin-left: 8px;
+  font-weight: normal;
+}
+
+/* Action buttons styling - move higher and fix icon */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: -10px; /* Move buttons 10px higher */
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem; /* rounded-md */
+  font-size: 0.75rem; /* Smaller font size */
+  font-weight: 500;
+  height: 30px; /* Smaller height */
+  padding: 0 0.75rem; /* Smaller padding */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  color: #374151;
+  transition: box-shadow 0.2s, background-color 0.2s;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: #F3F4F6;
+}
+
+.action-button svg {
+  margin-right: 0.25rem;
+  height: 14px; /* Fixed size for icons */
+  width: 14px;
+  display: inline-block; /* Ensure proper display */
+  vertical-align: middle; /* Better alignment */
+}
+
+/* Target tab styles */
+.target-tab {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background-color: #F9FAFB;
+}
+
+.target-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.allocation-tabs {
+  display: flex;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.allocation-tabs button {
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  color: #6B7280;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+.allocation-tabs button.active {
+  color: #111827;
+  border-bottom-color: #111827;
+  font-weight: 500;
+}
+
+.allocation-section, .time-series-section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.date-selector {
+  margin-bottom: 1.5rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.date-selector h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.date-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+select {
+  padding: 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.no-data-message {
+  text-align: center;
+  color: #6B7280;
+  margin: 2rem 0;
+  font-style: italic;
+}
+
+.allocation-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.line-container {
+  flex: 1;
+  position: relative;
+}
+
+.asset-label {
+  width: 120px;
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.9rem;
+}
+
+.asset-value {
+  width: 40px;
+  text-align: left;
+  padding-left: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.scale-markers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  color: #6B7280;
+}
+
+.line {
+  height: 3px;
+  background-color: #E5E7EB;
+  position: relative;
+  border-radius: 1.5px;
+}
+
+.marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border: 2px solid #111827;
+  border-radius: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chart-container {
+  height: 400px;
+  position: relative;
+}
+
+/* Add these styles for the date range picker */
+.date-range-picker {
+  margin-bottom: 1.5rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.date-range-picker h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.range-slider-container {
+  position: relative;
+  height: 30px;
+  padding: 0 10px;
+  margin-bottom: 1rem;
+}
+
+.range-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  background-color: #E5E7EB;
+  border-radius: 2px;
+}
+
+.range-selected {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  background-color: #3B82F6;
+  border-radius: 2px;
+}
+
+.range-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border: 2px solid #3B82F6;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.date-picker-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.date-picker {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-picker label {
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin-bottom: 0.25rem;
+}
+
+.date-input-group {
+  display: flex;
+}
+
+.date-input {
+  width: 50px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 3px;
+  text-align: center;
+  margin-right: 0.25rem;
+}
+
+.date-input-group select {
+  padding: 0.25rem 0.5rem;
+}
+
+.date-ticks {
+  position: relative;
+  height: 20px;
+  margin-top: 5px;
+}
+
+.date-tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: #6B7280;
+}
+
+/* Improve sub-asset styles for better alignment */
+.sub-asset-label {
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.85rem;
+  width: 120px; /* Same width as other asset labels */
+  padding-left: 0;
+  text-indent: 0;
+}
+
+.sub-asset-container {
+  position: relative;
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Position the sub-asset line to ensure center alignment */
+.sub-asset-line {
+  height: 3px;
+  background-color: #E5E7EB;
+  position: relative;
+  border-radius: 1.5px;
+  width: 100%;
+}
+
+/* Improved dropdown series selector */
+.series-dropdown {
+  position: relative;
+  width: 180px;
+  margin-top: 1rem;
+}
+
+.series-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.series-dropdown-toggle:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.series-dropdown-toggle span {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.series-dropdown-toggle span.active {
+  transform: rotate(180deg);
+}
+
+.series-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  width: 250px;
+  max-height: 300px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  display: none;
+}
+
+.series-dropdown-content.active {
+  display: block;
+}
+
+.series-options {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px; /* Add some padding to account for scrollbar */
+}
+
+.series-option {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.series-option:hover {
+  background-color: #F9FAFB;
+}
+
+.series-option input {
+  margin-right: 0.5rem;
+}
+
+.series-color-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+}
+
+.series-search {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.series-select-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.series-select-action {
+  font-size: 0.85rem;
+  color: #4F46E5;
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.series-select-action:hover {
+  background-color: #F3F4F6;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Date range section with series dropdown */
+.date-range-section {
+  margin-bottom: 1.5rem;
+}
+
+/* Move series dropdown into date selector */
+.date-selector {
+  margin-bottom: 1rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+/* Improved series dropdown */
+.series-dropdown {
+  margin-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+  padding-top: 1rem;
+}
+
+.series-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  width: 100%;
+}
+
+/* Consistent sub-asset line styling */
+.sub-asset-label {
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.85rem;
+  width: 120px; /* Same width as other asset labels */
+}
+
+/* Sub-asset line container to ensure alignment */
+.sub-asset-container {
+  position: relative;
+  width: calc(100% - 40px); /* 20px less on each side */
+  margin-left: 20px; /* Start 20px to the right */
+}
+
+/* Ensure scale markers are shown consistently */
+.sub-asset-scale-markers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  color: #6B7280;
+  position: relative;
+  padding: 0;
+  width: 100%;
+}
+
+/* Improved alignment for dropdown headers */
+.date-selector h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+/**
+ * Series Dropdown Component
+ * ------------------------
+ * Unified styling for the series selection dropdown 
+ * used in the Historical Allocation Targets section
+ */
+.series-dropdown {
+  position: relative;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.series-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  width: 100%;
+}
+
+.series-dropdown-toggle::after {
+  content: none; /* Remove default dropdown arrow */
+}
+
+.series-dropdown-toggle:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.series-dropdown-toggle span {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.series-dropdown-toggle span.active {
+  transform: rotate(180deg);
+}
+
+.series-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  width: 250px;
+  max-height: 300px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  display: none;
+}
+
+.series-dropdown-content.active {
+  display: block;
+}
+
+.series-options {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px; /* Add some padding to account for scrollbar */
+}
+
+.series-option {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.series-option:hover {
+  background-color: #F9FAFB;
+}
+
+.series-option input {
+  margin-right: 0.5rem;
+}
+
+.series-color-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+}
+
+.series-select-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.series-select-action {
+  font-size: 0.85rem;
+  color: #4F46E5;
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.series-select-action:hover {
+  background-color: #F3F4F6;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/**
+ * Date Selectors & Containers
+ * --------------------------
+ * Styling for date selection components
+ */
+.date-selector-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.date-inputs-row {
+  display: flex;
+  gap: 0.5rem; /* Reduce gap between start/end date */
+  margin-bottom: 0.5rem;
+}
+
+.date-input-column {
+  flex: 1;
+  max-width: 180px; /* Limit width to create a more compact layout */
+}
+
+/* Backtest Tab Styles */
+.backtest-tab {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem 2rem;
+  background-color: #F9FAFB;
+}
+
+.backtest-container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.portfolio-section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.portfolios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.portfolio-card {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.portfolio-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio-allocations {
+  margin-bottom: 1rem;
+}
+
+.portfolio-allocation-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.portfolio-allocation-row:last-child {
+  border-bottom: none;
+}
+
+.asset-name {
+  flex: 1;
+}
+
+.asset-allocation {
+  width: 80px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.asset-weight-bar {
+  flex: 1;
+  margin: 0 1rem;
+  position: relative;
+  height: 18px;
+}
+
+.asset-weight-progress {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background-color: #3B82F6;
+  border-radius: 3px;
+}
+
+.optimization-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.control-group {
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.control-group h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.control-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.control-label {
+  width: 140px;
+  font-size: 0.9rem;
+}
+
+.optimize-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #4F46E5;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.optimize-button:hover {
+  background-color: #4338CA;
+}
+
+.reset-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  color: #374151;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.reset-button:hover {
+  background-color: #F3F4F6;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.metric-card {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.metric-title {
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.metric-comparison {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.metric-better {
+  color: #10B981;
+}
+
+.metric-worse {
+  color: #EF4444;
+}
+
+.constraint-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.constraint-label {
+  width: 140px;
+  font-size: 0.9rem;
+}
+
+.constraint-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.constraint-inputs input {
+  width: 60px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  text-align: center;
+}
+
+.steps-container {
+  margin-top: 1.5rem;
+}
+
+.step-row {
+  display: flex;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #4F46E5;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 0.75rem;
+}
+
+.step-text {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.active-step .step-text {
+  font-weight: 500;
+  color: #111827;
+}
+
+.step-row.completed .step-number {
+  background-color: #10B981;
+}
+
+.performance-chart-container {
+  height: 350px;
+  margin-top: 1rem;
+}
+
+.backtest-tab .performance-chart-container {
+  height: 100%;
+  min-height: 400px;
+  margin-top: 0;
+}
+
+/* Range slider style for optimization parameters */
+.range-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #E5E7EB;
+  outline: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4F46E5;
+  cursor: pointer;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4F46E5;
+  cursor: pointer;
+}
+
+.slider-value {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 50px;
+}
+
+/* New Backtest Tab Styles */
+.portfolio-weights-table {
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: white;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  background-color: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.sum-row {
+  background-color: #F9FAFB;
+  border-top: 2px solid #E5E7EB;
+}
+
+.asset-name-col, .weight-col {
+  padding: 0.375rem 0.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.weight-input {
+  width: 100%;
+  padding: 0.375rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.weight-input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 1px #3B82F6;
+}
+
+.optimized-weight {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.85rem;
+}
+
+.sum-error {
+  color: #EF4444 !important;
+}
+
+.preset-periods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.preset-period {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.preset-period input[type="radio"] {
+  margin: 0;
+}
+
+.optimization-controls-new {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.control-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.control-select {
+  padding: 0.5rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.control-select:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 1px #3B82F6;
+}
+
+.optimization-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.optimize-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.metrics-table-container {
+  overflow-x: auto;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metrics-table th {
+  background-color: #F9FAFB;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.metrics-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: #374151;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.metrics-table tr:last-child td {
+  border-bottom: none;
+}
+
+.metric-better {
+  color: #10B981;
+  font-weight: 500;
+}
+
+.metric-worse {
+  color: #EF4444;
+  font-weight: 500;
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 48px); /* Account for padding */
+    width: 100%;
+    color: #6B7280;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Charts tab content layout */
+.charts-tab-content {
+  display: flex;
+  width: 100%;
 }
 
 /* Style for empty tabs */
