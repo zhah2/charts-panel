@@ -91,7 +91,8 @@ print(f"[build] ✅ Schema validation passed")
 
 print(f"[build] 🏷️  Building category structure...")
 
-# Create categories from label types (e.g., Asset Class, Strategy, etc.)
+# Create categories from label types 
+# (e.g., Asset Class, Strategy, etc. plus Source and Status)
 categories_raw = (
     labels_df.groupby("type")["name"]
              .apply(list)
